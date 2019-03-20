@@ -31,3 +31,7 @@ Configurar as seguintes chaves:
 ## Capistrano
 - Para testar executar: 'cap production deploy:check'
 - Para deploy executar: 'cap production deploy'
+
+## Configuração .env em produção caso primeira instalação
+- Na pasta 'shared' após o primeiro deploy, criar o arquivo .env e adicionar a parte relacionada apenas ao Laravel.
+- Configurar apache para apontar para a pasta 'current' do deploy.
