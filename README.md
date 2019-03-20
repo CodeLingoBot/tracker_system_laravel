@@ -22,11 +22,11 @@ Ubuntu:
 ## .env
 Configurar as seguintes chaves:
 
-- **DEPLOY_REPO=**URL SSH do GIT
-- **DEPLOY_TO=**Pasta para quais os arquivos irão automaticamente
-- **DEPLOY_PROD_HOST=**IP ou DNS do Servidor para qual irá o deploy
-- **DEPLOY_PROD_USER=**Usuário da máquina com permissões para deploy
-- **DEPLOY_PROD_PASS=**Senha do Usuário acima
+- **DEPLOY_REPO**=URL SSH do GIT
+- **DEPLOY_TO**=Pasta para quais os arquivos irão automaticamente
+- **DEPLOY_PROD_HOST**=IP ou DNS do Servidor para qual irá o deploy
+- **DEPLOY_PROD_USER**=Usuário da máquina com permissões para deploy
+- **DEPLOY_PROD_PASS**=Senha do Usuário acima
 
 ## Capistrano
 - Para testar executar: 'cap production deploy:check'
