@@ -12,7 +12,7 @@ set :deploy_to, ENV['DEPLOY_TO']
 # set :pty, true
 
 set :linked_files, %w{.env}
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{vendor}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 2
