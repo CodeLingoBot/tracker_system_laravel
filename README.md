@@ -2,11 +2,13 @@
 Sistema de Rastreamento Veicular
 
 # Configuração básica do servidor e máquina de desenvolvimento
-Rodar comandos ubuntu:
-- sudo apt-get install lamp-server^
-- sudo apt-get install git
-- sudo apt-get install composer
+
+Ubuntu:
+- sudo apt install lamp-server^
+- sudo apt install git
+- sudo apt install composer
 - sudo apt install php-mbstring php-xml
+- sudo apt install acl
 
 # Configuração desenvolvimento
 - Clonar repositório
@@ -20,12 +22,12 @@ Rodar comandos ubuntu:
 ## .env
 Configurar as seguintes chaves:
 
-- **DEPLOY_REPO**=URL SSH do GIT
-- **DEPLOY_TO**=Pasta para quais os arquivos irão automaticamente
-- **DEPLOY_PROD_HOST**=IP ou DNS do Servidor para qual irá o deploy
-- **DEPLOY_PROD_USER**=Usuário da máquina com permissões para deploy
-- **DEPLOY_PROD_PASS**=Senha do Usuário acima
+- **DEPLOY_REPO=**URL SSH do GIT
+- **DEPLOY_TO=**Pasta para quais os arquivos irão automaticamente
+- **DEPLOY_PROD_HOST=**IP ou DNS do Servidor para qual irá o deploy
+- **DEPLOY_PROD_USER=**Usuário da máquina com permissões para deploy
+- **DEPLOY_PROD_PASS=**Senha do Usuário acima
 
 ## Capistrano
-- Testar: Executar no projeto 'cap production deploy:check'
-- Deploy: Executar no projeto 'cap production deploy'
+- Para testar executar: 'cap production deploy:check'
+- Para deploy executar: 'cap production deploy'
