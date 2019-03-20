@@ -12,7 +12,8 @@ Rodar comandos ubuntu:
 - Instalar ruby 2.6.1p33
 - Executar: bundle install
 - Copiar arquivo .env para .env.example
-
+- Executar: php composer install
+- Executar: php artisan key:generate
 
 # Configuração para deploy
 ## .env
