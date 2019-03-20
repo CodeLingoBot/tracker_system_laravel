@@ -18,5 +18,9 @@ set :linked_dirs, %w{vendor}
 set :keep_releases, 2
 
 namespace :deploy do
+  desc 'Make database migrations'
+  task :migrate_database do
+    invoke 'laravel:migrate'
+  end
   after :finishing, 'deploy:cleanup'
 end
