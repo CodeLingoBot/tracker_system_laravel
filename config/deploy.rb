@@ -18,6 +18,5 @@ set :linked_dirs, %w{vendor}
 set :keep_releases, 2
 
 namespace :deploy do
-  invoke 'laravel:migrate'
   after :finishing, 'deploy:cleanup'
 end
