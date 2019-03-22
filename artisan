@@ -12,9 +12,9 @@
 | loading of any our classes "manually". Feels great to relax.
 |
 */
-if ($_SERVER['argv'][0] && $_SERVER['argv'][0] == "artisan" &&
-    $_SERVER['argv'][1] && $_SERVER['argv'][1] == "optimize" &&
-    $_SERVER['argv'][2] && $_SERVER['argv'][2]=="--force"){
+if (isset($_SERVER['argv'][0]) && $_SERVER['argv'][0] == "artisan" &&
+    isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == "optimize" &&
+    isset($_SERVER['argv'][2]) && $_SERVER['argv'][2]=="--force"){
     unset($_SERVER['argv'][2]);
 }
 
