@@ -1,9 +1,10 @@
+@import 'variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/scss/font-awesome';
 
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// Variables
-@import "variables";
-
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+body{
+  padding-top: 60px;
+}
+.card{
+  margin-top: 100px;
+}
