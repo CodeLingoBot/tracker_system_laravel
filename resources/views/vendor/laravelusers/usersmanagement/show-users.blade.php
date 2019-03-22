@@ -1,5 +1,3 @@
-{{config('laravelusers.laravelUsersBladeExtended')}}
-
 @extends(config('laravelusers.laravelUsersBladeExtended'))
 
 @section('template_title')
@@ -46,7 +44,7 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="{{ route('laravelusers.create') }}">
+                                            <a href="{{ route('users.create') }}">
                                                 @if(config('laravelusers.fontAwesomeEnabled'))
                                                     <i class="fa fa-fw fa-user-plus" aria-hidden="true"></i>
                                                 @endif
@@ -63,7 +61,7 @@
                                         </li>
                                     </ul>
                                 @else
-                                    <a href="{{ route('laravelusers.create') }}" class="btn btn-default btn-sm pull-right" data-toggle="tooltip" data-placement="left" title="{!! trans('laravelusers::laravelusers.tooltips.create-new') !!}">
+                                    <a href="{{ route('users.create') }}" class="btn btn-default btn-sm pull-right" data-toggle="tooltip" data-placement="left" title="{!! trans('laravelusers::laravelusers.tooltips.create-new') !!}">
                                         @if(config('laravelusers.fontAwesomeEnabled'))
                                             <i class="fa fa-fw fa-user-plus" aria-hidden="true"></i>
                                         @endif

@@ -33,13 +33,13 @@
                             <div class="pull-right">
                                 <a href="{{ route('users') }}" class="btn btn-light btn-sm float-right" data-toggle="tooltip" data-placement="top" title="{!! trans('laravelusers::laravelusers.tooltips.back-users') !!}">
                                     @if(config('laravelusers.fontAwesomeEnabled'))
-                                        <i class="fas fa-fw fa-reply-all" aria-hidden="true"></i>
+                                        <i class="fa fa-fw fa-reply-all" aria-hidden="true"></i>
                                     @endif
                                     {!! trans('laravelusers::laravelusers.buttons.back-to-users') !!}
                                 </a>
                                 <a href="{{ url('/users/' . $user->id) }}" class="btn btn-light btn-sm float-right" data-toggle="tooltip" data-placement="left" title="{!! trans('laravelusers::laravelusers.tooltips.back-users') !!}">
                                     @if(config('laravelusers.fontAwesomeEnabled'))
-                                        <i class="fas fa-fw fa-reply" aria-hidden="true"></i>
+                                        <i class="fa fa-fw fa-reply" aria-hidden="true"></i>
                                     @endif
                                     {!! trans('laravelusers::laravelusers.buttons.back-to-user') !!}
                                 </a>
@@ -47,13 +47,13 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        {!! Form::open(array('route' => ['laravelusers.update', $user->id], 'method' => 'PUT', 'role' => 'form', 'class' => 'needs-validation')) !!}
+                        {!! Form::open(array('route' => ['users.update', $user->id], 'method' => 'PUT', 'role' => 'form', 'class' => 'needs-validation')) !!}
                             {!! csrf_field() !!}
                             <div class="form-group has-feedback row {{ $errors->has('name') ? ' has-error ' : '' }}">
                                 @if(config('laravelusers.fontAwesomeEnabled'))
                                     {!! Form::label('name', trans('laravelusers::forms.create_user_label_username'), array('class' => 'col-md-3 control-label')); !!}
                                 @endif
-                                <div class="col-md-9">
+                                <div class="col-md-8 offset-md-2">
                                     <div class="input-group">
                                         {!! Form::text('name', $user->name, array('id' => 'name', 'class' => 'form-control', 'placeholder' => trans('laravelusers::forms.create_user_ph_username'))) !!}
                                         <div class="input-group-append">
@@ -77,7 +77,7 @@
                                 @if(config('laravelusers.fontAwesomeEnabled'))
                                     {!! Form::label('email', trans('laravelusers::forms.create_user_label_email'), array('class' => 'col-md-3 control-label')); !!}
                                 @endif
-                                <div class="col-md-9">
+                                <div class="col-md-8 offset-md-2">
                                     <div class="input-group">
                                         {!! Form::text('email', $user->email, array('id' => 'email', 'class' => 'form-control', 'placeholder' => trans('laravelusers::forms.create_user_ph_email'))) !!}
                                         <div class="input-group-append">
@@ -102,7 +102,7 @@
                                     @if(config('laravelusers.fontAwesomeEnabled'))
                                         {!! Form::label('role', trans('laravelusers::forms.create_user_label_role'), array('class' => 'col-md-3 control-label')); !!}
                                     @endif
-                                    <div class="col-md-9">
+                                    <div class="col-md-8 offset-md-2">
                                     <div class="input-group">
                                         <select class="custom-select form-control" name="role" id="role">
                                             <option value="">{!! trans('laravelusers::forms.create_user_ph_role') !!}</option>
@@ -139,7 +139,7 @@
                                     @if(config('laravelusers.fontAwesomeEnabled'))
                                         {!! Form::label('password', trans('laravelusers::forms.create_user_label_password'), array('class' => 'col-md-3 control-label')); !!}
                                     @endif
-                                    <div class="col-md-9">
+                                    <div class="col-md-8 offset-md-2">
                                         <div class="input-group">
                                             {!! Form::password('password', array('id' => 'password', 'class' => 'form-control ', 'placeholder' => trans('laravelusers::forms.create_user_ph_password'))) !!}
                                             <div class="input-group-append">
@@ -163,7 +163,7 @@
                                     @if(config('laravelusers.fontAwesomeEnabled'))
                                         {!! Form::label('password_confirmation', trans('laravelusers::forms.create_user_label_pw_confirmation'), array('class' => 'col-md-3 control-label')); !!}
                                     @endif
-                                    <div class="col-md-9">
+                                    <div class="col-md-8 offset-md-2">
                                         <div class="input-group">
                                             {!! Form::password('password_confirmation', array('id' => 'password_confirmation', 'class' => 'form-control', 'placeholder' => trans('laravelusers::forms.create_user_ph_pw_confirmation'))) !!}
                                             <div class="input-group-append">

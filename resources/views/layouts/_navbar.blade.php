@@ -10,8 +10,11 @@
         <ul class="navbar-nav mr-auto">
             @if (Auth::guest())
                 <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Registrar</a></li>
             @else
+                @if (Auth::user()->isAdmin())
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/users') }}">Usuários</a></li>
+                @endif
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ Auth::user()->name }}

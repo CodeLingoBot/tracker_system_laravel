@@ -33,7 +33,7 @@
                             <div class="float-right">
                                 <a href="{{ route('users') }}" class="btn btn-light btn-sm float-right" data-toggle="tooltip" data-placement="left" title="{!! trans('laravelusers::laravelusers.tooltips.back-users') !!}">
                                     @if(config('laravelusers.fontAwesomeEnabled'))
-                                        <i class="fas fa-fw fa-reply-all" aria-hidden="true"></i>
+                                        <i class="fa fa-fw fa-reply-all" aria-hidden="true"></i>
                                     @endif
                                     {!! trans('laravelusers::laravelusers.buttons.back-to-users') !!}
                                 </a>

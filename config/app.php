@@ -179,7 +179,6 @@ return [
         jeremykenedy\LaravelRoles\RolesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         jeremykenedy\laravelusers\LaravelUsersServiceProvider::class,
-
     ],
 
     /*

@@ -7,7 +7,7 @@
                 <div class="input-group-append">
                     <a href="#" class="btn btn-warning clear-search" data-toggle="tooltip" title="{!! trans('laravelusers::laravelusers.tooltips.clear-search') !!}">
                         @if(config('laravelusers.fontAwesomeEnabled'))
-                            <i class="fas fa-times" aria-hidden="true"></i>
+                            <i class="fa fa-times" aria-hidden="true"></i>
                             <span class="sr-only">
                                 {!! trans('laravelusers::laravelusers.tooltips.clear-search') !!}
                             </span>
@@ -16,7 +16,7 @@
                         @endif
                     </a>
                     @if(config('laravelusers.fontAwesomeEnabled'))
-                        {!! Form::button('<i class="fas fa-search" aria-hidden="true"></i> <span class="sr-only"> ' . trans('laravelusers::laravelusers.tooltips.submit-search') . ' </span>', ['class' => 'btn btn-secondary', 'type' => 'submit', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => trans('laravelusers::laravelusers.tooltips.submit-search')]) !!}
+                        {!! Form::button('<i class="fa fa-search" aria-hidden="true"></i> <span class="sr-only"> ' . trans('laravelusers::laravelusers.tooltips.submit-search') . ' </span>', ['class' => 'btn btn-secondary', 'type' => 'submit', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => trans('laravelusers::laravelusers.tooltips.submit-search')]) !!}
                     @else
                         {!! Form::button(trans('laravelusers::laravelusers.tooltips.submit-search'), ['class' => 'btn btn-secondary', 'type' => 'submit', 'title' => trans('laravelusers::laravelusers.tooltips.submit-search')]) !!}
                     @endif

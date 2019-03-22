@@ -15,6 +15,8 @@
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 
+    @yield('template_linked_css')
+
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -30,6 +32,7 @@
 </div>
 <!-- Scripts -->
 <script src="{{ mix('/js/app.js') }}"></script>
-@yield('script')
+@include('laravelusers::scripts.toggleText')
+@yield('template_scripts')
 </body>
 </html>

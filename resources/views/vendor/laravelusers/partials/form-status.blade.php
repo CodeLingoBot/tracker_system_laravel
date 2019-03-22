@@ -21,7 +21,7 @@
     <div class="alert alert-danger alert-dismissable" role="alert">
         <a aria-label="close" class="close" data-dismiss="alert" href="#">&times;</a>
         <h4 class="alert-heading">
-            <i aria-hidden="true" class="fas fa-exclamation-triangle fa-fw"></i>
+            <i aria-hidden="true" class="fa fa-exclamation-triangle fa-fw"></i>
             Error
         </h4>
         <hr>
@@ -35,7 +35,7 @@
     <div class="alert alert-light alert-dismissable">
         <a aria-label="close" class="close" data-dismiss="alert" href="#">&times;</a>
         <h4 class="alert-heading text-danger">
-            <i aria-hidden="true" class="fas fa-exclamation-triangle fa-fw"></i>
+            <i aria-hidden="true" class="fa fa-exclamation-triangle fa-fw"></i>
             <strong>
                 Errors
             </strong>
