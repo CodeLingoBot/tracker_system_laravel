@@ -1,6 +1,6 @@
 <div class="bg-light border-right" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
-        <a href="{{ url('/') }}" class="list-group-item list-group-item-action {{ \Route::current()->getName() == '' ? 'active' : '' }}">
+        <a href="{{ url('/') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('home') ? 'active' : '' }}">
             {{__('layouts.app.sidebar.home')}}
         </a>
         @if (Auth::user()->isAdmin())
