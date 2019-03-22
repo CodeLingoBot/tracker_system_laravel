@@ -5,7 +5,9 @@ return [
 		'login' => 'Login',
 		'register' => 'Registrar',
 		'toggle_navigation' => 'Esconder navegação',
-        'users'             => 'Usuários',
-        'logout'            => 'Sair',
+        'logout' => 'Sair',
+        'sidebar' => [
+            'users' => 'Usuários'
+        ]
 	]
 ];

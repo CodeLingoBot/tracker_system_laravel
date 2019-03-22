@@ -10493,7 +10493,7 @@ __webpack_require__(4);
 window.Vue = __webpack_require__(6);
 
 var app = new Vue({
-  el: '#app'
+  el: '#wrapper'
 });
 
 /***/ }),

@@ -29,13 +29,13 @@ return [
 
     'buttons' => [
         'create-new'    => '<span class="hidden-xs hidden-sm">Novo usuário</span>',
-        'delete'        => '<i class="far fa-trash-alt fa-fw" aria-hidden="true"></i>  <span class="hidden-xs hidden-sm">Remover</span>',
+        'delete'        => '<i class="fa fa-trash fa-fw" aria-hidden="true"></i>  <span class="hidden-xs hidden-sm">Remover</span>',
         'show'          => '<i class="fa fa-eye fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Mostrar</span>',
-        'edit'          => '<i class="fa fa-pencil-alt fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Editar</span>',
+        'edit'          => '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Editar</span>',
         'back-to-users' => '<span class="hidden-sm hidden-xs">Voltar para </span><span class="hidden-xs">usuários</span>',
         'back-to-user'  => 'Voltar  <span class="hidden-xs">para usuário</span>',
-        'delete-user'   => '<i class="far fa-trash-alt fa-fw" aria-hidden="true"></i>  <span class="hidden-xs">Remover</span>',
-        'edit-user'     => '<i class="fa fa-pencil-alt fa-fw" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>',
+        'delete-user'   => '<i class="fa fa-trash fa-fw" aria-hidden="true"></i>  <span class="hidden-xs">Remover</span>',
+        'edit-user'     => '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> <span class="hidden-xs">Editar</span>',
     ],
 
     'tooltips' => [
