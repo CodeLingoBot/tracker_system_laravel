@@ -7,6 +7,7 @@ return [
 		'toggle_navigation' => 'Esconder navegação',
         'logout' => 'Sair',
         'sidebar' => [
+            'home' => 'Início',
             'users' => 'Usuários'
         ]
 	]
