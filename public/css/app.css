@@ -14753,3 +14753,7 @@ body {
   margin-top: 100px;
 }
 
+#sidebar-wrapper {
+  min-height: calc(100vh - 56px);
+}
+
