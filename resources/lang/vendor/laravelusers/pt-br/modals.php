@@ -27,5 +27,5 @@ return [
     'delete_user_title'                         => 'Remover Usuário',
     'delete_user_message'                       => 'Você tem certeza que deseja remover :user?',
     'delete_user_btn_cancel'                    => '<i class="fa fa-fw fa-times" aria-hidden="true"></i> Cancelar',
-    'delete_user_btn_confirm'                   => '<i class="fa fa-fw fa-trash-alt" aria-hidden="true"></i> Remover',
+    'delete_user_btn_confirm'                   => '<i class="fa fa-fw fa-trash" aria-hidden="true"></i> Remover',
 ];
