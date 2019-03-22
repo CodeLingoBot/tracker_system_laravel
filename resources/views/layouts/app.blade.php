@@ -25,14 +25,22 @@
     </script>
 </head>
 <body>
-<div id="app">
+<div id="wrapper" class="d-flex">
     @include('layouts._navbar')
-
+    @if (!Auth::guest())
+        @include('layouts._sidebar')
+    @endif
     @yield('content')
 </div>
 <!-- Scripts -->
 <script src="{{ mix('/js/app.js') }}"></script>
 @include('laravelusers::scripts.toggleText')
 @yield('template_scripts')
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
 </body>
 </html>

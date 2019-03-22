@@ -9,10 +9,10 @@ require('jquery');
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-require('bootstrap')
+require('bootstrap');
 
 window.Vue = require('vue');
 
 const app = new Vue({
-    el: '#app'
+    el: '#wrapper'
 });
