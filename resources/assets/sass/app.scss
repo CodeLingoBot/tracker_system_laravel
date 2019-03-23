@@ -5,9 +5,13 @@
 
 body{
   padding-top: 56px;
+  background-color: #FBF8EF;
 }
 .card{
-  margin-top: 100px;
+  margin-top: 20px;
+  &>.card-header{
+  	background-color: $light;
+  }
 }
 
 #sidebar-wrapper{

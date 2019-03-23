@@ -1,13 +1,17 @@
-/*! `Custom` Bootstrap 4 theme */
-
+$white: #fff;
+$black: #000;
 $enable-grid-classes:true;
-$primary:#FF550B;
+$primary: $black;
 $secondary:#303030;
 $success:#015668;
-$danger:#FF304F;
+$danger:#c00000;
 $info:#0F81C7;
 $warning:#0DE2EA;
-$light:#e8e8e8;
+$light:#09606F;
+$navbar-light-color:$white;
+$navbar-light-hover-color:#f8f9fa;
+$navbar-light-disabled-color:#e9ecef;
+$card-cap-color:$white;
 $dark:#000000;
 $spacer:1rem;
 $border-width:1px;
