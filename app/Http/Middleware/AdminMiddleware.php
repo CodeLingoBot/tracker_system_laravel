@@ -15,8 +15,8 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (\Auth::guest() || \Auth::user()->isAdmin()) {
-            return redirect('/teste');
+        if (\Auth::guest() || !\Auth::user()->isAdmin()) {
+            return redirect('/login');
         }
         return $next($request);
     }
