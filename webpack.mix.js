@@ -12,4 +12,7 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css');
+
+mix.copy('vendor/alexusmai/laravel-file-manager/resources/assets/js/file-manager.js', 'public/js/vendor')
+    .copy('vendor/alexusmai/laravel-file-manager/resources/assets/css/file-manager.css', 'public/css/vendor');

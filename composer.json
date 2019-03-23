@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0",
+        "alexusmai/laravel-file-manager": "^2.2",
         "jeremykenedy/laravel-roles": "^1.4",
         "jeremykenedy/laravel-users": "^3.1",
         "laravel/framework": "5.8.*",

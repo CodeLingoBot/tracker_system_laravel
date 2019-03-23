@@ -8,7 +8,8 @@ return [
         'logout' => 'Sair',
         'sidebar' => [
             'home' => 'Início',
-            'users' => 'Usuários'
+            'users' => 'Usuários',
+            'file-manager' => 'Arquivos'
         ]
 	]
 ];

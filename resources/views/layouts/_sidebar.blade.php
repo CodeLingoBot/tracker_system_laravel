@@ -7,6 +7,9 @@
             <a href="{{ url('/users') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('users') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.users')}}
             </a>
+            <a href="{{ url('/file-manager') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('fileManager') ? 'active' : '' }}">
+                {{__('layouts.app.sidebar.file-manager')}}
+            </a>
         @endif
     </div>
 </div>

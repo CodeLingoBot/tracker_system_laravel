@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="{{asset('/img/logotipo.png')}}" style="width: 100%;margin-top: 27px;;"/>
+                            <img src="{{asset('/storage/logotipo.png')}}" style="width: 100%;margin-top: 27px;;"/>
                         </div>
                         <div class="col-md-8">
                             <form class="form-horizontal" method="POST" action="{{ route('register') }}">
