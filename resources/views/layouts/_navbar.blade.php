@@ -14,7 +14,6 @@
         <ul class="navbar-nav ml-auto">
             @if (Auth::guest())
                 <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Registrar</a></li>
             @else
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
