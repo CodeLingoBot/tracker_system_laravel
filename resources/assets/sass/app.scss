@@ -5,13 +5,9 @@
 
 body{
   padding-top: 66px;
-  background-color: #FBF8EF;
 }
 .card{
   margin-top: 10px;
-  &>.card-header{
-  	background-color: $light;
-  }
 }
 
 #sidebar-wrapper{

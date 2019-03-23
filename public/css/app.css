@@ -11691,15 +11691,10 @@ body {
 
 body {
   padding-top: 66px;
-  background-color: #FBF8EF;
 }
 
 .card {
   margin-top: 10px;
-}
-
-.card > .card-header {
-  background-color: #09606F;
 }
 
 #sidebar-wrapper {

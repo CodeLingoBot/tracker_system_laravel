@@ -14,3 +14,4 @@
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/file-manager', 'HomeController@fileManager')->name('fileManager');
+Route::resource('/settings', 'SettingsController');

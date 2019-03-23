@@ -14,7 +14,21 @@
 
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
-
+    <style>
+        body{
+            background-color: {{\App\Setting::val('cor-de-fundo', '#FBF8EF')}};
+        }
+        .bg-light {
+            background-color: {{\App\Setting::val('cor-barras', '#09606F')}} !important;
+        }
+        .card>.card-header{
+            background-color: {{\App\Setting::val('cor-barras', '#09606F')}};
+        }
+        .list-group-item.active, .page-item.active > .page-link{
+            border-color: {{\App\Setting::val('cor-primaria', 'black')}};
+            background-color: {{\App\Setting::val('cor-primaria', 'black')}};
+        }
+    </style>
     @yield('template_linked_css')
     @yield('stylesheets')
 

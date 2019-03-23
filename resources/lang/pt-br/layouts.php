@@ -9,7 +9,8 @@ return [
         'sidebar' => [
             'home' => 'Início',
             'users' => 'Usuários',
-            'file-manager' => 'Arquivos'
+            'file-manager' => 'Arquivos',
+            'settings' => 'Configurações'
         ]
 	]
 ];
