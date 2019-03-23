@@ -12,7 +12,7 @@ set :deploy_to, ENV['DEPLOY_TO']
 # set :pty, true
 
 set :linked_files, %w{.env}
-set :linked_dirs, %w{vendor node_modules}
+set :linked_dirs, %w{vendor node_modules public/storage}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 2
