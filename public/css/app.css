@@ -11705,3 +11705,7 @@ body {
   height: 40px;
 }
 
+.list-group-item {
+  padding: 0.25rem 0.25rem;
+}
+

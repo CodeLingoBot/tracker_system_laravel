@@ -98,41 +98,45 @@
                                 </div>
                             </div>
                             @if($rolesEnabled)
-                                <div class="form-group has-feedback row {{ $errors->has('role') ? ' has-error ' : '' }}">
-                                    @if(config('laravelusers.fontAwesomeEnabled'))
-                                        {!! Form::label('role', trans('laravelusers::forms.create_user_label_role'), array('class' => 'col-md-3 control-label')); !!}
-                                    @endif
-                                    <div class="col-md-8 offset-md-2">
-                                    <div class="input-group">
-                                        <select class="custom-select form-control" name="role" id="role">
-                                            <option value="">{!! trans('laravelusers::forms.create_user_ph_role') !!}</option>
-                                            @if ($roles)
-                                                @foreach($roles as $role)
-                                                    @if ($currentRole)
-                                                        <option value="{{ $role->id }}" {{ $currentRole->id == $role->id ? 'selected="selected"' : '' }}>{{ $role->name }}</option>
-                                                    @else
-                                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <div class="input-group-append">
-                                            <label class="input-group-text" for="role">
-                                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                                    <i class="{!! trans('laravelusers::forms.create_user_icon_role') !!}" aria-hidden="true"></i>
-                                                @else
-                                                    {!! trans('laravelusers::forms.create_user_label_username') !!}
+                                @if (\Auth::user()->isAdmin())
+                                    <div class="form-group has-feedback row {{ $errors->has('role') ? ' has-error ' : '' }}">
+                                        @if(config('laravelusers.fontAwesomeEnabled'))
+                                            {!! Form::label('role', trans('laravelusers::forms.create_user_label_role'), array('class' => 'col-md-3 control-label')); !!}
+                                        @endif
+                                        <div class="col-md-8 offset-md-2">
+                                        <div class="input-group">
+                                            <select class="custom-select form-control" name="role" id="role">
+                                                <option value="">{!! trans('laravelusers::forms.create_user_ph_role') !!}</option>
+                                                @if ($roles)
+                                                    @foreach($roles as $role)
+                                                        @if ($currentRole)
+                                                            <option value="{{ $role->id }}" {{ $currentRole->id == $role->id ? 'selected="selected"' : '' }}>{{ $role->name }}</option>
+                                                        @else
+                                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                                        @endif
+                                                    @endforeach
                                                 @endif
-                                            </label>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <label class="input-group-text" for="role">
+                                                    @if(config('laravelusers.fontAwesomeEnabled'))
+                                                        <i class="{!! trans('laravelusers::forms.create_user_icon_role') !!}" aria-hidden="true"></i>
+                                                    @else
+                                                        {!! trans('laravelusers::forms.create_user_label_username') !!}
+                                                    @endif
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @if ($errors->has('role'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('role') }}</strong>
+                                            </span>
+                                        @endif
                                         </div>
                                     </div>
-                                    @if ($errors->has('role'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('role') }}</strong>
-                                        </span>
-                                    @endif
-                                    </div>
-                                </div>
+                                @else
+                                    <input type="hidden" value="2" name="role">
+                                @endif
                             @endif
                             <div class="pw-change-container">
                                 <div class="form-group has-feedback row {{ $errors->has('password') ? ' has-error ' : '' }}">

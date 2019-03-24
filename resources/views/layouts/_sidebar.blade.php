@@ -4,6 +4,9 @@
             {{__('layouts.app.sidebar.home')}}
         </a>
         @if (Auth::user()->isAdmin())
+            <p class="list-group-item">
+                <strong>{{__('layouts.app.sidebar.admin')}}</strong>
+            </p>
             <a href="{{ url('/roles') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('roles') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.roles')}}
             </a>
@@ -15,6 +18,14 @@
             </a>
             <a href="{{ url('/settings') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('settings') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.settings')}}
+            </a>
+        @endif
+        @if (Auth::user()->isAdmin() || Auth::user()->hasRole('subadmin'))
+            <p class="list-group-item">
+                <strong>{{__('layouts.app.sidebar.subadmin')}}</strong>
+            </p>
+            <a href="{{ url('/users') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('users') ? 'active' : '' }}">
+                {{__('layouts.app.sidebar.users')}}
             </a>
         @endif
     </div>

@@ -79,9 +79,6 @@
 
                         <div class="table-responsive users-table">
                             <table class="table table-striped table-sm data-table">
-                                <caption id="user_count">
-                                    {!! trans_choice('laravelusers::laravelusers.users-table.caption', 1, ['userscount' => $users->count()]) !!}
-                                </caption>
                                 <thead class="thead">
                                     <tr>
                                         <th>{!! trans('laravelusers::laravelusers.users-table.id') !!}</th>
@@ -106,16 +103,7 @@
                                             @if(config('laravelusers.rolesEnabled'))
                                                 <td class="hidden-sm hidden-xs">
                                                     @foreach ($user->roles as $user_role)
-                                                        @if ($user_role->name == 'User')
-                                                            @php $badgeClass = 'primary' @endphp
-                                                        @elseif ($user_role->name == 'Admin')
-                                                            @php $badgeClass = 'warning' @endphp
-                                                        @elseif ($user_role->name == 'Unverified')
-                                                            @php $badgeClass = 'danger' @endphp
-                                                        @else
-                                                            @php $badgeClass = 'dark' @endphp
-                                                        @endif
-                                                        <span class="badge badge-{{$badgeClass}}">{{ $user_role->name }}</span>
+                                                        <span class="badge bg-primary">{{ $user_role->name }}</span>
                                                     @endforeach
                                                 </td>
                                             @endif
