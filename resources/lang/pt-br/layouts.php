@@ -11,7 +11,9 @@ return [
             'users' => 'Usuários',
             'file-manager' => 'Arquivos',
             'settings' => 'Configurações',
-            'roles' => 'Funções'
+            'roles' => 'Funções',
+            'admin' => 'Administrador',
+            'subadmin' => 'SubAdministrador'
         ]
 	]
 ];
