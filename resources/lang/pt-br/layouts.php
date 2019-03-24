@@ -10,7 +10,8 @@ return [
             'home' => 'Início',
             'users' => 'Usuários',
             'file-manager' => 'Arquivos',
-            'settings' => 'Configurações'
+            'settings' => 'Configurações',
+            'roles' => 'Funções'
         ]
 	]
 ];

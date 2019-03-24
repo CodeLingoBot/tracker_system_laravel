@@ -4,6 +4,9 @@
             {{__('layouts.app.sidebar.home')}}
         </a>
         @if (Auth::user()->isAdmin())
+            <a href="{{ url('/roles') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('roles') ? 'active' : '' }}">
+                {{__('layouts.app.sidebar.roles')}}
+            </a>
             <a href="{{ url('/users') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('users') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.users')}}
             </a>
