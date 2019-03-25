@@ -20,7 +20,7 @@
                 {{__('layouts.app.sidebar.settings')}}
             </a>
         @endif
-        @if (Auth::user()->isAdmin() || Auth::user()->hasRole('subadmin'))
+        @if (Auth::user()->isAdmin() || Auth::user()->isSubAdmin())
             <p class="list-group-item">
                 <strong>{{__('layouts.app.sidebar.subadmin')}}</strong>
             </p>
