@@ -40,7 +40,7 @@
                             let rolesHtml = '';
                             let roleClass = '';
                             let showCellHtml = '<a class="btn btn-sm btn-success btn-block" href="users/' + val.id + '" data-toggle="tooltip" title="{{ trans("laravelusers::laravelusers.tooltips.show") }}">{!! trans("laravelusers::laravelusers.buttons.show") !!}</a>';
-                            let editCellHtml = '<a class="btn btn-sm btn-info btn-block" href="users/' + val.id + '/edit" data-toggle="tooltip" title="{{ trans("laravelusers::laravelusers.tooltips.edit") }}">{!! trans("laravelusers::laravelusers.buttons.edit") !!}</a>';
+                            let editCellHtml = '<a class="btn btn-sm btn-warning btn-block" href="users/' + val.id + '/edit" data-toggle="tooltip" title="{{ trans("laravelusers::laravelusers.tooltips.edit") }}">{!! trans("laravelusers::laravelusers.buttons.edit") !!}</a>';
                             let deleteCellHtml = '<form method="POST" action="http://laravel.local/users/'+ val.id +'" accept-charset="UTF-8" data-toggle="tooltip" title="Delete">' +
                                     '{!! Form::hidden("_method", "DELETE") !!}' +
                                     '{!! csrf_field() !!}' +

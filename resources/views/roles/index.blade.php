@@ -43,7 +43,7 @@
                                             <th class="hidden-xs"><?php echo $role->description; ?></th>
                                             <th class="hidden-xs"><?php echo $role->level; ?></th>
                                             <th class="no-search no-sort">
-                                                <a href="{{route('roles.edit', $role)}}" data-toggle="tooltip" title="{{__('roles.index.edit')}}" class="btn btn-sm btn-info btn-block">
+                                                <a href="{{route('roles.edit', $role)}}" data-toggle="tooltip" title="{{__('roles.index.edit')}}" class="btn btn-sm btn-warning btn-block">
                                                     <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('roles.index.edit')}}</span>
                                                 </a>
                                             </th>

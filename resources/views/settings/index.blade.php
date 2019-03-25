@@ -39,7 +39,7 @@
                                             <th class="hidden-xs"><?php echo $setting->key; ?></th>
                                             <th class="hidden-xs"><?php echo $setting->value; ?></th>
                                             <th class="no-search no-sort">
-                                                <a href="{{route('settings.edit', $setting)}}" data-toggle="tooltip" title="{{__('settings.index.edit')}}" class="btn btn-sm btn-info btn-block">
+                                                <a href="{{route('settings.edit', $setting)}}" data-toggle="tooltip" title="{{__('settings.index.edit')}}" class="btn btn-sm btn-warning btn-block">
                                                     <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('settings.index.edit')}}</span>
                                                 </a>
                                             </th>
