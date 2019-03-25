@@ -16,19 +16,50 @@
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <style>
         body{
-            background-color: {{\App\Setting::val('cor-de-fundo', '#FBF8EF')}};
+            background-color: {{\App\Setting::val('cor-de-fundo', '#FBF8EF')}} !important;
         }
-        .bg-light {
+        .card-header, [class*="light"] {
             color:{{\App\Setting::val('cor-barras-texto', '#fff')}} !important;
-            background-color: {{\App\Setting::val('cor-barras', '#09606F')}} !important;
+            background-color: {{\App\Setting::val('cor-barras', '#343a40')}} !important;
+            border: none;
         }
-        .card>.card-header{
-            background-color: {{\App\Setting::val('cor-barras', '#09606F')}};
-        }
-        .bg-primary, .list-group-item.active, .page-item.active > .page-link{
+        [class*="primary"], [class*="primary"]:hover {
             color:{{\App\Setting::val('cor-primaria-texto', '#fff')}} !important;
-            border-color: {{\App\Setting::val('cor-primaria', 'black')}};
-            background-color: {{\App\Setting::val('cor-primaria', 'black')}};
+            background-color: {{\App\Setting::val('cor-primaria', '#007bff')}} !important;
+            border: none;
+        }
+        [class*="secondary"], [class*="secondary"]:hover {
+            color:{{\App\Setting::val('cor-secundaria-texto', '#fff')}} !important;
+            background-color: {{\App\Setting::val('cor-secundaria', '#6c757d')}} !important;
+            border: none;
+        }
+        [class*="success"], [class*="success"]:hover {
+            color:{{\App\Setting::val('cor-sucesso-texto', '#fff')}} !important;
+            background-color: {{\App\Setting::val('cor-sucesso', '#28a745')}} !important;
+            border: none;
+        }
+        [class*="danger"], [class*="danger"]:hover {
+            color:{{\App\Setting::val('cor-perigo-texto', '#fff')}} !important;
+            background-color: {{\App\Setting::val('cor-perigo', '#dc3545')}} !important;
+            border: none;
+        }
+        [class*="warning"], [class*="warning"]:hover {
+            color:{{\App\Setting::val('cor-alerta-texto', '#343a40')}} !important;
+            background-color: {{\App\Setting::val('cor-alerta', '#ffc107')}} !important;
+            border: none;
+        }
+        [class*="info"], [class*="info"]:hover {
+            color:{{\App\Setting::val('cor-info-texto', '#fff')}} !important;
+            background-color: {{\App\Setting::val('cor-info', '#17a2b8')}} !important;
+            border: none;
+        }
+        [class*="primary"]:hover,
+        [class*="secondary"]:hover,
+        [class*="success"]:hover,
+        [class*="danger"]:hover,
+        [class*="warning"]:hover,
+        [class*="info"]:hover {
+            filter: brightness(0.9);
         }
     </style>
     @yield('template_linked_css')
@@ -38,7 +69,7 @@
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
-        ]) !!};
+        ]) !!} ;
     </script>
 </head>
 <body>

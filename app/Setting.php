@@ -14,8 +14,10 @@ class Setting extends Model
 
     public static function val($key, $default = null){
         $setting = Setting::where('key', $key)->first();
-        if (!$setting)
+        if (!$setting) {
+            Setting::create(['key'=>$key, 'value' => $default]);
             return $default;
+        }
         return $setting->value;
     }
 
