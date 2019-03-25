@@ -13,7 +13,7 @@
                             <div class="btn-group pull-right btn-group-xs">
                                 <a href="{{url('/roles')}}" data-toggle="tooltip"
                                    data-placement="left" title="{{ __('roles.create.back_to_roles') }}"
-                                   class="btn btn-default btn-sm pull-right">
+                                   class="btn btn-light btn-sm pull-right">
                                     <span class="hidden-xs hidden-sm">{{ __('roles.create.back_to_roles') }}</span>
                                 </a>
                             </div>

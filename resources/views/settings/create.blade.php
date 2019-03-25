@@ -13,7 +13,7 @@
                             <div class="btn-group pull-right btn-group-xs">
                                 <a href="{{url('/settings')}}" data-toggle="tooltip"
                                    data-placement="left" title="{{ __('settings.create.back_to_settings') }}"
-                                   class="btn btn-default btn-sm pull-right">
+                                   class="btn btn-light btn-sm pull-right">
                                     <span class="hidden-xs hidden-sm">{{ __('settings.create.back_to_settings') }}</span>
                                 </a>
                             </div>

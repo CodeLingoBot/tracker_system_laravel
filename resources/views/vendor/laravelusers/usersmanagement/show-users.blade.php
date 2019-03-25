@@ -37,7 +37,7 @@
 
                             <div class="btn-group pull-right btn-group-xs">
                                 @if(config('laravelusers.softDeletedEnabled'))
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v fa-fw" aria-hidden="true"></i>
                                         <span class="sr-only">
                                             {!! trans('laravelusers::laravelusers.users-menu-alt') !!}
@@ -61,12 +61,19 @@
                                             </a>
                                         </li>
                                     </ul>
-                                @else
-                                    <a href="{{ route('users.create') }}" class="btn btn-default btn-sm pull-right" data-toggle="tooltip" data-placement="left" title="{!! trans('laravelusers::laravelusers.tooltips.create-new') !!}">
+                                @elseif ($fromUser->id == \Auth::user()->id)
+                                    <a href="{{ route('users.create') }}" class="btn btn-light btn-sm pull-right" data-toggle="tooltip" data-placement="left" title="{!! trans('laravelusers::laravelusers.tooltips.create-new') !!}">
                                         @if(config('laravelusers.fontAwesomeEnabled'))
                                             <i class="fa fa-fw fa-user-plus" aria-hidden="true"></i>
                                         @endif
                                         {!! trans('laravelusers::laravelusers.buttons.create-new') !!}
+                                    </a>
+                                @else
+                                    <a href="{{ route('users') }}" class="btn btn-light btn-sm pull-right" data-toggle="tooltip" data-placement="left" title="{!! trans('laravelusers::laravelusers.tooltips.back-users') !!}">
+                                        @if(config('laravelusers.fontAwesomeEnabled'))
+                                            <i class="fa fa-fw fa-reply-all" aria-hidden="true"></i>
+                                        @endif
+                                        {!! trans('laravelusers::laravelusers.buttons.back-to-users') !!}
                                     </a>
                                 @endif
                             </div>
@@ -126,7 +133,7 @@
                                             </td>
                                             @if ($user->hasRole('subadmin'))
                                                 <td>
-                                                    <a class="btn btn-sm btn-primary btn-block" href="{{ URL::to('user/' . $user->id . '/users') }}" data-toggle="tooltip" title="{!! trans('laravelusers::laravelusers.tooltips.users') !!}">
+                                                    <a class="btn btn-sm bg-light btn-block" href="{{ URL::to('user/' . $user->id . '/users') }}" data-toggle="tooltip" title="{!! trans('laravelusers::laravelusers.tooltips.users') !!}">
                                                         {!! trans('laravelusers::laravelusers.buttons.users') !!}
                                                     </a>
                                                 </td>

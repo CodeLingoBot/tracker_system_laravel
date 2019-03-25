@@ -19,12 +19,14 @@
             background-color: {{\App\Setting::val('cor-de-fundo', '#FBF8EF')}};
         }
         .bg-light {
+            color:{{\App\Setting::val('cor-barras-texto', '#fff')}} !important;
             background-color: {{\App\Setting::val('cor-barras', '#09606F')}} !important;
         }
         .card>.card-header{
             background-color: {{\App\Setting::val('cor-barras', '#09606F')}};
         }
-        .list-group-item.active, .page-item.active > .page-link{
+        .bg-primary, .list-group-item.active, .page-item.active > .page-link{
+            color:{{\App\Setting::val('cor-primaria-texto', '#fff')}} !important;
             border-color: {{\App\Setting::val('cor-primaria', 'black')}};
             background-color: {{\App\Setting::val('cor-primaria', 'black')}};
         }
