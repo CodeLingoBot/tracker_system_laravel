@@ -30,6 +30,9 @@
             <a href="{{ url('/users') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('user') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.users')}}
             </a>
+            <a href="{{ url('/drivers') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('drivers') ? 'active' : '' }}">
+                {{__('layouts.app.sidebar.drivers')}}
+            </a>
         @endif
     </div>
 </div>
