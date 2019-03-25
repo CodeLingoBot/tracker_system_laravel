@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'showing-all-users'     => 'Mostrando todos os usuários',
+    'showing-all-users'     => 'Mostrando todos os usuários de',
     'users-menu-alt'        => 'Mostrar menu de gerenciamento de usuários',
     'create-new-user'       => 'Criar novo usuário',
     'show-deleted-users'    => 'Mostrar usuários removidos',
@@ -32,6 +32,7 @@ return [
         'delete'        => '<i class="fa fa-trash fa-fw" aria-hidden="true"></i>  <span class="hidden-xs hidden-sm">Remover</span>',
         'show'          => '<i class="fa fa-eye fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Mostrar</span>',
         'edit'          => '<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Editar</span>',
+        'users'          => '<i class="fas fa-users fa-fw" aria-hidden="true"></i> <span class="hidden-xs hidden-sm">Usuários</span>',
         'back-to-users' => '<span class="hidden-sm hidden-xs">Voltar para </span><span class="hidden-xs">usuários</span>',
         'back-to-user'  => 'Voltar  <span class="hidden-xs">para usuário</span>',
         'delete-user'   => '<i class="fa fa-trash fa-fw" aria-hidden="true"></i>  <span class="hidden-xs">Remover</span>',

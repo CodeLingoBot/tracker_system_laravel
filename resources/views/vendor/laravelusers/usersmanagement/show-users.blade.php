@@ -16,6 +16,7 @@
 @endsection
 
 @section('content')
+    @php($fromUser = isset($fromUser) ? $fromUser : Auth::user())
     <div class="container">
         @if(config('laravelusers.enablePackageBootstapAlerts'))
             <div class="row">
@@ -31,7 +32,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {!! trans('laravelusers::laravelusers.showing-all-users') !!}
+                                {!! trans('laravelusers::laravelusers.showing-all-users') !!} [{{$fromUser->name}}]
                             </span>
 
                             <div class="btn-group pull-right btn-group-xs">
@@ -89,9 +90,7 @@
                                         @endif
                                         <th class="hidden-sm hidden-xs hidden-md">{!! trans('laravelusers::laravelusers.users-table.created') !!}</th>
                                         <th class="hidden-sm hidden-xs hidden-md">{!! trans('laravelusers::laravelusers.users-table.updated') !!}</th>
-                                        <th class="no-search no-sort">{!! trans('laravelusers::laravelusers.users-table.actions') !!}</th>
-                                        <th class="no-search no-sort"></th>
-                                        <th class="no-search no-sort"></th>
+                                        <th class="no-search no-sort" colspan="{{$fromUser->isAdmin() ? 4 : 3}}">{!! trans('laravelusers::laravelusers.users-table.actions') !!}</th>
                                     </tr>
                                 </thead>
                                 <tbody id="users_table">
@@ -125,6 +124,13 @@
                                                     {!! trans('laravelusers::laravelusers.buttons.edit') !!}
                                                 </a>
                                             </td>
+                                            @if ($user->hasRole('subadmin'))
+                                                <td>
+                                                    <a class="btn btn-sm btn-primary btn-block" href="{{ URL::to('user/' . $user->id . '/users') }}" data-toggle="tooltip" title="{!! trans('laravelusers::laravelusers.tooltips.users') !!}">
+                                                        {!! trans('laravelusers::laravelusers.buttons.users') !!}
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

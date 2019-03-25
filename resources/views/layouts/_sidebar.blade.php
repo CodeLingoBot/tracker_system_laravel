@@ -10,7 +10,7 @@
             <a href="{{ url('/roles') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('roles') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.roles')}}
             </a>
-            <a href="{{ url('/users') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('users') ? 'active' : '' }}">
+            <a href="{{ url('/users') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('user') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.users')}}
             </a>
             <a href="{{ url('/file-manager') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('fileManager') ? 'active' : '' }}">
@@ -24,7 +24,7 @@
             <p class="list-group-item">
                 <strong>{{__('layouts.app.sidebar.subadmin')}}</strong>
             </p>
-            <a href="{{ url('/users') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('users') ? 'active' : '' }}">
+            <a href="{{ url('/users') }}" class="list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('user') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.users')}}
             </a>
         @endif
