@@ -14,12 +14,14 @@ return [
     'edit' => [
         'title' => 'Editar licença',
         'back_to_licenses' => 'Voltar para licenças',
+        'license_id'=>'Licença',
         'name' => 'Nome',
         'submit' => 'Salvar'
     ],
     'create' => [
         'title' => 'Criar licença',
         'back_to_licenses' => 'Voltar para licenças',
+        'license_id'=>'Licença',
         'name' => 'Nome',
         'submit' => 'Salvar'
     ]
