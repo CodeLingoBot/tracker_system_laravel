@@ -13,7 +13,8 @@ return [
             'settings' => 'Configurações',
             'roles' => 'Funções',
             'admin' => 'Administrador',
-            'subadmin' => 'SubAdministrador'
+            'subadmin' => 'SubAdministrador',
+            'licenses' => 'Licenças'
         ]
 	]
 ];

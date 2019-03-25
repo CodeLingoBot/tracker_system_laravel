@@ -19,6 +19,9 @@
             <a href="{{ url('/settings') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('settings') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.settings')}}
             </a>
+            <a href="{{ url('/licenses') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('licenses') ? 'active' : '' }}">
+                {{__('layouts.app.sidebar.licenses')}}
+            </a>
         @endif
         @if (Auth::user()->isAdmin() || Auth::user()->isSubAdmin())
             <p class="list-group-item bg-primary">
