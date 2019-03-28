@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        "name", "email", "password"
     ];
 
     /**
@@ -27,11 +27,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'created_by'
+        "password", "remember_token", "created_by"
     ];
 
     public function isSubAdmin(){
-        return $this->hasRole('subadmin');
+        return $this->hasRole("subadmin");
     }
 
     public static function boot()
@@ -44,9 +44,9 @@ class User extends Authenticatable
     }
 
     private static function getSubAdminRole(){
-        $roleSubAdmin = Role::where(['slug' => 'subadmin'])->first();
+        $roleSubAdmin = Role::where(["slug" => "subadmin"])->first();
         if ($roleSubAdmin) return $roleSubAdmin;
-        return Role::create(['name' => 'subadmin', 'description' => 'subadmin', 'level'=>4, 'slug' => 'subadmin']);
+        return Role::create(["name" => "subadmin", "description" => "subadmin", "level"=>4, "slug" => "subadmin"]);
     }
 
     public static function paginate($size)
@@ -55,7 +55,7 @@ class User extends Authenticatable
         if ($user->isAdmin()) {
             return self::getSubAdminRole()->users()->paginate($size);
         } else if ($user->isSubAdmin()) {
-            return parent::where(['created_by' => $user->id])->paginate($size);
+            return parent::where(["created_by" => $user->id])->paginate($size);
         }
     }
 }

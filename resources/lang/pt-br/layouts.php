@@ -15,7 +15,8 @@ return [
             'admin' => 'Administrador',
             'subadmin' => 'SubAdministrador',
             'licenses' => 'Licenças',
-            'drivers' => 'Motoristas'
+            'drivers' => 'Motoristas',
+            'vehicles' => 'Veículos',
         ]
 	]
 ];

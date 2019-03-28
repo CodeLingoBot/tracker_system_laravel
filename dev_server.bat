@@ -1,3 +1,4 @@
+%php73% artisan migrate
 %php73% artisan config:cache
 %php73% artisan view:clear
 %php73% artisan route:cache

@@ -19,3 +19,4 @@ Route::resource('/roles', 'RolesController');
 Route::get('/user/{user}/users', 'UsersController@index')->name('user');
 Route::resource('/licenses', 'LicensesController');
 Route::resource('/drivers', 'DriversController');
+Route::resource('/vehicles', 'VehiclesController');
