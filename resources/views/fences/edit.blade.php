@@ -8,25 +8,25 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('fences.create.title') }}
+                                {{ __('fences.edit.title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/fences/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('fences.create.create_fance') }}"
+                                <a href="{{url('/fences')}}" data-toggle="tooltip"
+                                   data-placement="left" title="{{ __('fences.edit.back_to_fences') }}"
                                    class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('fences.create.create_fance') }}</span>
+                                    <span class="hidden-xs hidden-sm">{{ __('fences.edit.back_to_fences') }}</span>
                                 </a>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <form class="form-horizontal" method="POST" action="{{ route('fences.store') }}" style="width: 100%;">
+                        <form class="form-horizontal" method="POST" action="{{ route('fences.update', $fence) }}" style="width: 100%;">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="control-label">{{ __('fences.create.name') }}</label>
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <label for="name" class="control-label">{{ __('fences.edit.name') }}</label>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $fence->name) }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -37,12 +37,12 @@
 
                             <div class="form-group">
                                 <label for="name" class="control-label">
-                                    {{ __('fences.create.center_map') }}
+                                    {{ __('fences.edit.center_map') }}
                                 </label>
                                 <input id="center_map" type="text" class="form-control">
                             </div>
-
-                            <input type="hidden" name="polygon" id="polygon"/>
+                            @dd($fence->polygon);
+                            <input type="hidden" name="polygon" id="polygon"<?php echo old('plygon'); ?>/>
 
                             <div class="form-group">
                                 {!! $map['html'] !!}
@@ -50,7 +50,7 @@
 
                             <div class="form-group text-right">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('fences.create.submit') }}
+                                    {{ __('fences.edit.submit') }}
                                 </button>
                             </div>
                         </form>
