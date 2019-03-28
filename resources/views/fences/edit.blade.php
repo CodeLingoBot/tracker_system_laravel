@@ -41,8 +41,8 @@
                                 </label>
                                 <input id="center_map" type="text" class="form-control">
                             </div>
-                            @dd($fence->polygon);
-                            <input type="hidden" name="polygon" id="polygon"<?php echo old('plygon'); ?>/>
+                            <?php $polygon = old('plygon', str_replace("\"", "'",$fence->polygon)); ?>
+                            <input type="hidden" name="polygon" id="polygon" value="<?php echo $polygon; ?>"/>
 
                             <div class="form-group">
                                 {!! $map['html'] !!}

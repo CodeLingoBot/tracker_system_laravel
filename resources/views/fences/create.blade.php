@@ -42,7 +42,7 @@
                                 <input id="center_map" type="text" class="form-control">
                             </div>
 
-                            <input type="hidden" name="polygon" id="polygon"/>
+                            <input type="hidden" name="polygon" id="polygon" value="<?php echo old('polygon'); ?>"/>
 
                             <div class="form-group">
                                 {!! $map['html'] !!}
