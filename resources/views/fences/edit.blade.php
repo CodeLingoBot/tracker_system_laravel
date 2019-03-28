@@ -23,7 +23,7 @@
                     <div class="card-body">
                         <form class="form-horizontal" method="POST" action="{{ route('fences.update', $fence) }}" style="width: 100%;">
                             {{ csrf_field() }}
-
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="control-label">{{ __('fences.edit.name') }}</label>
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $fence->name) }}" required autofocus>
@@ -62,14 +62,16 @@
 @endsection
 
 @section('scripts')
-    {!! $map['js'] !!}
     <script>
         let centerInput;
         let searchBox;
 
         var polygon = null;
         function onPolygonDrawn(event){
-            if (polygon) polygon.overlay.setMap(null);
+            if (polygon) {
+                try { polygon.setMap(null); } catch(e){}
+                try { polygon.overlay.setMap(null); } catch(e){}
+            }
             polygon = event;
             const data = {
                 positions: []
@@ -83,4 +85,5 @@
             document.getElementById('polygon').value = JSON.stringify(data);
         }
     </script>
+    {!! $map['js'] !!}
 @endsection

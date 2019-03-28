@@ -17,6 +17,7 @@ return [
             'licenses' => 'Licenças',
             'drivers' => 'Motoristas',
             'vehicles' => 'Veículos',
+            'fences' => 'Cercas Eletrônicas',
         ]
 	]
 ];

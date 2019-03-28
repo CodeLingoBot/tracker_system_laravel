@@ -11,10 +11,10 @@
                                 {{ __('fences.create.title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/fences/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('fences.create.create_fance') }}"
+                                <a href="{{url('/fences')}}" data-toggle="tooltip"
+                                   data-placement="left" title="{{ __('fences.edit.back_to_fences') }}"
                                    class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('fences.create.create_fance') }}</span>
+                                    <span class="hidden-xs hidden-sm">{{ __('fences.edit.back_to_fences') }}</span>
                                 </a>
                             </div>
                         </div>

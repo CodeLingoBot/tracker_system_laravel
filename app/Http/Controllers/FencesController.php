@@ -71,6 +71,10 @@ class FencesController extends Controller
      */
     public function show(Fence $fence)
     {
+        GMaps::initialize([
+            'polygons' => ["polygon = new google.maps.Polygon({paths: ".json_encode(json_decode($fence->polygon)->positions)."}); polygon.setMap(map);var bounds = new google.maps.LatLngBounds(); var path=polygon.getPath().j;for (var i=0; i<path.length; i++){bounds.extend(new google.maps.LatLng(path[i].lat(), path[i].lng()));};map.fitBounds(bounds);"]
+        ]);
+        return view('fences.view',['map' => GMaps::create_map(), 'fence' => $fence]);
     }
 
     /**
@@ -81,10 +85,6 @@ class FencesController extends Controller
      */
     public function edit(Fence $fence)
     {
-        $jsonPolygon = json_decode($fence->polygon);
-        foreach($jsonPolygon->positions as $position){
-            $polygon[] = $position->lat.",".$position->lng;
-        }
         GMaps::initialize([
             'drawing' => true,
             'drawingDefaultMode' => 'polygon',
@@ -93,7 +93,7 @@ class FencesController extends Controller
             'places' => true,
             'placesAutocompleteInputID' => 'center_map',
             'placesAutocompleteOnChange' => true,
-            'polygons' => ["var polygon = new google.maps.Polygon({paths: ".json_encode($jsonPolygon->positions)."}); polygon.setMap(map);var bounds = new google.maps.LatLngBounds(); var path=polygon.getPath().j;for (var i=0; i<path.length; i++){bounds.extend(new google.maps.LatLng(path[i].lat(), path[i].lng()));};map.fitBounds(bounds);"]
+            'polygons' => ["polygon = new google.maps.Polygon({paths: ".json_encode(json_decode($fence->polygon)->positions)."}); polygon.setMap(map);var bounds = new google.maps.LatLngBounds(); var path=polygon.getPath().j;for (var i=0; i<path.length; i++){bounds.extend(new google.maps.LatLng(path[i].lat(), path[i].lng()));};map.fitBounds(bounds);"]
         ]);
         return view('fences.edit',['map' => GMaps::create_map(), 'fence' => $fence]);
     }

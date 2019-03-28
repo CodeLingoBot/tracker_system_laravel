@@ -36,6 +36,9 @@
             <a href="{{ url('vehicles') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('vehicles') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.vehicles')}}
             </a>
+            <a href="{{ url('fences') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('fences') ? 'active' : '' }}">
+                {{__('layouts.app.sidebar.fences')}}
+            </a>
         @endif
     </div>
 </div>
