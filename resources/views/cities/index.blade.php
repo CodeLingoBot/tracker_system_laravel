@@ -57,7 +57,7 @@
                                     <?php } ?>
                                 </tbody>
                             </table>
-                            {{$cities->links()}}
+                            {{$cities->appends(['state_id'=>$state->id])->links()}}
                         </div>
                     </div>
                 </div>
