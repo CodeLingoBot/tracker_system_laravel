@@ -8,14 +8,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('fences.index.title') }}
+                                {{ __('fences.index_title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/fences/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('fences.index.create_fence') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('fences.index.create_fence') }}</span>
-                                </a>
+                                @include('layouts.partials.buttons.new', ['url'=>route('fences.create')])
                             </div>
                         </div>
                     </div>
@@ -25,41 +21,27 @@
                             <table class="table table-striped table-sm data-table">
                                 <thead class="thead">
                                 <tr>
-                                    <th>{{__('fences.index.id')}}</th>
-                                    <th>{{__('fences.index.name')}}</th>
-                                    <th class="no-search no-sort">{{__('fences.index.actions')}}</th>
-                                    <th class="no-search no-sort"></th>
-                                    <th class="no-search no-sort"></th>
+                                    <th>{{__('app.id')}}</th>
+                                    <th>{{__('app.name')}}</th>
+                                    <th colspan="3">{{__('app.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($fences as $fence) { ?>
+                                    <?php foreach ($fences as $fence) {?>
                                         <tr>
                                             <th><?php echo $fence->id; ?></th>
                                             <th><?php echo $fence->name; ?></th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{route('fences.show', $fence)}}" data-toggle="tooltip" title="{{__('fences.index.view')}}" class="btn btn-sm btn-info btn-block modal-iframe">
-                                                    <i aria-hidden="true" class="fa fa-eye fa-fw"></i>
-                                                    <span class="hidden-xs hidden-sm">{{__('fences.index.view')}}</span>
-                                                </a>
+                                            <th>
+                                                @include('layouts.partials.buttons.show', ['url'=>route('fences.show', $fence), 'class'=>'modal-iframe'])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{route('fences.edit', $fence)}}" data-toggle="tooltip" title="{{__('fences.index.edit')}}" class="btn btn-sm btn-warning btn-block">
-                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('fences.index.edit')}}</span>
-                                                </a>
+                                            <th>
+                                                @include('layouts.partials.buttons.edit', ['url'=>route('fences.edit', $fence)])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <form class="delete" action="{{route('fences.destroy', $fence)}}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-sm btn-danger btn-block">
-                                                        <i aria-hidden="true" class="fa fa-trash fa-fw"></i>
-                                                        {{__('fences.index.remove')}}
-                                                    </button>
-                                                </form>
+                                            <th>
+                                                @include('layouts.partials.buttons.delete', ['url'=>route('fences.destroy', $fence)])
                                             </th>
                                         </tr>
-                                    <?php } ?>
+                                    <?php }?>
                                 </tbody>
                             </table>
                             {{$fences->links()}}
@@ -73,7 +55,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{__('fences.index.modal.title')}}</h5>
+                    <h5 class="modal-title">{{__('fences.view_title')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -88,13 +70,12 @@
 
 @section('scripts')
     <script>
-        $(".delete").on("submit", function(){
-            return confirm("{{__('fences.index.confirm_delete')}}");
+        $(document).ready(function($) {
+            $(".modal-iframe").on("click", function(event){
+                event.preventDefault();
+                $("#modal-iframe").attr("src", this.href);
+                $("#modal").modal("show");
+            });
         });
-        $(".modal-iframe").on("click", function(event){
-            event.preventDefault();
-            $("#modal-iframe").attr("src", this.href);
-            $("#modal").modal("show");
-        })
     </script>
 @endsection
