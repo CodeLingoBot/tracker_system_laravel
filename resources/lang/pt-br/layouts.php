@@ -18,6 +18,7 @@ return [
             'drivers' => 'Motoristas',
             'vehicles' => 'Veículos',
             'fences' => 'Cercas Eletrônicas',
+            'contact_types' => 'Tipos de contatos',
         ]
 	]
 ];

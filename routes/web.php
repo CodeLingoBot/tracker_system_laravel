@@ -21,3 +21,4 @@ Route::resource('/licenses', 'LicensesController');
 Route::resource('/drivers', 'DriversController');
 Route::resource('/vehicles', 'VehiclesController');
 Route::resource('/fences', 'FencesController');
+Route::resource('/contact_types', 'ContactTypesController');
