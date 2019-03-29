@@ -12,6 +12,10 @@ return [
        'city_id' => 'Cidade',
        'neighborhood' => 'Bairro',
        'address' => 'Endereço',
+       'is_company' => 'Tipo de pessoa',
+       'is_company_yes' => 'Jurídia',
+       'is_company_no' => 'Física',
+       'cpf_cnpj' => 'CPF/CNPJ'
     ],
     'create' => [
        'email' => 'Email',
@@ -24,5 +28,9 @@ return [
        'city_id' => 'Cidade',
        'neighborhood' => 'Bairro',
        'address' => 'Endereço',
+       'is_company' => 'Tipo de pessoa',
+       'is_company_yes' => 'Jurídia',
+       'is_company_no' => 'Física',
+       'cpf_cnpj' => 'CPF/CNPJ'
     ]
 ];

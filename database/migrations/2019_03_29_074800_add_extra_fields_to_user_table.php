@@ -15,7 +15,7 @@ class AddExtraFieldsToUserTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('is_company')->default(false);
-            $table->string('cpf_cpnj')->nullable();
+            $table->string('cpf_cnpj')->nullable();
             $table->float('accession')->default(0.0);
             $table->integer('payment_day')->default(1);
             $table->integer('payment_monthy')->default(0);

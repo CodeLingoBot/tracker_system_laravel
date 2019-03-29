@@ -49,6 +49,8 @@ class User extends Authenticatable
         $this->city_id = Input::post('city_id');
         $this->address = Input::post('address');
         $this->neighborhood = Input::post('neighborhood');
+        $this->is_company = Input::post('is_company') == "true";
+        $this->cpf_cnpj = Input::post('cpf_cnpj');
     }
 
     private static function getSubAdminRole(){

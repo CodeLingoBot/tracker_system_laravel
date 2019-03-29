@@ -97,6 +97,7 @@
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
             });
+            loading_hide();
         });
     </script>
     @include('laravelusers::scripts.toggleText')
