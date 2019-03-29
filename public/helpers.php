@@ -9,4 +9,9 @@ class Helper
     {
         return strncmp($string, $prefix, strlen($prefix)) === 0;
     }
+
+    public static function moneyToFloat($string){
+    	$setting = 'App\Setting';
+    	return floatval(str_replace($setting::val('tipo-moeda', 'R$').' ','',str_replace(',','.',str_replace('.','',$string))));
+    }
 }

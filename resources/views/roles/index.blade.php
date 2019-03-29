@@ -8,14 +8,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('roles.index.title') }}
+                                {{ __('roles.index_title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/roles/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('roles.index.create_role') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('roles.index.create_role') }}</span>
-                                </a>
+                                @include('layouts.partials.buttons.new', ['url' => route('roles.create')])
                             </div>
                         </div>
                     </div>
@@ -25,37 +21,27 @@
                             <table class="table table-striped table-sm data-table">
                                 <thead class="thead">
                                 <tr>
-                                    <th>{{__('roles.index.id')}}</th>
-                                    <th class="hidden-xs">{{__('roles.index.name')}}</th>
-                                    <th class="hidden-xs">{{__('roles.index.slug')}}</th>
-                                    <th class="hidden-xs">{{__('roles.index.description')}}</th>
-                                    <th class="hidden-xs">{{__('roles.index.level')}}</th>
-                                    <th class="no-search no-sort">{{__('roles.index.actions')}}</th>
-                                    <th class="no-search no-sort"></th>
+                                    <th>{{__('app.id')}}</th>
+                                    <th>{{__('app.name')}}</th>
+                                    <th>{{__('app.description')}}</th>
+                                    <th>{{__('roles.level')}}</th>
+                                    <th>{{__('roles.slug')}}</th>
+                                    <th colspan="2">{{__('app.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($roles as $role) { ?>
                                         <tr>
                                             <th><?php echo $role->id; ?></th>
-                                            <th class="hidden-xs"><?php echo $role->name; ?></th>
-                                            <th class="hidden-xs"><?php echo $role->slug; ?></th>
-                                            <th class="hidden-xs"><?php echo $role->description; ?></th>
-                                            <th class="hidden-xs"><?php echo $role->level; ?></th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{route('roles.edit', $role)}}" data-toggle="tooltip" title="{{__('roles.index.edit')}}" class="btn btn-sm btn-warning btn-block">
-                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('roles.index.edit')}}</span>
-                                                </a>
+                                            <th><?php echo $role->name; ?></th>
+                                            <th><?php echo $role->description; ?></th>
+                                            <th><?php echo $role->level; ?></th>
+                                            <th><?php echo $role->slug; ?></th>
+                                            <th>
+                                                @include('layouts.partials.buttons.edit', ['url' => route('roles.edit', $role)])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <form class="delete" action="{{route('roles.destroy', $role)}}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-sm btn-danger btn-block">
-                                                        <i aria-hidden="true" class="fa fa-trash fa-fw"></i>
-                                                        {{__('roles.index.remove')}}
-                                                    </button>
-                                                </form>
+                                            <th>
+                                                @include('layouts.partials.buttons.delete', ['url' => route('roles.destroy', $role)])
                                             </th>
                                         </tr>
                                     <?php } ?>
@@ -68,12 +54,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        $(".delete").on("submit", function(){
-            return confirm("{{__('roles.index.confirm_delete')}}");
-        });
-    </script>
 @endsection

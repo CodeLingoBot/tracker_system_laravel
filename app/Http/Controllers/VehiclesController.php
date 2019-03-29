@@ -38,7 +38,7 @@ class VehiclesController extends Controller
     public function create()
     {
         $drivers = Driver::all();
-        return view('vehicles.create', ['drivers'=>$drivers]);
+        return view('vehicles.form', ['vehicle'=>new Vehicle(),'drivers'=>$drivers]);
     }
 
     /**
@@ -75,7 +75,7 @@ class VehiclesController extends Controller
     public function edit(Vehicle $vehicle)
     {
         $drivers = Driver::all();
-        return view('vehicles.edit',['vehicle' => $vehicle, 'drivers'=>$drivers]);
+        return view('vehicles.form',['vehicle' => $vehicle, 'drivers'=>$drivers]);
     }
 
     /**

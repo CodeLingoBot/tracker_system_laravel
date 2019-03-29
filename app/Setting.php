@@ -24,4 +24,8 @@ class Setting extends Model
     public static function paginacao(){
         return self::val("paginacao", 15);
     }
+
+    public static function dateTime(){
+        return self::val("formato-data-hora", "d/m/Y H:i:s");
+    }
 }

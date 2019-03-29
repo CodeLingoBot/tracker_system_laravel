@@ -38,7 +38,7 @@ class DriversController extends Controller
     public function create()
     {
         $licenses = License::all();
-        return view('drivers.create', ['licenses'=>$licenses]);
+        return view('drivers.form', ['driver'=>new Driver(),'licenses'=>$licenses]);
     }
 
     /**
@@ -75,7 +75,7 @@ class DriversController extends Controller
     public function edit(Driver $driver)
     {
         $licenses = License::all();
-        return view('drivers.edit',['driver' => $driver, 'licenses'=>$licenses]);
+        return view('drivers.form',['driver' => $driver, 'licenses'=>$licenses]);
     }
 
     /**

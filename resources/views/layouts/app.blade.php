@@ -80,16 +80,37 @@
         @endif
         @yield('content')
     </div>
+    <div id="loading">
+        <div class="lds-hourglass"></div>
+    </div>
     <!-- Scripts -->
     <script src="{{ mix('/js/app.js') }}"></script>
+    <script>
+        function loading_show(){
+            $('#loading').show();
+        }
+        function loading_hide(){
+            $('#loading').hide();
+        }
+        $(function(){
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+            loading_hide();
+        });
+    </script>
     @include('laravelusers::scripts.toggleText')
     @yield('template_scripts')
     @yield('scripts')
     <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
+        $(function(){
+            $('input[name=_method][value=DELETE]').each(function(index, button){
+                $(button).closest('form').on("submit", function(){
+                    return confirm("{{__('app.confirm_delete')}}");
+                });
+            });
+        })
     </script>
 </body>
 </html>

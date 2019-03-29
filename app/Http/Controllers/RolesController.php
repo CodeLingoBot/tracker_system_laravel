@@ -36,7 +36,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        return view('roles.create');
+        return view('roles.form', ['role'=> new Role()]);
     }
 
     /**
@@ -72,7 +72,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('roles.edit',['role' => $role]);
+        return view('roles.form',['role' => $role]);
     }
 
     /**

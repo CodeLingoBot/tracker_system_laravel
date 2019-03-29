@@ -40,9 +40,9 @@ return [
 
     // Use the provided blade templates or extend to your own templates.
     'showUsersBlade'                => 'laravelusers::usersmanagement.show-users',
-    'createUserBlade'               => 'laravelusers::usersmanagement.create-user',
+    'createUserBlade'               => 'laravelusers::usersmanagement.form-user',
     'showIndividualUserBlade'       => 'laravelusers::usersmanagement.show-user',
-    'editIndividualUserBlade'       => 'laravelusers::usersmanagement.edit-user',
+    'editIndividualUserBlade'       => 'laravelusers::usersmanagement.form-user',
 
     // Use Package Bootstrap Flash Alerts
     'enablePackageBootstapAlerts'   => true,

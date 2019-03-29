@@ -10466,7 +10466,7 @@ return jQuery;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(3);
-module.exports = __webpack_require__(11);
+module.exports = __webpack_require__(13);
 
 
 /***/ }),
@@ -10477,6 +10477,10 @@ module.exports = __webpack_require__(11);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__postmon_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__postmon_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__postmon_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vanilla_masker_min_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vanilla_masker_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vanilla_masker_min_js__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -10488,9 +10492,13 @@ __webpack_require__(1);
 
 window.$ = window.jQuery = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
 
-__webpack_require__(4);
 
-window.Vue = __webpack_require__(6);
+
+window.VMask = __WEBPACK_IMPORTED_MODULE_2__vanilla_masker_min_js___default.a;
+
+__webpack_require__(6);
+
+window.Vue = __webpack_require__(8);
 
 var app = new Vue({
   el: '#wrapper'
@@ -10498,6 +10506,422 @@ var app = new Vue({
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function postmon_run_plugin() {
+    (function ($) {
+        $.postmon = _defineProperty({
+            obj: [],
+            filtrar_json: false,
+            endpoint_method: "POST",
+            paises_endpoint: "pais.json",
+            estados_endpoint: "estado.json",
+            cidades_endpoint: "cidade.json",
+            loading: null,
+            montar: function montar(select, dados) {
+                $(select).children().remove();
+                dados.forEach(function (item) {
+                    var option = $("<option value=" + item.id + ">" + item.nome + "</option>");
+                    for (var chave in item) {
+                        option.data(chave, item[chave]);
+                    }
+                    $(select).append(option);
+                });
+            },
+            paises: function paises(select) {
+                if ($.postmon.loading) $($.postmon.loading).show();
+                $.ajax({
+                    type: $.postmon.endpoint_method,
+                    async: false,
+                    url: $.postmon.paises_endpoint,
+                    dataType: 'json',
+                    success: function success(dados) {
+                        $.postmon.montar(select, dados);
+                        if ($.postmon.loading) $($.postmon.loading).hide();
+                    }
+                });
+            },
+            estados: function estados(select, pais_id) {
+                if ($.postmon.loading) $($.postmon.loading).show();
+                $.ajax({
+                    type: $.postmon.endpoint_method,
+                    async: false,
+                    url: $.postmon.estados_endpoint,
+                    data: {
+                        "id": pais_id
+                    },
+                    dataType: 'json',
+                    success: function success(dados) {
+                        if ($.postmon.filtrar_json) {
+                            dados = $.postmon.filtrar(dados, 'pais_id', pais_id);
+                        }
+                        $.postmon.montar(select, dados);
+                        if ($.postmon.loading) $($.postmon.loading).hide();
+                    }
+                });
+            },
+            cidades: function cidades(select, estado_id) {
+                if ($.postmon.loading) $($.postmon.loading).show();
+                $.ajax({
+                    type: $.postmon.endpoint_method,
+                    async: false,
+                    url: $.postmon.cidades_endpoint,
+                    data: {
+                        "id": estado_id
+                    },
+                    dataType: 'json',
+                    success: function success(dados) {
+                        if ($.postmon.filtrar_json) {
+                            dados = $.postmon.filtrar(dados, 'estado_id', estado_id);
+                        }
+                        $.postmon.montar(select, dados);
+                        if ($.postmon.loading) $($.postmon.loading).hide();
+                    }
+                });
+            },
+            primeiro: function primeiro(select) {
+                var opcoes = select.children('option');
+                if (opcoes.length == 0) {
+                    return null;
+                }
+                return opcoes[0].value;
+            },
+            filtrar: function filtrar(dados, chave, valor) {
+                return dados.filter(function (el) {
+                    return el[chave] == valor;
+                });
+            },
+            uuid: function uuid(el) {
+                return el.data('postmon-jquery-uuid');
+            },
+            parsar: function parsar(select, selecionado, chave) {
+                if (!selecionado) {
+                    return $.postmon.primeiro(select);
+                }
+                if (!isNaN(selecionado * 1)) {
+                    return selecionado;
+                }
+                return select.children().filter(function () {
+                    return $(this).data(chave) == selecionado;
+                }).val();
+            },
+            cep: function cep(uuid) {
+                if ($.postmon.loading) $($.postmon.loading).show();
+                var cepLimpo = $.postmon.obj[uuid].input.cep.val().match(/\d/g).join("");
+                $.ajax({
+                    url: 'https://api.postmon.com.br/v1/cep/' + cepLimpo,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function success(dados) {
+                        $.postmon.obj[uuid].selected = {
+                            pais: 0,
+                            estado: dados.estado,
+                            cidade: dados.cidade
+                        };
+                        $.postmon.obj[uuid].select.pais.val($.postmon.obj[uuid].selected.pais).change();
+                        $.postmon.obj[uuid].input.bairro.val(dados.bairro);
+                        $.postmon.obj[uuid].input.endereco.val(dados.logradouro);
+                        if ($.postmon.loading) $($.postmon.loading).hide();
+                    }
+                });
+            },
+            eventos: {
+                estado: function estado(uuid) {
+                    var select_cidade = $.postmon.obj[uuid].select.cidade;
+                    $.postmon.cidades(select_cidade, $.postmon.obj[uuid].select.estado.val());
+                    $.postmon.obj[uuid].selected.cidade = $.postmon.parsar(select_cidade, $.postmon.obj[uuid].selected.cidade, 'nome');
+                    select_cidade.val($.postmon.obj[uuid].selected.cidade);
+                },
+                pais: function pais(uuid) {
+                    var pais_id = $.postmon.obj[uuid].select.pais.val();
+                    $.postmon.obj[uuid].selected.pais = pais_id;
+                    var select_estado = $.postmon.obj[uuid].select.estado;
+                    $.postmon.estados(select_estado, pais_id);
+                    select_estado.change(function () {
+                        $.postmon.eventos.estado(uuid);
+                    });
+                    $.postmon.obj[uuid].selected.estado = $.postmon.parsar(select_estado, $.postmon.obj[uuid].selected.estado, 'sigla');
+                    select_estado.val($.postmon.obj[uuid].selected.estado).change();
+                }
+            }
+        }, "uuid", function uuid() {
+            return Math.random().toString(36).substring(2) + new Date().getTime().toString(36);
+        });
+        $.fn.postmon = function (_ref) {
+            var _ref$select = _ref.select,
+                select = _ref$select === undefined ? {
+                pais: pais,
+                estado: estado,
+                cidade: cidade
+            } : _ref$select,
+                _ref$input = _ref.input,
+                input = _ref$input === undefined ? {
+                cep: $("<input type='text'>"),
+                bairro: $("<input type='text'>"),
+                endereco: $("<input type='text'>")
+            } : _ref$input,
+                _ref$selected = _ref.selected,
+                selected = _ref$selected === undefined ? {
+                pais: null,
+                estado: null,
+                cidade: null
+            } : _ref$selected;
+
+            var uuid = $.postmon.uuid();
+            $.postmon.obj[uuid] = {
+                select: select,
+                input: input,
+                selected: selected
+            };
+            var obj = $.postmon.obj[uuid];
+            $.postmon.paises(obj.select.pais);
+            obj.select.pais.change(function () {
+                $.postmon.eventos.pais(uuid);
+            });
+            obj.select.pais.val(selected.pais || $.postmon.primeiro(obj.select.pais)).change();
+            obj.input.cep.change(function () {
+                $.postmon.cep(uuid, obj.input.cep);
+            });
+        };
+    })(jQuery);
+}
+(function () {
+    if (!window.jQuery) {
+        var script = document.createElement("SCRIPT");
+        script.src = 'https://code.jquery.com/jquery-3.3.1.min.js';
+        script.type = 'text/javascript';
+        script.onload = function () {
+            var $ = window.jQuery;
+            postmon_run_plugin();
+        };
+        document.getElementsByTagName("head")[0].appendChild(script);
+    } else {
+        postmon_run_plugin();
+    }
+})();
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+(function (root, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
+    module.exports = factory();
+  } else {
+    root.VMasker = factory();
+  }
+})(this, function () {
+  var DIGIT = "9",
+      ALPHA = "A",
+      ALPHANUM = "S",
+      BY_PASS_KEYS = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93],
+      isAllowedKeyCode = function isAllowedKeyCode(keyCode) {
+    for (var i = 0, len = BY_PASS_KEYS.length; i < len; i++) {
+      if (keyCode == BY_PASS_KEYS[i]) {
+        return false;
+      }
+    }
+    return true;
+  },
+      mergeMoneyOptions = function mergeMoneyOptions(opts) {
+    opts = opts || {};
+    opts = {
+      precision: opts.hasOwnProperty("precision") ? opts.precision : 2,
+      separator: opts.separator || ",",
+      delimiter: opts.delimiter || ".",
+      unit: opts.unit && opts.unit.replace(/[\s]/g, '') + " " || "",
+      suffixUnit: opts.suffixUnit && " " + opts.suffixUnit.replace(/[\s]/g, '') || "",
+      zeroCents: opts.zeroCents,
+      lastOutput: opts.lastOutput
+    };
+    opts.moneyPrecision = opts.zeroCents ? 0 : opts.precision;
+    return opts;
+  },
+
+  // Fill wildcards past index in output with placeholder
+  addPlaceholdersToOutput = function addPlaceholdersToOutput(output, index, placeholder) {
+    for (; index < output.length; index++) {
+      if (output[index] === DIGIT || output[index] === ALPHA || output[index] === ALPHANUM) {
+        output[index] = placeholder;
+      }
+    }
+    return output;
+  };
+
+  var VanillaMasker = function VanillaMasker(elements) {
+    this.elements = elements;
+  };
+
+  VanillaMasker.prototype.unbindElementToMask = function () {
+    for (var i = 0, len = this.elements.length; i < len; i++) {
+      this.elements[i].lastOutput = "";
+      this.elements[i].onkeyup = false;
+      this.elements[i].onkeydown = false;
+
+      if (this.elements[i].value.length) {
+        this.elements[i].value = this.elements[i].value.replace(/\D/g, '');
+      }
+    }
+  };
+
+  VanillaMasker.prototype.bindElementToMask = function (maskFunction) {
+    var that = this,
+        onType = function onType(e) {
+      e = e || window.event;
+      var source = e.target || e.srcElement;
+
+      if (isAllowedKeyCode(e.keyCode)) {
+        setTimeout(function () {
+          that.opts.lastOutput = source.lastOutput;
+          source.value = VMasker[maskFunction](source.value, that.opts);
+          source.lastOutput = source.value;
+          if (source.setSelectionRange && that.opts.suffixUnit) {
+            source.setSelectionRange(source.value.length, source.value.length - that.opts.suffixUnit.length);
+          }
+        }, 0);
+      }
+    };
+    for (var i = 0, len = this.elements.length; i < len; i++) {
+      this.elements[i].lastOutput = "";
+      this.elements[i].onkeyup = onType;
+      if (this.elements[i].value.length) {
+        this.elements[i].value = VMasker[maskFunction](this.elements[i].value, this.opts);
+      }
+    }
+  };
+
+  VanillaMasker.prototype.maskMoney = function (opts) {
+    this.opts = mergeMoneyOptions(opts);
+    this.bindElementToMask("toMoney");
+  };
+
+  VanillaMasker.prototype.maskNumber = function () {
+    this.opts = {};
+    this.bindElementToMask("toNumber");
+  };
+
+  VanillaMasker.prototype.maskAlphaNum = function () {
+    this.opts = {};
+    this.bindElementToMask("toAlphaNumeric");
+  };
+
+  VanillaMasker.prototype.maskPattern = function (pattern) {
+    this.opts = { pattern: pattern };
+    this.bindElementToMask("toPattern");
+  };
+
+  VanillaMasker.prototype.unMask = function () {
+    this.unbindElementToMask();
+  };
+
+  var VMasker = function VMasker(el) {
+    if (!el) {
+      throw new Error("VanillaMasker: There is no element to bind.");
+    }
+    var elements = "length" in el ? el.length ? el : [] : [el];
+    return new VanillaMasker(elements);
+  };
+
+  VMasker.toMoney = function (value, opts) {
+    opts = mergeMoneyOptions(opts);
+    if (opts.zeroCents) {
+      opts.lastOutput = opts.lastOutput || "";
+      var zeroMatcher = "(" + opts.separator + "[0]{0," + opts.precision + "})",
+          zeroRegExp = new RegExp(zeroMatcher, "g"),
+          digitsLength = value.toString().replace(/[\D]/g, "").length || 0,
+          lastDigitLength = opts.lastOutput.toString().replace(/[\D]/g, "").length || 0;
+      value = value.toString().replace(zeroRegExp, "");
+      if (digitsLength < lastDigitLength) {
+        value = value.slice(0, value.length - 1);
+      }
+    }
+    var number = value.toString().replace(/[\D]/g, ""),
+        clearDelimiter = new RegExp("^(0|\\" + opts.delimiter + ")"),
+        clearSeparator = new RegExp("(\\" + opts.separator + ")$"),
+        money = number.substr(0, number.length - opts.moneyPrecision),
+        masked = money.substr(0, money.length % 3),
+        cents = new Array(opts.precision + 1).join("0");
+    money = money.substr(money.length % 3, money.length);
+    for (var i = 0, len = money.length; i < len; i++) {
+      if (i % 3 === 0) {
+        masked += opts.delimiter;
+      }
+      masked += money[i];
+    }
+    masked = masked.replace(clearDelimiter, "");
+    masked = masked.length ? masked : "0";
+    if (!opts.zeroCents) {
+      var beginCents = number.length - opts.precision,
+          centsValue = number.substr(beginCents, opts.precision),
+          centsLength = centsValue.length,
+          centsSliced = opts.precision > centsLength ? opts.precision : centsLength;
+      cents = (cents + centsValue).slice(-centsSliced);
+    }
+    var output = opts.unit + masked + opts.separator + cents + opts.suffixUnit;
+    return output.replace(clearSeparator, "");
+  };
+
+  VMasker.toPattern = function (value, opts) {
+    var pattern = (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) === 'object' ? opts.pattern : opts,
+        patternChars = pattern.replace(/\W/g, ''),
+        output = pattern.split(""),
+        values = value.toString().replace(/\W/g, ""),
+        charsValues = values.replace(/\W/g, ''),
+        index = 0,
+        i,
+        outputLength = output.length,
+        placeholder = (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) === 'object' ? opts.placeholder : undefined;
+
+    for (i = 0; i < outputLength; i++) {
+      // Reached the end of input
+      if (index >= values.length) {
+        if (patternChars.length == charsValues.length) {
+          return output.join("");
+        } else if (placeholder !== undefined && patternChars.length > charsValues.length) {
+          return addPlaceholdersToOutput(output, i, placeholder).join("");
+        } else {
+          break;
+        }
+      }
+      // Remaining chars in input
+      else {
+          if (output[i] === DIGIT && values[index].match(/[0-9]/) || output[i] === ALPHA && values[index].match(/[a-zA-Z]/) || output[i] === ALPHANUM && values[index].match(/[0-9a-zA-Z]/)) {
+            output[i] = values[index++];
+          } else if (output[i] === DIGIT || output[i] === ALPHA || output[i] === ALPHANUM) {
+            if (placeholder !== undefined) {
+              return addPlaceholdersToOutput(output, i, placeholder).join("");
+            } else {
+              return output.slice(0, i).join("");
+            }
+          }
+        }
+    }
+    return output.join("").substr(0, i);
+  };
+
+  VMasker.toNumber = function (value) {
+    return value.toString().replace(/(?!^-)[^0-9]/g, "");
+  };
+
+  VMasker.toAlphaNumeric = function (value) {
+    return value.toString().replace(/[^a-z0-9 ]+/i, "");
+  };
+
+  return VMasker;
+});
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -10506,7 +10930,7 @@ var app = new Vue({
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(1), __webpack_require__(5)) :
+   true ? factory(exports, __webpack_require__(1), __webpack_require__(7)) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
 }(this, function (exports, $, Popper) { 'use strict';
@@ -14938,7 +15362,7 @@ var app = new Vue({
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17528,18 +17952,18 @@ Popper.Defaults = Defaults;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 if (false) {
   module.exports = require('./vue.common.prod.js')
 } else {
-  module.exports = __webpack_require__(7)
+  module.exports = __webpack_require__(9)
 }
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29482,10 +29906,10 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(8).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(10).setImmediate))
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -29541,7 +29965,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(9);
+__webpack_require__(11);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -29555,7 +29979,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -29745,10 +30169,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(12)))
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -29938,7 +30362,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

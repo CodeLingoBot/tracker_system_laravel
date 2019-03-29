@@ -18,7 +18,7 @@ class CreateVehicleTable extends Migration
             $table->string('name');
             $table->string('uuid');
             $table->bigInteger('driver_id')->unsigned()->nullable()->index();
-            $table->foreign('driver_id')->references('id')->on('licenses')->onDelete('cascade');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->integer('created_by')->unsigned()->nullable()->index();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

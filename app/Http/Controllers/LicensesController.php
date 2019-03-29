@@ -36,7 +36,7 @@ class LicensesController extends Controller
      */
     public function create()
     {
-        return view('licenses.create');
+        return view('licenses.form',['license'=>new License()]);
     }
 
     /**
@@ -72,7 +72,7 @@ class LicensesController extends Controller
      */
     public function edit(License $license)
     {
-        return view('licenses.edit',['license' => $license]);
+        return view('licenses.form',['license' => $license]);
     }
 
     /**

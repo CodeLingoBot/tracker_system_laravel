@@ -8,14 +8,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('licenses.index.title') }}
+                                {{ __('licenses.index_title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/licenses/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('licenses.index.create_license') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('licenses.index.create_license') }}</span>
-                                </a>
+                                @include('layouts.partials.buttons.new', ['url' => route('licenses.create')])
                             </div>
                         </div>
                     </div>
@@ -25,10 +21,9 @@
                             <table class="table table-striped table-sm data-table">
                                 <thead class="thead">
                                 <tr>
-                                    <th>{{__('licenses.index.id')}}</th>
-                                    <th>{{__('licenses.index.name')}}</th>
-                                    <th class="no-search no-sort">{{__('roles.index.actions')}}</th>
-                                    <th class="no-search no-sort"></th>
+                                    <th>{{__('app.id')}}</th>
+                                    <th>{{__('app.name')}}</th>
+                                    <th colspan="2">{{__('app.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -36,20 +31,11 @@
                                         <tr>
                                             <th><?php echo $license->id; ?></th>
                                             <th><?php echo $license->name; ?></th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{route('licenses.edit', $license)}}" data-toggle="tooltip" title="{{__('licenses.index.edit')}}" class="btn btn-sm btn-warning btn-block">
-                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('licenses.index.edit')}}</span>
-                                                </a>
+                                            <th>
+                                                @include('layouts.partials.buttons.edit', ['url' => route('licenses.edit', $license)])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <form class="delete" action="{{route('licenses.destroy', $license)}}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-sm btn-danger btn-block">
-                                                        <i aria-hidden="true" class="fa fa-trash fa-fw"></i>
-                                                        {{__('licenses.index.remove')}}
-                                                    </button>
-                                                </form>
+                                            <th>
+                                                @include('layouts.partials.buttons.delete', ['url' => route('licenses.destroy', $license)])
                                             </th>
                                         </tr>
                                     <?php } ?>
@@ -62,12 +48,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        $(".delete").on("submit", function(){
-            return confirm("{{__('licenses.index.confirm_delete')}}");
-        });
-    </script>
 @endsection

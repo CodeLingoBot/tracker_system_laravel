@@ -1,28 +1,7 @@
 <?php
 
 return [
-    'index' => [
-        'title' => 'Licenças',
-        'id' => 'Código',
-        'name' => 'Nome',
-        'action' => 'Ações',
-        'edit' => 'Editar',
-        'remove' => 'Remover',
-        'create_license' => 'Criar licença',
-        'confirm_delete' => 'Tem certeza que deseja remover esta licença?'
-    ],
-    'edit' => [
-        'title' => 'Editar licença',
-        'back_to_licenses' => 'Voltar para licenças',
-        'license_id'=>'Licença',
-        'name' => 'Nome',
-        'submit' => 'Salvar'
-    ],
-    'create' => [
-        'title' => 'Criar licença',
-        'back_to_licenses' => 'Voltar para licenças',
-        'license_id'=>'Licença',
-        'name' => 'Nome',
-        'submit' => 'Salvar'
-    ]
+    'index_title' => 'Licenças',
+    'edit_title' => 'Editar licença',
+    'new_title' => 'Criar licença',
 ];
