@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Contact;
 use App\ContactType;
+use App\User;
 use App\Setting;
 use Illuminate\Http\Request;
 
-class ContactTypesController extends Controller
+class ContactsController extends Controller
 {
+    private $user;
     /**
      * Create a new controller instance.
      *
@@ -15,8 +18,9 @@ class ContactTypesController extends Controller
      */
     public function __construct()
     {
+        $this->user = User::find(\Input::get('user_id'));
         $this->middleware('auth');
-        $this->middleware('role:admin');
+        $this->middleware('role:admin|subadmin');
     }
     /**
      * Display a listing of the resource.
@@ -25,8 +29,8 @@ class ContactTypesController extends Controller
      */
     public function index()
     {
-        $contactTypes = ContactType::paginate(Setting::paginacao());
-        return view('contact_types.index', ['contactTypes' => $contactTypes]);
+        $contacts = Contact::where(['user_id' => $this->user->id])->paginate(Setting::paginacao());
+        return view('contacts.index', ['user'=> $this->user, 'contacts' => $contacts]);
     }
 
     /**
@@ -36,7 +40,8 @@ class ContactTypesController extends Controller
      */
     public function create()
     {
-        return view('contact_types.form', ['contactType'=>new ContactType()]);
+        $types = ContactType::all();
+        return view('contacts.create', ['user'=> $this->user, 'types'=>$types]);
     }
 
     /**
@@ -47,8 +52,8 @@ class ContactTypesController extends Controller
      */
     public function store(Request $request)
     {
-        if (ContactType::create($request->input())){
-            return redirect(route('contact_types.index'));
+        if (Contact::create($request->input())){
+            return redirect(route('contacts.index')."?user_id=".$this->user->id);
         } else {
             return $this->create();
         }
@@ -57,49 +62,50 @@ class ContactTypesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \ContactType $contactType
+     * @param  \Contact $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(ContactType $contactType)
+    public function show(Contact $contact)
     {
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \ContactType $contactType
+     * @param  \Contact $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit(ContactType $contactType)
+    public function edit(Contact $contact)
     {
-        return view('contact_types.form',['contactType' => $contactType]);
+        $types = ContactType::all();
+        return view('contacts.edit',['user'=> $this->user, 'contact' => $contact, 'types'=>$types]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \ContactType $contactType
+     * @param  \Contact $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ContactType $contactType)
+    public function update(Request $request, Contact $contact)
     {
-        if ($contactType->update($request->input())){
-            return redirect(route('contact_types.index'));
+        if ($contact->update($request->input())){
+            return redirect(route('contacts.index')."?user_id=".$this->user->id);
         } else {
-            return $this->edit($contactType);
+            return $this->edit($contact);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \ContactType $contactType
+     * @param  \Contact $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ContactType $contactType)
+    public function destroy(Contact $contact)
     {
-        $contactType->delete();
-        return redirect(route('contact_types.index'));
+        $contact->delete();
+        return redirect(route('contacts.index')."?user_id=".$this->user->id);
     }
 }

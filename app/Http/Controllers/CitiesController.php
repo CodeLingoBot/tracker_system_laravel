@@ -44,7 +44,7 @@ class CitiesController extends Controller
     public function create()
     {
         $states = State::all();
-        return view('cities.create', ['states'=>$states]);
+        return view('cities.form', ['city' => new City(), 'states'=>$states]);
     }
 
     /**
@@ -81,7 +81,7 @@ class CitiesController extends Controller
     public function edit(City $city)
     {
         $states = State::all();
-        return view('cities.edit',['city' => $city, 'states'=>$states]);
+        return view('cities.form',['city' => $city, 'states'=>$states]);
     }
 
     /**

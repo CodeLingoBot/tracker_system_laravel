@@ -8,13 +8,20 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('drivers.index.title') }}
+                                {{ __('contacts.index.title') }} [{{ $user->name }}]
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/drivers/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('drivers.index.create_driver') }}"
+                                <a href="{{url('/users/'.$user->id)}}" data-toggle="tooltip"
+                                   data-placement="left" title="{{ __('contacts.edit.back_to_user') }}"
                                    class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('drivers.index.create_driver') }}</span>
+                                    <span class="hidden-xs hidden-sm">{{ __('contacts.edit.back_to_user') }}</span>
+                                </a>
+                            </div>
+                            <div class="btn-group pull-right btn-group-xs">
+                                <a href="{{url('/contacts/create')}}?user_id={{ $user->id }}" data-toggle="tooltip"
+                                   data-placement="left" title="{{ __('contacts.index.create_contact') }}"
+                                   class="btn btn-light btn-sm pull-right">
+                                    <span class="hidden-xs hidden-sm">{{ __('contacts.index.create_contact') }}</span>
                                 </a>
                             </div>
                         </div>
@@ -25,31 +32,31 @@
                             <table class="table table-striped table-sm data-table">
                                 <thead class="thead">
                                 <tr>
-                                    <th>{{__('drivers.index.id')}}</th>
-                                    <th>{{__('drivers.index.name')}}</th>
-                                    <th>{{__('drivers.index.license')}}</th>
+                                    <th>{{__('contacts.index.id')}}</th>
+                                    <th>{{__('contacts.index.type')}}</th>
+                                    <th>{{__('contacts.index.value')}}</th>
                                     <th class="no-search no-sort">{{__('roles.index.actions')}}</th>
                                     <th class="no-search no-sort"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($drivers as $driver) { ?>
+                                    <?php foreach ($contacts as $contact) { ?>
                                         <tr>
-                                            <th><?php echo $driver->id; ?></th>
-                                            <th><?php echo $driver->name; ?></th>
-                                            <th><?php echo $driver->license->name; ?></th>
+                                            <th><?php echo $contact->id; ?></th>
+                                            <th><?php echo $contact->type->name; ?></th>
+                                            <th><?php echo $contact->value; ?></th>
                                             <th class="no-search no-sort">
-                                                <a href="{{route('drivers.edit', $driver)}}" data-toggle="tooltip" title="{{__('drivers.index.edit')}}" class="btn btn-sm btn-warning btn-block">
-                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('drivers.index.edit')}}</span>
+                                                <a href="{{route('contacts.edit', $contact)}}?user_id={{ $user->id }}" data-toggle="tooltip" title="{{__('contacts.index.edit')}}" class="btn btn-sm btn-warning btn-block">
+                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('contacts.index.edit')}}</span>
                                                 </a>
                                             </th>
                                             <th class="no-search no-sort">
-                                                <form class="delete" action="{{route('drivers.destroy', $driver)}}" method="POST">
+                                                <form class="delete" action="{{route('contacts.destroy', $contact)}}?user_id={{ $user->id }}" method="POST">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn-sm btn-danger btn-block">
                                                         <i aria-hidden="true" class="fa fa-trash fa-fw"></i>
-                                                        {{__('drivers.index.remove')}}
+                                                        {{__('contacts.index.remove')}}
                                                     </button>
                                                 </form>
                                             </th>
@@ -57,11 +64,19 @@
                                     <?php } ?>
                                 </tbody>
                             </table>
-                            {{$drivers->links()}}
+                            {{$contacts->links()}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(".delete").on("submit", function(){
+            return confirm("{{__('contacts.index.confirm_delete')}}");
+        });
+    </script>
 @endsection

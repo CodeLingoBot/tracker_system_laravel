@@ -103,5 +103,14 @@
     @include('laravelusers::scripts.toggleText')
     @yield('template_scripts')
     @yield('scripts')
+    <script>
+        $(function(){
+            $('input[name=_method][value=DELETE]').each(function(index, button){
+                $(button).closest('form').on("submit", function(){
+                    return confirm("{{__('app.confirm_delete')}}");
+                });
+            });
+        })
+    </script>
 </body>
 </html>

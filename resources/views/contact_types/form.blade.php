@@ -8,25 +8,21 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('contact_types.edit.title') }}
+                                {{ __('contact_types.'.($contactType->id?'edit':'new').'_title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/contact_types')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('contact_types.edit.back_to_contact_types') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('contact_types.edit.back_to_contact_types') }}</span>
-                                </a>
+                                @include('layouts.partials.buttons.back', ['url'=>route('contact_types.index')])
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <form class="form-horizontal" method="POST" action="{{ route('contact_types.update', $contactType) }}" style="width: 100%;">
+                        <form class="form-horizontal" method="POST" action="{{ $contactType->id ? route('contact_types.update', $contactType) : route('contact_types.store') }}" style="width: 100%;">
                             {{ csrf_field() }}
-                            <input type="hidden" name="_method" value="PUT">
+                            @if($contactType->id) @method("PUT") @endif
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="control-label">{{ __('contact_types.edit.name') }}</label>
+                                <label for="name" class="control-label">{{ __('app.name') }}</label>
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $contactType->name) }}" required autofocus>
 
                                 @if ($errors->has('name'))
@@ -37,7 +33,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('mask') ? ' has-error' : '' }}">
-                                <label for="mask" class="control-label">{!! __('contact_types.edit.mask') !!}</label>
+                                <label for="mask" class="control-label">{!! __('contact_types.mask') !!}</label>
                                 <input id="mask" type="text" class="form-control" name="mask" value="{{ old('mask', $contactType->mask) }}" required autofocus>
 
                                 @if ($errors->has('mask'))
@@ -48,9 +44,7 @@
                             </div>
 
                             <div class="form-group text-right">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('contact_types.edit.submit') }}
-                                </button>
+                                @include('layouts.partials.buttons.save')
                             </div>
                         </form>
                     </div>
