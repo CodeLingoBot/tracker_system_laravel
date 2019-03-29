@@ -6,6 +6,7 @@ return [
         'id' => 'Código',
         'name' => 'Nome',
         'initials' => 'Sigla',
+        'cities' => 'Cidades',
         'action' => 'Ações',
         'edit' => 'Editar',
         'remove' => 'Remover',

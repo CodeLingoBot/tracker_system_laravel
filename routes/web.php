@@ -23,3 +23,4 @@ Route::resource('/vehicles', 'VehiclesController');
 Route::resource('/fences', 'FencesController');
 Route::resource('/contact_types', 'ContactTypesController');
 Route::resource('/states', 'StatesController');
+Route::resource('/cities', 'CitiesController');
