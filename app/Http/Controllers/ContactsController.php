@@ -41,7 +41,7 @@ class ContactsController extends Controller
     public function create()
     {
         $types = ContactType::all();
-        return view('contacts.create', ['user'=> $this->user, 'types'=>$types]);
+        return view('contacts.form', ['user'=> $this->user, 'contact' => new Contact(), 'types'=>$types]);
     }
 
     /**
@@ -78,7 +78,7 @@ class ContactsController extends Controller
     public function edit(Contact $contact)
     {
         $types = ContactType::all();
-        return view('contacts.edit',['user'=> $this->user, 'contact' => $contact, 'types'=>$types]);
+        return view('contacts.form',['user'=> $this->user, 'contact' => $contact, 'types'=>$types]);
     }
 
     /**

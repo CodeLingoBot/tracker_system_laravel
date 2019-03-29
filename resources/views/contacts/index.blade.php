@@ -8,21 +8,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('contacts.index.title') }} [{{ $user->name }}]
+                                {{ __('contacts.index_title') }} [{{ $user->name }}]
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/users/'.$user->id)}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('contacts.edit.back_to_user') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('contacts.edit.back_to_user') }}</span>
-                                </a>
-                            </div>
-                            <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/contacts/create')}}?user_id={{ $user->id }}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('contacts.index.create_contact') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('contacts.index.create_contact') }}</span>
-                                </a>
+                                @include('layouts.partials.buttons.new', ['url' => route('contacts.create')."?user_id=". $user->id])
                             </div>
                         </div>
                     </div>
@@ -32,33 +21,23 @@
                             <table class="table table-striped table-sm data-table">
                                 <thead class="thead">
                                 <tr>
-                                    <th>{{__('contacts.index.id')}}</th>
-                                    <th>{{__('contacts.index.type')}}</th>
-                                    <th>{{__('contacts.index.value')}}</th>
-                                    <th class="no-search no-sort">{{__('roles.index.actions')}}</th>
-                                    <th class="no-search no-sort"></th>
+                                    <th>{{__('app.id')}}</th>
+                                    <th>{{__('app.value')}}</th>
+                                    <th>{!!__('contacts.type')!!}</th>
+                                    <th colspan="2">{{__('app.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($contacts as $contact) { ?>
                                         <tr>
                                             <th><?php echo $contact->id; ?></th>
-                                            <th><?php echo $contact->type->name; ?></th>
                                             <th><?php echo $contact->value; ?></th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{route('contacts.edit', $contact)}}?user_id={{ $user->id }}" data-toggle="tooltip" title="{{__('contacts.index.edit')}}" class="btn btn-sm btn-warning btn-block">
-                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('contacts.index.edit')}}</span>
-                                                </a>
+                                            <th><?php echo $contact->type->name; ?></th>
+                                            <th>
+                                                @include('layouts.partials.buttons.edit', ['url' => route('contacts.edit', $contact)."?user_id=".$user->id])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <form class="delete" action="{{route('contacts.destroy', $contact)}}?user_id={{ $user->id }}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-sm btn-danger btn-block">
-                                                        <i aria-hidden="true" class="fa fa-trash fa-fw"></i>
-                                                        {{__('contacts.index.remove')}}
-                                                    </button>
-                                                </form>
+                                            <th>
+                                                @include('layouts.partials.buttons.delete', ['url' => route('contacts.destroy', $contact)."?user_id=".$user->id])
                                             </th>
                                         </tr>
                                     <?php } ?>
@@ -71,12 +50,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        $(".delete").on("submit", function(){
-            return confirm("{{__('contacts.index.confirm_delete')}}");
-        });
-    </script>
 @endsection

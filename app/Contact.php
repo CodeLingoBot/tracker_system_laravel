@@ -13,4 +13,9 @@ class Contact extends Model
     {
         return $this->hasOne('App\ContactType', 'id', 'type_id');
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
 }
