@@ -15,5 +15,6 @@ return [
 	'submit' => 'Salvar',
 	'value' => 'Valor',
 	'type' => 'Tipo',
-	'description' => 'Descrição'
+	'description' => 'Descrição',
+	'dashboard' => 'Gerenciamento',
 ];

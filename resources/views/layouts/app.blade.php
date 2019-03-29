@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/favicon.ico">
+@extends('adminlte::page')
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('content')
+    <div id="loading">
+        <div class="lds-hourglass"></div>
+    </div>
+@stop
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Styles -->
+@section('css')
+<!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <style>
         body{
@@ -71,18 +66,9 @@
             'csrfToken' => csrf_token(),
         ]) !!} ;
     </script>
-</head>
-<body>
-    <div id="wrapper" class="d-flex">
-        @include('layouts._navbar')
-        @if (!Auth::guest())
-            @include('layouts._sidebar')
-        @endif
-        @yield('content')
-    </div>
-    <div id="loading">
-        <div class="lds-hourglass"></div>
-    </div>
+@stop
+
+@section('js')
     <!-- Scripts -->
     <script src="{{ mix('/js/app.js') }}"></script>
     <script>
@@ -112,5 +98,32 @@
             });
         })
     </script>
+@stop
+@if (false)
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+
+</head>
+<body>
+    <div id="wrapper" class="d-flex">
+        @include('layouts._navbar')
+        @if (!Auth::guest())
+            @include('layouts._sidebar')
+        @endif
+        @yield('content')
+    </div>
 </body>
 </html>
+@endif

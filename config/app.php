@@ -181,6 +181,7 @@ return [
 		jeremykenedy\laravelusers\LaravelUsersServiceProvider::class,
 		Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
 		FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
+		JeroenNoten\LaravelAdminLte\ServiceProvider::class,
 	],
 
 	/*

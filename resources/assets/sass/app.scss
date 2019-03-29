@@ -1,26 +1,29 @@
-@import 'bootstrap.css';
 @import url('https://use.fontawesome.com/releases/v5.7.0/css/all.css');
-@import '~startbootstrap-simple-sidebar/css/simple-sidebar';
 
-body{
-  padding-top: 66px;
-}
-.card{
-  margin-top: 10px;
-}
-
-#sidebar-wrapper{
-  min-height: calc(100vh - 66px);
+.my-content-header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 2rem;
+	font-weight: bold;
 }
 
-.navbar-brand{
-  img{
-    height: 40px;
-  }
-}
-
-.list-group-item {
-  padding: 0.25rem 0.25rem;
+.manager{
+	a{
+		display: inline-block;
+		background-color: #222d32;
+		width: 100px;
+		height: 100px;
+		vertical-align: middle;
+		margin: 20px;
+		text-align: center;
+		color: #3c8dbc;
+		padding-top: 30px;
+		i{
+			display: block;
+			font-size: 20px;
+		}
+	}
 }
 
 #loading{

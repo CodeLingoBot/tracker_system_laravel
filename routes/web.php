@@ -9,7 +9,7 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Auth::routes(['register' => false]);
 Route::get('/', 'HomeController@index')->name('home');
@@ -28,3 +28,4 @@ Route::resource('/cities', 'CitiesController');
 Route::get('/cep_contries', 'CEPController@contries');
 Route::get('/cep_states', 'CEPController@states');
 Route::get('/cep_cities', 'CEPController@cities');
+Route::get('/manager', 'ManagerController@index');

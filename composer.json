@@ -7,11 +7,12 @@
     "require": {
         "php": ">=7.0",
         "alexusmai/laravel-file-manager": "^2.2",
+        "farhanwazir/laravelgooglemaps": "^2.3",
         "jeremykenedy/laravel-roles": "^1.4",
         "jeremykenedy/laravel-users": "^3.1",
+        "jeroennoten/laravel-adminlte": "^1.25",
         "laravel/framework": "5.8.*",
-        "laravel/tinker": "~1.0",
-        "farhanwazir/laravelgooglemaps": "^2.3"
+        "laravel/tinker": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
