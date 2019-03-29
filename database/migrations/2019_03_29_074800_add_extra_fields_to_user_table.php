@@ -18,7 +18,7 @@ class AddExtraFieldsToUserTable extends Migration
             $table->string('cpf_cnpj')->nullable();
             $table->float('accession')->default(0.0);
             $table->integer('payment_day')->default(1);
-            $table->integer('payment_monthy')->default(0);
+            $table->float('payment_monthy')->default(0);
             $table->string('zip_code')->nullable();
             $table->bigInteger('city_id')->unsigned()->nullable()->index();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');

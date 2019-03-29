@@ -51,6 +51,9 @@ class User extends Authenticatable
         $this->neighborhood = Input::post('neighborhood');
         $this->is_company = Input::post('is_company') == "true";
         $this->cpf_cnpj = Input::post('cpf_cnpj');
+        $this->accession = \Helper::moneyToFloat(Input::post('accession'));
+        $this->payment_day = Input::post('payment_day');
+        $this->payment_monthy = \Helper::moneyToFloat(Input::post('payment_monthy'));
     }
 
     private static function getSubAdminRole(){

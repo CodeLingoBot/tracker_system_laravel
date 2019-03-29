@@ -155,6 +155,35 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-4 form-group{{ $errors->has('accession') ? ' has-error' : '' }}">
+                                    <label for="accession" class="control-label">{{ __('users.create.accession') }}</label>
+                                    <input id="accession" type="text" class="form-control" name="accession" value="{{ old('accession') }}" required/>
+                                    @if ($errors->has('accession'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('accession') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 form-group{{ $errors->has('payment_day') ? ' has-error' : '' }}">
+                                    <label for="payment_day" class="control-label">{{ __('users.create.payment_day') }}</label>
+                                    <input id="payment_day" type="number" class="form-control" name="payment_day" value="{{ old('payment_day') }}" required min=1 max=31/>
+                                    @if ($errors->has('payment_day'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('payment_day') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 form-group{{ $errors->has('payment_monthy') ? ' has-error' : '' }}">
+                                    <label for="payment_monthy" class="control-label">{{ __('users.create.payment_monthy') }}</label>
+                                    <input id="payment_monthy" type="text" class="form-control" name="payment_monthy" value="{{ old('payment_monthy') }}" required/>
+                                    @if ($errors->has('payment_monthy'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('payment_monthy') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6 form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                     <label for="password" class="control-label">{{ __('users.create.password') }}</label>
                                     <input id="password" type="password" class="form-control" name="password" value="{{ old('password') }}" required autocomplete="none">
@@ -198,6 +227,15 @@
         var waitForPostmon = setInterval(function () {
             if (typeof $ != 'undefined' && typeof $.postmon != 'undefined' && typeof window.VMask != 'undefined') {
                 window.VMask(document.getElementById("zip_code")).maskPattern("99999-999");
+                const maskMoney = {
+                  precision: 2,
+                  separator: ',',
+                  delimiter: '.',
+                  unit: "{{ App\Setting::val('tipo-moeda', 'R$') }}",
+                  zeroCents: true
+                };
+                window.VMask(document.getElementById("accession")).maskMoney(maskMoney);
+                window.VMask(document.getElementById("payment_monthy")).maskMoney(maskMoney);
                 $.postmon.loading = $('#loading');
                 $.postmon.endpoint_method = "GET";
                 $.postmon.paises_endpoint = "{{ url('cep_contries') }}";
