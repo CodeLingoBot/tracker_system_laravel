@@ -8,14 +8,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('drivers.index.title') }}
+                                {{ __('drivers.index_title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/drivers/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('drivers.index.create_driver') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('drivers.index.create_driver') }}</span>
-                                </a>
+                                @include('layouts.partials.buttons.new', ['url' => route('drivers.create')])
                             </div>
                         </div>
                     </div>
@@ -25,11 +21,10 @@
                             <table class="table table-striped table-sm data-table">
                                 <thead class="thead">
                                 <tr>
-                                    <th>{{__('drivers.index.id')}}</th>
-                                    <th>{{__('drivers.index.name')}}</th>
-                                    <th>{{__('drivers.index.license')}}</th>
-                                    <th class="no-search no-sort">{{__('roles.index.actions')}}</th>
-                                    <th class="no-search no-sort"></th>
+                                    <th>{{__('app.id')}}</th>
+                                    <th>{{__('app.name')}}</th>
+                                    <th>{!!__('drivers.license')!!}</th>
+                                    <th colspan="2">{{__('app.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -38,20 +33,11 @@
                                             <th><?php echo $driver->id; ?></th>
                                             <th><?php echo $driver->name; ?></th>
                                             <th><?php echo $driver->license->name; ?></th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{route('drivers.edit', $driver)}}" data-toggle="tooltip" title="{{__('drivers.index.edit')}}" class="btn btn-sm btn-warning btn-block">
-                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('drivers.index.edit')}}</span>
-                                                </a>
+                                            <th>
+                                                @include('layouts.partials.buttons.edit', ['url' => route('drivers.edit', $driver)])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <form class="delete" action="{{route('drivers.destroy', $driver)}}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-sm btn-danger btn-block">
-                                                        <i aria-hidden="true" class="fa fa-trash fa-fw"></i>
-                                                        {{__('drivers.index.remove')}}
-                                                    </button>
-                                                </form>
+                                            <th>
+                                                @include('layouts.partials.buttons.delete', ['url' => route('drivers.destroy', $driver)])
                                             </th>
                                         </tr>
                                     <?php } ?>

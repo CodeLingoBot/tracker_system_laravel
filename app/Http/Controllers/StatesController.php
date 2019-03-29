@@ -36,7 +36,7 @@ class StatesController extends Controller
      */
     public function create()
     {
-        return view('states.create');
+        return view('states.form', ['state'=>new State()]);
     }
 
     /**
@@ -72,7 +72,7 @@ class StatesController extends Controller
      */
     public function edit(State $state)
     {
-        return view('states.edit',['state' => $state]);
+        return view('states.form',['state' => $state]);
     }
 
     /**

@@ -35,7 +35,7 @@ class SettingsController extends Controller
      */
     public function create()
     {
-        return view('settings.create');
+        return view('settings.form', ['setting' => new Setting()]);
     }
 
     /**
@@ -73,7 +73,7 @@ class SettingsController extends Controller
      */
     public function edit(Setting $setting)
     {
-        return view('settings.edit',['setting' => $setting]);
+        return view('settings.form',['setting' => $setting]);
     }
 
     /**

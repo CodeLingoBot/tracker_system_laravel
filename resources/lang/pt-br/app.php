@@ -14,5 +14,6 @@ return [
 	'confirm_delete' => 'Tem certeza que deseja remover este item?',
 	'submit' => 'Salvar',
 	'value' => 'Valor',
-	'type' => 'Tipo'
+	'type' => 'Tipo',
+	'description' => 'Descrição'
 ];

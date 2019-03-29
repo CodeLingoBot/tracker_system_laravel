@@ -8,14 +8,10 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {{ __('states.index.title') }}
+                                {{ __('states.index_title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <a href="{{url('/states/create')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ __('states.index.create_state') }}"
-                                   class="btn btn-light btn-sm pull-right">
-                                    <span class="hidden-xs hidden-sm">{{ __('states.index.create_state') }}</span>
-                                </a>
+                                @include('layouts.partials.buttons.new', ['url' => route('states.create')])
                             </div>
                         </div>
                     </div>
@@ -25,12 +21,10 @@
                             <table class="table table-striped table-sm data-table">
                                 <thead class="thead">
                                 <tr>
-                                    <th>{{__('states.index.id')}}</th>
-                                    <th>{{__('states.index.name')}}</th>
-                                    <th>{{__('states.index.initials')}}</th>
-                                    <th class="no-search no-sort">{{__('roles.index.actions')}}</th>
-                                    <th class="no-search no-sort"></th>
-                                    <th class="no-search no-sort"></th>
+                                    <th>{{__('app.id')}}</th>
+                                    <th>{{__('app.name')}}</th>
+                                    <th>{{__('states.initials')}}</th>
+                                    <th colspan="3">{{__('app.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -39,25 +33,14 @@
                                             <th><?php echo $state->id; ?></th>
                                             <th><?php echo $state->name; ?></th>
                                             <th><?php echo $state->initials; ?></th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{url('cities')}}?state_id={{ $state->id }}" data-toggle="tooltip" title="{{__('states.index.cities')}}" class="btn btn-sm btn-info btn-block">
-                                                    <i aria-hidden="true" class="fas fa-eye fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('states.index.cities')}}</span>
-                                                </a>
+                                            <th>
+                                                @include('layouts.partials.buttons.edit', ['url' => route('states.edit', $state)])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <a href="{{route('states.edit', $state)}}" data-toggle="tooltip" title="{{__('states.index.edit')}}" class="btn btn-sm btn-warning btn-block">
-                                                    <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> <span class="hidden-xs hidden-sm">{{__('states.index.edit')}}</span>
-                                                </a>
+                                            <th>
+                                                @include('layouts.partials.buttons.delete', ['url' => route('states.destroy', $state)])
                                             </th>
-                                            <th class="no-search no-sort">
-                                                <form class="delete" action="{{route('states.destroy', $state)}}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-sm btn-danger btn-block">
-                                                        <i aria-hidden="true" class="fa fa-trash fa-fw"></i>
-                                                        {{__('states.index.remove')}}
-                                                    </button>
-                                                </form>
+                                            <th>
+                                                @include('layouts.partials.buttons.show', ['url' => route('cities.index')."?state_id=".$state->id, 'text'=>__('states.cities')])
                                             </th>
                                         </tr>
                                     <?php } ?>
@@ -70,12 +53,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        $(".delete").on("submit", function(){
-            return confirm("{{__('states.index.confirm_delete')}}");
-        });
-    </script>
 @endsection
