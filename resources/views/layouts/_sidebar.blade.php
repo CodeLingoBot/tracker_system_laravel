@@ -25,6 +25,9 @@
             <a href="{{ url('/contact_types') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('contact_types') ? 'active' : '' }}">
                 {{__('layouts.app.sidebar.contact_types')}}
             </a>
+            <a href="{{ url('states') }}" class="bg-secondary list-group-item list-group-item-action {{ Helper::isPrefixCurrentRoute('states') ? 'active' : '' }}">
+                {{__('layouts.app.sidebar.states')}}
+            </a>
         @endif
         @if (Auth::user()->isAdmin() || Auth::user()->isSubAdmin())
             <p class="list-group-item bg-primary">
