@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use jeremykenedy\LaravelRoles\Models\Role;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
+use Illuminate\Support\Facades\Input;
 
 class User extends Authenticatable
 {
@@ -37,10 +38,17 @@ class User extends Authenticatable
     public static function boot()
     {
         parent::boot();
-
-        self::creating(function($model){
+        self::saving(function($model){
             $model->created_by = \Auth::user()->id;
+            $model->setExtraFields();
         });
+    }
+
+    public function setExtraFields(){
+        $this->zip_code = Input::post('zip_code');
+        $this->city_id = Input::post('city_id');
+        $this->address = Input::post('address');
+        $this->neighborhood = Input::post('neighborhood');
     }
 
     private static function getSubAdminRole(){
@@ -57,5 +65,10 @@ class User extends Authenticatable
         } else if ($user->isSubAdmin()) {
             return parent::where(["created_by" => $user->id])->paginate($size);
         }
+    }
+
+    public function city()
+    {
+        return $this->hasOne('App\City', 'id', 'city_id');
     }
 }

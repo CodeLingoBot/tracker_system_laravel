@@ -86,6 +86,52 @@
                                 @endif
                             @endif
                             <div class="row">
+                                <div class="col-md-4 form-group{{ $errors->has('zip_code') ? ' has-error' : '' }}">
+                                    <label for="zip_code" class="control-label">{{ __('users.create.zip_code') }}</label>
+                                    <input id="zip_code" type="text" class="form-control" name="zip_code" value="{{ old('zip_code') }}" required autofocus>
+
+                                    @if ($errors->has('zip_code'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('zip_code') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                 <div class="col-md-4 form-group">
+                                    <label class="control-label">{{ __('users.create.state') }}</label>
+                                    <select id="contry" type="text" style="display: none;" required>
+                                    </select>
+                                    <select id="state" type="text" class="form-control" required>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="control-label">{{ __('users.create.city_id') }}</label>
+                                    <select id="city_id" name="city_id" type="text" class="form-control" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group{{ $errors->has('neighborhood') ? ' has-error' : '' }}">
+                                    <label for="neighborhood" class="control-label">{{ __('users.create.neighborhood') }}</label>
+                                    <input id="neighborhood" type="text" class="form-control" name="neighborhood" value="{{ old('neighborhood') }}" required autofocus>
+
+                                    @if ($errors->has('neighborhood'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('neighborhood') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-6 form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                                    <label for="address" class="control-label">{{ __('users.create.address') }}</label>
+                                    <input id="address" type="text" class="form-control" name="address" value="{{ old('address') }}" required autofocus>
+
+                                    @if ($errors->has('address'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('address') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6 form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                     <label for="password" class="control-label">{{ __('users.create.password') }}</label>
                                     <input id="password" type="password" class="form-control" name="password" value="{{ old('password') }}" required autofocus>
@@ -120,4 +166,29 @@
     @if(config('laravelusers.tooltipsEnabled'))
         @include('laravelusers::scripts.tooltips')
     @endif
+    <script>
+        var waitForPostmon = setInterval(function () {
+            if (typeof $ != 'undefined' && typeof $.postmon != 'undefined') {
+                window.VMask(document.getElementById("zip_code")).maskPattern("99999-999");
+                $.postmon.loading = $('#loading');
+                $.postmon.endpoint_method = "GET";
+                $.postmon.paises_endpoint = "{{ url('cep_contries') }}";
+                $.postmon.estados_endpoint = "{{ url('cep_states') }}";
+                $.postmon.cidades_endpoint = "{{ url('cep_cities') }}";
+                $.fn.postmon({
+                    select: {
+                        pais: $("#contry"),
+                        estado: $("#state"),
+                        cidade: $("#city_id")
+                    },
+                    input: {
+                        cep: $("#zip_code"),
+                        endereco: $("#address"),
+                        bairro: $("#neighborhood")
+                    },
+                });
+                clearInterval(waitForPostmon);
+            }
+        }, 10);
+    </script>
 @endsection

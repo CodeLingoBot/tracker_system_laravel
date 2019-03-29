@@ -9,6 +9,10 @@ require('jquery');
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
+import './postmon.js';
+import $VMask from './vanilla-masker.min.js';
+window.VMask = $VMask;
+
 require('bootstrap');
 
 window.Vue = require('vue');

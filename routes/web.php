@@ -24,3 +24,6 @@ Route::resource('/fences', 'FencesController');
 Route::resource('/contact_types', 'ContactTypesController');
 Route::resource('/states', 'StatesController');
 Route::resource('/cities', 'CitiesController');
+Route::get('/cep_contries', 'CEPController@contries');
+Route::get('/cep_states', 'CEPController@states');
+Route::get('/cep_cities', 'CEPController@cities');
