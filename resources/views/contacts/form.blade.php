@@ -11,7 +11,7 @@
                                 {{ __('contacts.'.($contact->id?'edit':'new').'_title') }} [{{ $user->name }}]
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                @include('layouts.partials.buttons.back', ['url'=>route('contacts.index')])
+                                @include('layouts.partials.buttons.back', ['url'=>route('contacts.index')."?user_id=".$user->id])
                             </div>
                         </div>
                     </div>
