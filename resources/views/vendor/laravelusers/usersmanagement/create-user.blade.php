@@ -19,13 +19,13 @@
     <div class="container">
         @if(config('laravelusers.enablePackageBootstapAlerts'))
             <div class="row">
-                <div class="col-lg-10 offset-lg-1">
+                <div class="col-lg-12">
                     @include('laravelusers::partials.form-status')
                 </div>
             </div>
         @endif
         <div class="row">
-            <div class="col-lg-10 offset-lg-1">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -43,47 +43,21 @@
                     <div class="card-body">
                         {!! Form::open(array('route' => 'users.store', 'method' => 'POST', 'role' => 'form', 'class' => 'needs-validation')) !!}
                             {!! csrf_field() !!}
-                            <div class="form-group has-feedback row {{ $errors->has('email') ? ' has-error ' : '' }}">
-                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                    {!! Form::label('email', trans('laravelusers::forms.create_user_label_email'), array('class' => 'col-md-3 control-label')); !!}
-                                @endif
-                                <div class="col-md-8 offset-md-2">
-                                    <div class="input-group">
-                                        {!! Form::text('email', NULL, array('id' => 'email', 'class' => 'form-control', 'placeholder' => trans('laravelusers::forms.create_user_ph_email'))) !!}
-                                        <div class="input-group-append">
-                                            <label for="email" class="input-group-text">
-                                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                                    <i class="fa fa-fw {!! trans('laravelusers::forms.create_user_icon_email') !!}" aria-hidden="true"></i>
-                                                @else
-                                                    {!! trans('laravelusers::forms.create_user_label_email') !!}
-                                                @endif
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                    <label for="email" class="control-label">{{ __('users.create.email') }}</label>
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+
                                     @if ($errors->has('email'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('email') }}</strong>
                                         </span>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="form-group has-feedback row {{ $errors->has('name') ? ' has-error ' : '' }}">
-                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                    {!! Form::label('name', trans('laravelusers::forms.create_user_label_username'), array('class' => 'col-md-3 control-label')); !!}
-                                @endif
-                                <div class="col-md-8 offset-md-2">
-                                    <div class="input-group">
-                                        {!! Form::text('name', NULL, array('id' => 'name', 'class' => 'form-control', 'placeholder' => trans('laravelusers::forms.create_user_ph_username'))) !!}
-                                        <div class="input-group-append">
-                                            <label class="input-group-text" for="name">
-                                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                                    <i class="fa fa-fw {!! trans('laravelusers::forms.create_user_icon_username') !!}" aria-hidden="true"></i>
-                                                @else
-                                                    {!! trans('laravelusers::forms.create_user_label_username') !!}
-                                                @endif
-                                            </label>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6 form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                    <label for="name" class="control-label">{{ __('users.create.name') }}</label>
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+
                                     @if ($errors->has('name'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('name') }}</strong>
@@ -93,82 +67,39 @@
                             </div>
                             @if($rolesEnabled)
                                 @if (\Auth::user()->isAdmin())
-                                    <div class="form-group has-feedback row {{ $errors->has('role') ? ' has-error ' : '' }}">
-                                    @if(config('laravelusers.fontAwesomeEnabled'))
-                                        {!! Form::label('role', trans('laravelusers::forms.create_user_label_role'), array('class' => 'col-md-3 control-label')); !!}
-                                    @endif
-                                    <div class="col-md-8 offset-md-2">
-                                        <div class="input-group">
-                                            <select class="custom-select form-control" name="role" id="role">
-                                                <option value="">{!! trans('laravelusers::forms.create_user_ph_role') !!}</option>
-                                                @if ($roles)
-                                                    @foreach($roles as $role)
-                                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            <div class="input-group-append">
-                                                <label class="input-group-text" for="role">
-                                                    @if(config('laravelusers.fontAwesomeEnabled'))
-                                                        <i class="{!! trans('laravelusers::forms.create_user_icon_role') !!}" aria-hidden="true"></i>
-                                                    @else
-                                                        {!! trans('laravelusers::forms.create_user_label_username') !!}
-                                                    @endif
-                                                </label>
-                                            </div>
-                                        </div>
-                                    @if ($errors->has('role'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('role') }}</strong>
-                                        </span>
-                                    @endif
+                                    <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                                        <label for="role" class="control-label">{{ __('users.create.role') }}</label>
+                                        <select id="role" type="text" class="form-control" name="role" value="{{ old('role') }}" required>
+                                            @foreach ($roles as $role)
+                                                <option value="{{$role->id}}">{{$role->name}}</option>
+                                            @endforeach
+                                        </select>
+
+                                        @if ($errors->has('role'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('role') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
-                                </div>
                                 @else
                                     <input type="hidden" value="2" name="role">
                                 @endif
                             @endif
-                            <div class="form-group has-feedback row {{ $errors->has('password') ? ' has-error ' : '' }}">
-                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                    {!! Form::label('password', trans('laravelusers::forms.create_user_label_password'), array('class' => 'col-md-3 control-label')); !!}
-                                @endif
-                                <div class="col-md-8 offset-md-2">
-                                    <div class="input-group">
-                                        {!! Form::password('password', array('id' => 'password', 'class' => 'form-control ', 'placeholder' => trans('laravelusers::forms.create_user_ph_password'))) !!}
-                                        <div class="input-group-append">
-                                            <label class="input-group-text" for="password">
-                                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                                    <i class="fa fa-fw {!! trans('laravelusers::forms.create_user_icon_password') !!}" aria-hidden="true"></i>
-                                                @else
-                                                    {!! trans('laravelusers::forms.create_user_label_password') !!}
-                                                @endif
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                    <label for="password" class="control-label">{{ __('users.create.password') }}</label>
+                                    <input id="password" type="password" class="form-control" name="password" value="{{ old('password') }}" required autofocus>
+
                                     @if ($errors->has('password'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('password') }}</strong>
                                         </span>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="form-group has-feedback row {{ $errors->has('password_confirmation') ? ' has-error ' : '' }}">
-                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                    {!! Form::label('password_confirmation', trans('laravelusers::forms.create_user_label_pw_confirmation'), array('class' => 'col-md-3 control-label')); !!}
-                                @endif
-                                <div class="col-md-8 offset-md-2">
-                                    <div class="input-group">
-                                        {!! Form::password('password_confirmation', array('id' => 'password_confirmation', 'class' => 'form-control', 'placeholder' => trans('laravelusers::forms.create_user_ph_pw_confirmation'))) !!}
-                                        <div class="input-group-append">
-                                            <label class="input-group-text" for="password_confirmation">
-                                                @if(config('laravelusers.fontAwesomeEnabled'))
-                                                    <i class="fa fa-fw {!! trans('laravelusers::forms.create_user_icon_pw_confirmation') !!}" aria-hidden="true"></i>
-                                                @else
-                                                    {!! trans('laravelusers::forms.create_user_label_pw_confirmation') !!}
-                                                @endif
-                                            </label>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6 form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                    <label for="password_confirmation" class="control-label">{{ __('users.create.password_confirmation') }}</label>
+                                    <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}" required autofocus>
+
                                     @if ($errors->has('password_confirmation'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('password_confirmation') }}</strong>
