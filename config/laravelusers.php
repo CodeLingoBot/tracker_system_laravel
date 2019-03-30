@@ -39,10 +39,10 @@ return [
     'defaultUserModel' => 'App\User',
 
     // Use the provided blade templates or extend to your own templates.
-    'showUsersBlade' => 'laravelusers::usersmanagement.show-users',
-    'createUserBlade' => 'laravelusers::usersmanagement.form-user',
-    'showIndividualUserBlade' => 'laravelusers::usersmanagement.show-user',
-    'editIndividualUserBlade' => 'laravelusers::usersmanagement.form-user',
+    'showUsersBlade' => 'users.index',
+    'createUserBlade' => 'users.form',
+    'showIndividualUserBlade' => 'users.view',
+    'editIndividualUserBlade' => 'users.form',
 
     // Use Package Bootstrap Flash Alerts
     'enablePackageBootstapAlerts' => true,

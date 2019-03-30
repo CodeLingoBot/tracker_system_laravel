@@ -25,5 +25,6 @@ return [
     'payment_day' => 'Dia do pagamento',
     'payment_monthy' => 'Valor mensal',
     'edit_title' => 'Editar usuário',
-    'back_to_user' => 'Voltar para usuário'
+    'back_to_user' => 'Voltar para usuário',
+    'validation' => 'Validação'
 ];

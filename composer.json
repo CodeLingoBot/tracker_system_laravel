@@ -10,6 +10,7 @@
   "require": {
     "php": ">=7.0",
     "alexusmai/laravel-file-manager": "^2.2",
+    "doctrine/dbal": "^2.9",
     "farhanwazir/laravelgooglemaps": "^2.3",
     "jeremykenedy/laravel-roles": "^1.4",
     "jeremykenedy/laravel-users": "^3.1",

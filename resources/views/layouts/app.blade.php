@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
 @section('content')
-    @yield('layout-content')
     <div id="loading">
         <div class="lds-hourglass"></div>
     </div>
+    @yield('layout-content')
 @stop
 
 @section('css')

@@ -9,14 +9,24 @@ require('jquery');
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-import './postmon.js';
-import $VMask from './vanilla-masker.min.js';
-window.VMask = $VMask;
+require('./postmon.js');
+window.VMasker = require('./vanilla-masker.min.js');
+require('../bootstrap-datetimepicker/js/bootstrap-datetimepicker');
 
-require('bootstrap');
-
-window.Vue = require('vue');
-
-const app = new Vue({
-    el: '#wrapper'
+$.fn.extend({
+    mask: function (patern) {
+        VMasker(this).maskPattern(patern);
+        return $(this);
+    },
+    maskMoney: function(unit){
+        const patern = {
+            precision: 2,
+            separator: ',',
+            delimiter: '.',
+            unit: unit,
+            zeroCents: true
+        };
+        VMasker(this).maskMoney(patern);
+        return $(this);
+    }
 });

@@ -14,7 +14,11 @@
                 {{ session('status') }}
             </div>
         @endif
-
+        @if(Auth::user()->invalid())
+            <div class="alert alert-danger">
+                {{ Setting::val('texto-login-expirado', 'Seu login está expirado') }}
+            </div>
+        @endif
         You are logged in!
     </div>
 @endsection

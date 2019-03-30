@@ -7,7 +7,10 @@ function postmon_run_plugin() {
             paises_endpoint: "pais.json",
             estados_endpoint: "estado.json",
             cidades_endpoint: "cidade.json",
-            loading: null,
+            loading: {
+                init: null,
+                end: null,
+            },
             montar: function(select, dados) {
                 $(select).children().remove();
                 dados.forEach(function(item) {
@@ -19,7 +22,7 @@ function postmon_run_plugin() {
                 });
             },
             paises: function(select) {
-                if($.postmon.loading) $($.postmon.loading).show();
+                if($.postmon.loading.init) $.postmon.loading.init();
                 $.ajax({
                     type: $.postmon.endpoint_method,
                     async: false,
@@ -27,12 +30,12 @@ function postmon_run_plugin() {
                     dataType: 'json',
                     success: function(dados) {
                         $.postmon.montar(select, dados);
-                        if($.postmon.loading) $($.postmon.loading).hide();
+                        if($.postmon.loading.end) $.postmon.loading.end();
                     }
                 });
             },
             estados: function(select, pais_id) {
-                if($.postmon.loading) $($.postmon.loading).show();
+                if($.postmon.loading.init) $.postmon.loading.init();
                 $.ajax({
                     type: $.postmon.endpoint_method,
                     async: false,
@@ -46,12 +49,12 @@ function postmon_run_plugin() {
                             dados = $.postmon.filtrar(dados, 'pais_id', pais_id);
                         }
                         $.postmon.montar(select, dados);
-                        if($.postmon.loading) $($.postmon.loading).hide();
+                        if($.postmon.loading.end) $.postmon.loading.end();
                     }
                 });
             },
             cidades: function(select, estado_id) {
-                if($.postmon.loading) $($.postmon.loading).show();
+                if($.postmon.loading.init) $.postmon.loading.init();
                 $.ajax({
                     type: $.postmon.endpoint_method,
                     async: false,
@@ -65,7 +68,7 @@ function postmon_run_plugin() {
                             dados = $.postmon.filtrar(dados, 'estado_id', estado_id);
                         }
                         $.postmon.montar(select, dados);
-                        if($.postmon.loading) $($.postmon.loading).hide();
+                        if($.postmon.loading.end) $.postmon.loading.end();
                     },
                 });
             },
@@ -96,7 +99,7 @@ function postmon_run_plugin() {
                 }).val();
             },
             cep: function(uuid) {
-                if($.postmon.loading) $($.postmon.loading).show();
+                if($.postmon.loading.init) $.postmon.loading.init();
                 let cepLimpo = $.postmon.obj[uuid].input.cep.val().match(/\d/g).join("");
                 $.ajax({
                     url: 'https://api.postmon.com.br/v1/cep/' + cepLimpo,
@@ -111,7 +114,7 @@ function postmon_run_plugin() {
                         $.postmon.obj[uuid].select.pais.val($.postmon.obj[uuid].selected.pais).change();
                         $.postmon.obj[uuid].input.bairro.val(dados.bairro);
                         $.postmon.obj[uuid].input.endereco.val(dados.logradouro);
-                        if($.postmon.loading) $($.postmon.loading).hide();
+                        if($.postmon.loading.end) $.postmon.loading.end();
                     }
                 });
             },

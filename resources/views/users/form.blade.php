@@ -89,7 +89,8 @@
     <div class="row">
         <div class="col-md-4 form-group{{ $errors->has('zip_code') ? ' has-error' : '' }}">
             <label for="zip_code" class="control-label">{{ __('users.zip_code') }}</label>
-            <input id="zip_code" type="text" class="form-control" name="zip_code" value="{{ old('zip_code', $user->zip_code) }}" required >
+            <input id="zip_code" type="text" class="form-control" name="zip_code"
+                   value="{{ old('zip_code', $user->zip_code) }}" required >
 
             @if ($errors->has('zip_code'))
                 <span class="help-block">
@@ -162,6 +163,18 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4 form-group{{ $errors->has('validation') ? ' has-error' : '' }}">
+            <label for="validation" class="control-label">{{ __('users.validation') }}</label>
+            <input id="validation" type="text" class="form-control" name="validation" value="{{ old('validation', $user->validation ? \Helper::formatDate($user->validation) : date_format(date_create("+100 years"), 'd/m/Y H:i')) }}" >
+
+            @if ($errors->has('validation'))
+                <span class="help-block">
+                <strong>{{ $errors->first('validation') }}</strong>
+            </span>
+            @endif
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6 form-group{{ $errors->has('password') ? ' has-error' : '' }}">
             <label for="password" class="control-label">{{ __('users.password') }}</label>
             <input id="password" type="password" class="form-control" name="password" value="{{ old('password') }}" @if(!$user->id) required @endif autocomplete="none">
@@ -194,50 +207,45 @@
 @section('scripts')
     <script>
         function setMask(value){
-            const cpfCnpj = window.VMask(document.getElementById("cpf_cnpj"));
-            cpfCnpj.maskPattern(eval(value) ? "99.999.999/9999-99" : "999.999.999-99");
+            $("#cpf_cnpj").mask(eval(value) ? "99.999.999/9999-99" : "999.999.999-99").change();
         }
-        var waitForPostmon = setInterval(function () {
-            if (typeof $ != 'undefined' && typeof $.postmon != 'undefined' && typeof window.VMask != 'undefined') {
-                window.VMask(document.getElementById("zip_code")).maskPattern("99999-999");
-                const maskMoney = {
-                  precision: 2,
-                  separator: ',',
-                  delimiter: '.',
-                  unit: '{{ App\Setting::val('tipo-moeda', 'R$') }}',
-                  zeroCents: true
-                };
-                window.VMask(document.getElementById("accession")).maskMoney(maskMoney);
-                window.VMask(document.getElementById("payment_monthy")).maskMoney(maskMoney);
-                $.postmon.loading = $('#loading');
-                $.postmon.endpoint_method = "GET";
-                $.postmon.paises_endpoint = "{{ url('cep_contries') }}";
-                $.postmon.estados_endpoint = "{{ url('cep_states') }}";
-                $.postmon.cidades_endpoint = "{{ url('cep_cities') }}";
-                $.fn.postmon({
-                    select: {
-                        pais: $("#contry"),
-                        estado: $("#state"),
-                        cidade: $("#city_id")
-                    },
-                    input: {
-                        cep: $("#zip_code"),
-                        endereco: $("#address"),
-                        bairro: $("#neighborhood")
-                    },
-                    selected:{
-                        pais: 0,
-                        estado: {!! isset($user->city_id) ? $user->city->state_id : "null" !!},
-                        cidade: {!! isset($user->city_id) ? $user->city_id : "null" !!},
-                    }
-                });
-                setMask({!! $user->is_company !!});
-                clearInterval(waitForPostmon);
-                setTimeout(function(){
-                    $("#password").val('');
-                }, 1000);
-            }
-        }, 10);
+        $(document).ready(function ($) {
+            $("#zip_code").mask("99999-999").change();
+            const unit = '{{ App\Setting::val('tipo-moeda', 'R$') }}';
+            $("#accession").maskMoney(unit);
+            $("#payment_monthy").maskMoney(unit);
+            $("#validation").mask("99/99/9999 99:99");
+            $.postmon.loading.init = function(){loading_show();};
+            $.postmon.loading.end = function(){loading_hide();};
+            $.postmon.endpoint_method = "GET";
+            $.postmon.paises_endpoint = "{{ url('cep_contries') }}";
+            $.postmon.estados_endpoint = "{{ url('cep_states') }}";
+            $.postmon.cidades_endpoint = "{{ url('cep_cities') }}";
+            $.fn.postmon({
+                select: {
+                    pais: $("#contry"),
+                    estado: $("#state"),
+                    cidade: $("#city_id")
+                },
+                input: {
+                    cep: $("#zip_code"),
+                    endereco: $("#address"),
+                    bairro: $("#neighborhood")
+                },
+                selected: {
+                    pais: 0,
+                    estado: {!! isset($user->city_id) ? $user->city->state_id : "null" !!},
+                    cidade: {!! isset($user->city_id) ? $user->city_id : "null" !!},
+                }
+            });
+            setMask({!! $user->is_company !!});
+            $('#validation').datetimepicker({
+                format: 'dd/mm/yyyy hh:ii',
+            });
+            setTimeout(function () {
+                $("#password").val('');
+            }, 1000);
+        });
     </script>
 @endsection
 
