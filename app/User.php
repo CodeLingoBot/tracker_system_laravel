@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Input;
 use jeremykenedy\LaravelRoles\Models\Role;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
-use Illuminate\Support\Facades\Input;
 
 class User extends Authenticatable
 {
@@ -31,35 +31,13 @@ class User extends Authenticatable
         "password", "remember_token", "created_by"
     ];
 
-    public function isSubAdmin(){
-        return $this->hasRole("subadmin");
-    }
-
     public static function boot()
     {
         parent::boot();
-        self::saving(function($model){
+        self::saving(function ($model) {
             $model->created_by = \Auth::user()->id;
             $model->setExtraFields();
         });
-    }
-
-    public function setExtraFields(){
-        $this->zip_code = Input::post('zip_code');
-        $this->city_id = Input::post('city_id');
-        $this->address = Input::post('address');
-        $this->neighborhood = Input::post('neighborhood');
-        $this->is_company = Input::post('is_company') == "true";
-        $this->cpf_cnpj = Input::post('cpf_cnpj');
-        $this->accession = \Helper::moneyToFloat(Input::post('accession'));
-        $this->payment_day = Input::post('payment_day');
-        $this->payment_monthy = \Helper::moneyToFloat(Input::post('payment_monthy'));
-    }
-
-    private static function getSubAdminRole(){
-        $roleSubAdmin = Role::where(["slug" => "subadmin"])->first();
-        if ($roleSubAdmin) return $roleSubAdmin;
-        return Role::create(["name" => "subadmin", "description" => "subadmin", "level"=>4, "slug" => "subadmin"]);
     }
 
     public static function paginate($size)
@@ -70,6 +48,31 @@ class User extends Authenticatable
         } else if ($user->isSubAdmin()) {
             return parent::where(["created_by" => $user->id])->paginate($size);
         }
+    }
+
+    private static function getSubAdminRole()
+    {
+        $roleSubAdmin = Role::where(["slug" => "subadmin"])->first();
+        if ($roleSubAdmin) return $roleSubAdmin;
+        return Role::create(["name" => "subadmin", "description" => "subadmin", "level" => 4, "slug" => "subadmin"]);
+    }
+
+    public function isSubAdmin()
+    {
+        return $this->hasRole("subadmin");
+    }
+
+    public function setExtraFields()
+    {
+        $this->zip_code = Input::post('zip_code');
+        $this->city_id = Input::post('city_id');
+        $this->address = Input::post('address');
+        $this->neighborhood = Input::post('neighborhood');
+        $this->is_company = Input::post('is_company') == "true";
+        $this->cpf_cnpj = Input::post('cpf_cnpj');
+        $this->accession = \Helper::moneyToFloat(Input::post('accession'));
+        $this->payment_day = Input::post('payment_day');
+        $this->payment_monthy = \Helper::moneyToFloat(Input::post('payment_monthy'));
     }
 
     public function city()

@@ -51,6 +51,7 @@ C:/Ruby26-x64/bin/sass:23:in `load'
 C:/Ruby26-x64/bin/sass:23:in `<main>'
 */
 body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Invalid CSS after \"\": expected selector, was \"<?php\"\A         on line 1 of C:\www\tries\auto_rest_laravel\database\seeds\StateTableSeeder.php\A \A 1: <?php\A 2: \A 3: use Illuminate\Database\Seeder;\A 4: use Illuminate\Support\Facades\DB;\A 5: \A 6: class StateTableSeeder extends Seeder"; }
+    white-space: pre;
+    font-family: monospace;
+    content: "Error: Invalid CSS after \"\": expected selector, was \"<?php\"\A         on line 1 of C:\www\tries\auto_rest_laravel\database\seeds\StateTableSeeder.php\A \A 1: <?php\A 2: \A 3: use Illuminate\Database\Seeder;\A 4: use Illuminate\Support\Facades\DB;\A 5: \A 6: class StateTableSeeder extends Seeder";
+}

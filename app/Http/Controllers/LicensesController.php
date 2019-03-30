@@ -18,6 +18,7 @@ class LicensesController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,16 +31,6 @@ class LicensesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('licenses.form',['license'=>new License()]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -47,11 +38,21 @@ class LicensesController extends Controller
      */
     public function store(Request $request)
     {
-        if (License::create($request->input())){
+        if (License::create($request->input())) {
             return redirect(route('licenses.index'));
         } else {
             return $this->create();
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('licenses.form', ['license' => new License()]);
     }
 
     /**
@@ -65,17 +66,6 @@ class LicensesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \License $license
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(License $license)
-    {
-        return view('licenses.form',['license' => $license]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -84,11 +74,22 @@ class LicensesController extends Controller
      */
     public function update(Request $request, License $license)
     {
-        if ($license->update($request->input())){
+        if ($license->update($request->input())) {
             return redirect(route('licenses.index'));
         } else {
             return $this->edit($license);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \License $license
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(License $license)
+    {
+        return view('licenses.form', ['license' => $license]);
     }
 
     /**

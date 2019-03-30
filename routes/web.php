@@ -12,8 +12,10 @@
  */
 
 Auth::routes(['register' => false]);
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@home')->name('home');
 Route::get('/file-manager', 'HomeController@fileManager')->name('fileManager');
+Route::get('/file-manager-frame', 'HomeController@fileManagerFrame')->name('fileManagerFrame');
 Route::resource('/settings', 'SettingsController');
 Route::resource('/roles', 'RolesController');
 Route::get('/user/{user}/users', 'UsersController@index')->name('user');

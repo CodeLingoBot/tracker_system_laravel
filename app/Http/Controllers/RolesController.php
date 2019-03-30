@@ -18,6 +18,7 @@ class RolesController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,16 +31,6 @@ class RolesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('roles.form', ['role'=> new Role()]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -47,11 +38,21 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        if (Role::create($request->input())){
+        if (Role::create($request->input())) {
             return redirect(route('roles.index'));
         } else {
             return $this->create();
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('roles.form', ['role' => new Role()]);
     }
 
     /**
@@ -65,17 +66,6 @@ class RolesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Role $role
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Role $role)
-    {
-        return view('roles.form',['role' => $role]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -84,11 +74,22 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        if ($role->update($request->input())){
+        if ($role->update($request->input())) {
             return redirect(route('roles.index'));
         } else {
             return $this->edit($role);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Role $role
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Role $role)
+    {
+        return view('roles.form', ['role' => $role]);
     }
 
     /**

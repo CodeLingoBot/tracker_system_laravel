@@ -18,6 +18,7 @@ class ContactTypesController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,16 +31,6 @@ class ContactTypesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('contact_types.form', ['contactType'=>new ContactType()]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -47,11 +38,21 @@ class ContactTypesController extends Controller
      */
     public function store(Request $request)
     {
-        if (ContactType::create($request->input())){
+        if (ContactType::create($request->input())) {
             return redirect(route('contact_types.index'));
         } else {
             return $this->create();
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('contact_types.form', ['contactType' => new ContactType()]);
     }
 
     /**
@@ -65,17 +66,6 @@ class ContactTypesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \ContactType $contactType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ContactType $contactType)
-    {
-        return view('contact_types.form',['contactType' => $contactType]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -84,11 +74,22 @@ class ContactTypesController extends Controller
      */
     public function update(Request $request, ContactType $contactType)
     {
-        if ($contactType->update($request->input())){
+        if ($contactType->update($request->input())) {
             return redirect(route('contact_types.index'));
         } else {
             return $this->edit($contactType);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \ContactType $contactType
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(ContactType $contactType)
+    {
+        return view('contact_types.form', ['contactType' => $contactType]);
     }
 
     /**

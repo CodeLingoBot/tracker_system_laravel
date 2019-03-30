@@ -1,3 +1,4 @@
+php artisan migrate
 php artisan config:cache
 php artisan view:clear
 php artisan route:cache

@@ -8,7 +8,7 @@
     </div>
 </div>
 @stop
-@section('content')
+@section('layout-content')
 <div class="row" style="margin: 20px auto;">
     <div class="col-md-4 text-right">
         @include('layouts.partials.buttons.show', [

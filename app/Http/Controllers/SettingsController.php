@@ -17,6 +17,7 @@ class SettingsController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,6 +27,23 @@ class SettingsController extends Controller
     {
         $settings = Setting::paginate(Setting::paginacao());
         return view('settings.index', ['settings' => $settings]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $key = $request->input('key');
+        $value = $request->input('value');
+        if (Setting::create(['key' => $key, 'value' => $value])) {
+            return redirect(route('settings.index'));
+        } else {
+            return $this->create();
+        }
     }
 
     /**
@@ -39,23 +57,6 @@ class SettingsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $key = $request->input('key');
-        $value = $request->input('value');
-        if (Setting::create(['key' => $key, 'value' => $value])){
-            return redirect(route('settings.index'));
-        } else {
-            return $this->create();
-        }
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Setting $setting
@@ -63,17 +64,6 @@ class SettingsController extends Controller
      */
     public function show(Setting $setting)
     {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Setting $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $setting)
-    {
-        return view('settings.form',['setting' => $setting]);
     }
 
     /**
@@ -87,11 +77,22 @@ class SettingsController extends Controller
     {
         $key = $request->input('key');
         $value = $request->input('value');
-        if ($setting->update(['key' => $key, 'value' => $value])){
+        if ($setting->update(['key' => $key, 'value' => $value])) {
             return redirect(route('settings.index'));
         } else {
             return $this->edit($setting);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Setting $setting
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Setting $setting)
+    {
+        return view('settings.form', ['setting' => $setting]);
     }
 
     /**

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Driver;
-use App\Vehicle;
 use App\Setting;
+use App\Vehicle;
 use Illuminate\Http\Request;
 
 class VehiclesController extends Controller
@@ -19,6 +19,7 @@ class VehiclesController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin|subadmin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,19 +27,8 @@ class VehiclesController extends Controller
      */
     public function index()
     {
-        $vehicles = Vehicle::where(['created_by'=>\Auth::user()->id])->paginate(Setting::paginacao());
+        $vehicles = Vehicle::where(['created_by' => \Auth::user()->id])->paginate(Setting::paginacao());
         return view('vehicles.index', ['vehicles' => $vehicles]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $drivers = Driver::all();
-        return view('vehicles.form', ['vehicle'=>new Vehicle(),'drivers'=>$drivers]);
     }
 
     /**
@@ -49,11 +39,22 @@ class VehiclesController extends Controller
      */
     public function store(Request $request)
     {
-        if (Vehicle::create($request->input())){
+        if (Vehicle::create($request->input())) {
             return redirect(route('vehicles.index'));
         } else {
             return $this->create();
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $drivers = Driver::all();
+        return view('vehicles.form', ['vehicle' => new Vehicle(), 'drivers' => $drivers]);
     }
 
     /**
@@ -67,18 +68,6 @@ class VehiclesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Vehicle $vehicle
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Vehicle $vehicle)
-    {
-        $drivers = Driver::all();
-        return view('vehicles.form',['vehicle' => $vehicle, 'drivers'=>$drivers]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -87,11 +76,23 @@ class VehiclesController extends Controller
      */
     public function update(Request $request, Vehicle $vehicle)
     {
-        if ($vehicle->update($request->input())){
+        if ($vehicle->update($request->input())) {
             return redirect(route('vehicles.index'));
         } else {
             return $this->edit($vehicle);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Vehicle $vehicle
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Vehicle $vehicle)
+    {
+        $drivers = Driver::all();
+        return view('vehicles.form', ['vehicle' => $vehicle, 'drivers' => $drivers]);
     }
 
     /**

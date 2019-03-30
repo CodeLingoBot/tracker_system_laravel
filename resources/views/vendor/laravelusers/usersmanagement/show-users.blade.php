@@ -15,7 +15,7 @@
     </div>
 </div>
 @stop
-@section('content')
+@section('layout-content')
 <div class="table-responsive users-table">
     <table class="table table-striped table-sm data-table">
         <thead class="thead">

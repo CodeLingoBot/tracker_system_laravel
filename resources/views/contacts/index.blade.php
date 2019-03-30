@@ -2,16 +2,16 @@
 @section('title', __('contacts.index_title')." [". $user->name." ]")
 
 @section('content_header')
-<div class="my-content-header">
+    <div class="my-content-header">
     <span>
         {{ __('contacts.index_title') }} [{{ $user->name }}]
     </span>
-    <div class="btn-group pull-right btn-group-xs">
-        @include('layouts.partials.buttons.new', ['url' => route('contacts.create')."?user_id=". $user->id])
+        <div class="btn-group pull-right btn-group-xs">
+            @include('layouts.partials.buttons.new', ['url' => route('contacts.create')."?user_id=". $user->id])
+        </div>
     </div>
-</div>
 @stop
-@section('content')
+@section('layout-content')
     <div class="table-responsive users-table">
         <table class="table table-striped table-sm data-table">
             <thead class="thead">
@@ -23,19 +23,19 @@
             </tr>
             </thead>
             <tbody>
-                <?php foreach ($contacts as $contact) {?>
-                    <tr>
-                        <th><?php echo $contact->id; ?></th>
-                        <th><?php echo $contact->value; ?></th>
-                        <th><?php echo $contact->type->name; ?></th>
-                        <th>
-                            @include('layouts.partials.buttons.edit', ['url' => route('contacts.edit', $contact)."?user_id=".$user->id])
-                        </th>
-                        <th>
-                            @include('layouts.partials.buttons.delete', ['url' => route('contacts.destroy', $contact)."?user_id=".$user->id])
-                        </th>
-                    </tr>
-                <?php }?>
+            <?php foreach ($contacts as $contact) {?>
+            <tr>
+                <th><?php echo $contact->id; ?></th>
+                <th><?php echo $contact->value; ?></th>
+                <th><?php echo $contact->type->name; ?></th>
+                <th>
+                    @include('layouts.partials.buttons.edit', ['url' => route('contacts.edit', $contact)."?user_id=".$user->id])
+                </th>
+                <th>
+                    @include('layouts.partials.buttons.delete', ['url' => route('contacts.destroy', $contact)."?user_id=".$user->id])
+                </th>
+            </tr>
+            <?php }?>
             </tbody>
         </table>
         {{$contacts->links()}}

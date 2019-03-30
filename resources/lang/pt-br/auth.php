@@ -36,7 +36,7 @@ return [
         'email' => 'Endereço de email',
         'send' => 'Enviar email'
     ],
-    'reset'=>[
+    'reset' => [
         'title' => 'Resetar senha',
         'email' => 'Endereço de email',
         'password' => 'Senha',

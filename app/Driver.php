@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Driver extends Model
 {
     protected $table = "drivers";
-    protected $fillable = [ 'name', 'license_id' ];
+    protected $fillable = ['name', 'license_id'];
 
     public static function boot()
     {
         parent::boot();
 
-        self::creating(function($model){
+        self::creating(function ($model) {
             $model->created_by = \Auth::user()->id;
         });
     }

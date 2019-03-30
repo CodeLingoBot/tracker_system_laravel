@@ -2,16 +2,16 @@
 @section('title',__('fences.index_title'))
 
 @section('content_header')
-<div class="my-content-header">
+    <div class="my-content-header">
     <span>
         {{ __('fences.index_title') }}
     </span>
-    <div class="btn-group pull-right btn-group-xs">
-        @include('layouts.partials.buttons.new', ['url'=>route('fences.create')])
+        <div class="btn-group pull-right btn-group-xs">
+            @include('layouts.partials.buttons.new', ['url'=>route('fences.create')])
+        </div>
     </div>
-</div>
 @stop
-@section('content')
+@section('layout-content')
     <div class="table-responsive users-table">
         <table class="table table-striped table-sm data-table">
             <thead class="thead">
@@ -22,21 +22,21 @@
             </tr>
             </thead>
             <tbody>
-                <?php foreach ($fences as $fence) {?>
-                    <tr>
-                        <th><?php echo $fence->id; ?></th>
-                        <th><?php echo $fence->name; ?></th>
-                        <th>
-                            @include('layouts.partials.buttons.show', ['url'=>route('fences.show', $fence), 'class'=>'modal-iframe'])
-                        </th>
-                        <th>
-                            @include('layouts.partials.buttons.edit', ['url'=>route('fences.edit', $fence)])
-                        </th>
-                        <th>
-                            @include('layouts.partials.buttons.delete', ['url'=>route('fences.destroy', $fence)])
-                        </th>
-                    </tr>
-                <?php }?>
+            <?php foreach ($fences as $fence) {?>
+            <tr>
+                <th><?php echo $fence->id; ?></th>
+                <th><?php echo $fence->name; ?></th>
+                <th>
+                    @include('layouts.partials.buttons.show', ['url'=>route('fences.show', $fence), 'class'=>'modal-iframe'])
+                </th>
+                <th>
+                    @include('layouts.partials.buttons.edit', ['url'=>route('fences.edit', $fence)])
+                </th>
+                <th>
+                    @include('layouts.partials.buttons.delete', ['url'=>route('fences.destroy', $fence)])
+                </th>
+            </tr>
+            <?php }?>
             </tbody>
         </table>
         {{$fences->links()}}
@@ -60,8 +60,8 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function($) {
-            $(".modal-iframe").on("click", function(event){
+        $(document).ready(function ($) {
+            $(".modal-iframe").on("click", function (event) {
                 event.preventDefault();
                 $("#modal-iframe").attr("src", this.href);
                 $("#modal").modal("show");

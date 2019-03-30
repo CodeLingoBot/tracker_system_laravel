@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     protected $table = "contacts";
-    protected $fillable = [ "value", "type_id", "user_id" ];
+    protected $fillable = ["value", "type_id", "user_id"];
 
     public function type()
     {

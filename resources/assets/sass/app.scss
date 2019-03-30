@@ -1,5 +1,26 @@
 @import url('https://use.fontawesome.com/releases/v5.7.0/css/all.css');
 
+* {
+	border-radius: 0 !important;
+}
+
+.modal-title{
+	float: left;
+}
+
+.logo-lg{
+	img{
+	    max-width: 100%;
+	    max-height: 45px;
+	}
+}
+.logo-mini{
+	img{
+	    max-width: 45px;
+	    max-height: 45px;
+	}
+}
+
 .my-content-header{
 	display: flex;
 	justify-content: space-between;
@@ -22,6 +43,9 @@
 		i{
 			display: block;
 			font-size: 20px;
+		}
+		&:hover{
+			color: white;
 		}
 	}
 }
@@ -68,4 +92,8 @@
 	    transform: rotate(1800deg);
 	  }
 	}
+}
+
+.modal-backdrop {
+	background-color: #00000026;
 }

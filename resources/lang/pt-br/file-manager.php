@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'title' => 'Arquivos'
+    'index_title' => 'Arquivos',
 ];

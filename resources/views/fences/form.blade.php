@@ -2,22 +2,24 @@
 @section('title',__('fences.'.($fence->id?'edit':'new').'_title'))
 
 @section('content_header')
-<div class="my-content-header">
+    <div class="my-content-header">
     <span>
         {{ __('fences.'.($fence->id?'edit':'new').'_title') }}
     </span>
-    <div class="btn-group pull-right btn-group-xs">
-        @include('layouts.partials.buttons.back', ['url'=>route('fences.index')])
+        <div class="btn-group pull-right btn-group-xs">
+            @include('layouts.partials.buttons.back', ['url'=>route('fences.index')])
+        </div>
     </div>
-</div>
 @stop
-@section('content')
-    <form class="" method="POST" action="{{ $fence->id?route('fences.update', $fence):route('fences.store') }}" style="width: 100%;">
+@section('layout-content')
+    <form class="" method="POST" action="{{ $fence->id?route('fences.update', $fence):route('fences.store') }}"
+          style="width: 100%;">
         {{ csrf_field() }}
         @if($fence->id) @method("PUT") @endif
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <label for="name" class="control-label">{{ __('app.name') }}</label>
-            <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $fence->name) }}" required autofocus>
+            <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $fence->name) }}"
+                   required autofocus>
 
             @if ($errors->has('name'))
                 <span class="help-block">
@@ -51,9 +53,13 @@
         let searchBox;
 
         var polygon = null;
-        function onPolygonDrawn(event){
+
+        function onPolygonDrawn(event) {
             if (polygon) {
-                try { polygon.setMap(null); } catch(e){}
+                try {
+                    polygon.setMap(null);
+                } catch (e) {
+                }
             }
             polygon = event.overlay;
             const data = {

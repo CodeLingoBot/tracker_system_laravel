@@ -24,8 +24,8 @@ class UsersTableSeeder extends Seeder
          */
         if (User::where('email', '=', 'admin@admin.com')->first() === null) {
             $newUser = User::create([
-                'name'     => 'Admin',
-                'email'    => 'admin@admin.com',
+                'name' => 'Admin',
+                'email' => 'admin@admin.com',
                 'password' => bcrypt('password'),
             ]);
 
@@ -37,20 +37,20 @@ class UsersTableSeeder extends Seeder
 
         if (User::where('email', '=', 'user@user.com')->first() === null) {
             $newUser = User::create([
-                'name'     => 'User',
-                'email'    => 'user@user.com',
+                'name' => 'User',
+                'email' => 'user@user.com',
                 'password' => bcrypt('password'),
             ]);
             $newUser->attachRole($userRole);
         }
 
         //Random
-        for ($i =0;$i<20; $i++){
-            $email = 'email_'.rand().'@user.com';
+        for ($i = 0; $i < 20; $i++) {
+            $email = 'email_' . rand() . '@user.com';
             if (User::where('email', '=', $email)->first() === null) {
                 $newUser = User::create([
-                    'name'     => 'User',
-                    'email'    => $email,
+                    'name' => 'User',
+                    'email' => $email,
                     'password' => bcrypt('password'),
                 ]);
                 $newUser->attachRole($userRole);

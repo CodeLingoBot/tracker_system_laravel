@@ -19,6 +19,7 @@ class DriversController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin|subadmin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,19 +27,8 @@ class DriversController extends Controller
      */
     public function index()
     {
-        $drivers = Driver::where(['created_by'=>\Auth::user()->id])->paginate(Setting::paginacao());
+        $drivers = Driver::where(['created_by' => \Auth::user()->id])->paginate(Setting::paginacao());
         return view('drivers.index', ['drivers' => $drivers]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $licenses = License::all();
-        return view('drivers.form', ['driver'=>new Driver(),'licenses'=>$licenses]);
     }
 
     /**
@@ -49,11 +39,22 @@ class DriversController extends Controller
      */
     public function store(Request $request)
     {
-        if (Driver::create($request->input())){
+        if (Driver::create($request->input())) {
             return redirect(route('drivers.index'));
         } else {
             return $this->create();
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $licenses = License::all();
+        return view('drivers.form', ['driver' => new Driver(), 'licenses' => $licenses]);
     }
 
     /**
@@ -67,18 +68,6 @@ class DriversController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Driver $driver
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Driver $driver)
-    {
-        $licenses = License::all();
-        return view('drivers.form',['driver' => $driver, 'licenses'=>$licenses]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -87,11 +76,23 @@ class DriversController extends Controller
      */
     public function update(Request $request, Driver $driver)
     {
-        if ($driver->update($request->input())){
+        if ($driver->update($request->input())) {
             return redirect(route('drivers.index'));
         } else {
             return $this->edit($driver);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Driver $driver
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Driver $driver)
+    {
+        $licenses = License::all();
+        return view('drivers.form', ['driver' => $driver, 'licenses' => $licenses]);
     }
 
     /**

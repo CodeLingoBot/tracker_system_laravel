@@ -6,13 +6,13 @@ return [
      * list of disk names that you want to use
      * (from config/filesystems)
      */
-    'diskList'  => ['public'],
+    'diskList' => ['public'],
 
     /**
      * Default disk for left manager
      * null - auto select the first disk in the disk list
      */
-    'leftDisk'  => null,
+    'leftDisk' => null,
 
     /**
      * Default disk for right manager
@@ -64,7 +64,7 @@ return [
      *
      * whitelist - Deny anything(access - 0 - deny), that not allowed by the ACL rules list
      */
-    'aclStrategy'   => 'blacklist',
+    'aclStrategy' => 'blacklist',
 
     /**
      * ACL rules repository
@@ -92,7 +92,7 @@ return [
      *
      * access: 0 - deny, 1 - read, 2 - read/write
      */
-    'aclRules'      => [
+    'aclRules' => [
         null => [
             ['disk' => 'assets', 'path' => '/', 'access' => 0],
         ]

@@ -1,21 +1,15 @@
 @extends('layouts.app')
-@section('title',__('file-manager.title'))
+@section('title', __('file-manager.index_title'))
 
-@section('stylesheets')
-    <link rel="stylesheet" href="{{ asset('/css/vendor/file-manager.css') }}">
-@endsection
-
-@section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12" style="min-height: 600px;">
-                <div id="fm">
-                </div>
-            </div>
-        </div>
+@section('content_header')
+    <div class="my-content-header">
+    <span>
+        {{ __('file-manager.index_title') }}
+    </span>
     </div>
-@endsection
-
-@section('scripts')
-    <script src="{{ asset('/js/vendor/file-manager.js') }}"></script>
+@stop
+@section('layout-content')
+    <div style="height: 500px;">
+        <iframe frameborder="0" style="width: 100%; height: 100%;" src="{{ url('/file-manager-frame') }}"></iframe>
+    </div>
 @endsection

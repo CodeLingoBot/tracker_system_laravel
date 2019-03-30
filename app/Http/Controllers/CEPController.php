@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\City;
 use App\State;
-use App\Setting;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class CEPController extends Controller
@@ -21,7 +19,8 @@ class CEPController extends Controller
         $this->middleware('role:admin|subadmin');
     }
 
-    public function contries(){
+    public function contries()
+    {
         $brazil = [
             "id" => 0,
             "nome" => "Brasil",
@@ -32,10 +31,11 @@ class CEPController extends Controller
         ]);
     }
 
-    public function states(){
+    public function states()
+    {
         $states = State::all();
         $statesJson = [];
-        foreach ($states as $state){
+        foreach ($states as $state) {
             $statesJson[] = (object)[
                 "id" => $state->id,
                 "nome" => $state->name,
@@ -46,10 +46,11 @@ class CEPController extends Controller
         return response()->json($statesJson);
     }
 
-    public function cities(){
-        $cities = City::where(['state_id'=>Input::get('id')])->get();
+    public function cities()
+    {
+        $cities = City::where(['state_id' => Input::get('id')])->get();
         $citiesJson = [];
-        foreach ($cities as $city){
+        foreach ($cities as $city) {
             $citiesJson[] = (object)[
                 "id" => $city->id,
                 "nome" => $city->name,

@@ -18,7 +18,7 @@
     </div>
 </div>
 @stop
-@section('content')
+@section('layout-content')
 @php($user = isset($user) ? $user : new App\User())
 <form action="{{ ($user->id?route('users.update', $user):route('users.store')) }}" method="POST">
     @if ($user->id) @method('PUT') @endif

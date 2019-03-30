@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\State;
 use App\Setting;
+use App\State;
 use Illuminate\Http\Request;
 
 class StatesController extends Controller
@@ -18,6 +18,7 @@ class StatesController extends Controller
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,16 +31,6 @@ class StatesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('states.form', ['state'=>new State()]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -47,11 +38,21 @@ class StatesController extends Controller
      */
     public function store(Request $request)
     {
-        if (State::create($request->input())){
+        if (State::create($request->input())) {
             return redirect(route('states.index'));
         } else {
             return $this->create();
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('states.form', ['state' => new State()]);
     }
 
     /**
@@ -65,17 +66,6 @@ class StatesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \State $state
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(State $state)
-    {
-        return view('states.form',['state' => $state]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -84,11 +74,22 @@ class StatesController extends Controller
      */
     public function update(Request $request, State $state)
     {
-        if ($state->update($request->input())){
+        if ($state->update($request->input())) {
             return redirect(route('states.index'));
         } else {
             return $this->edit($state);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \State $state
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(State $state)
+    {
+        return view('states.form', ['state' => $state]);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 class HomeController extends Controller
 {
     /**
@@ -22,8 +21,19 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return redirect(url('/home'));
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function home()
+    {
         return view('home');
     }
+
     /**
      * Show the application dashboard.
      *
@@ -32,5 +42,15 @@ class HomeController extends Controller
     public function fileManager()
     {
         return view('home.file-manager');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function fileManagerFrame()
+    {
+        return view('home.file-manager.frame');
     }
 }

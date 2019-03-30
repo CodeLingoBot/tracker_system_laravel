@@ -1,5 +1,5 @@
 <?php
 
 return [
-	'key' => 'AIzaSyB4JNdU44Wm1qJQcwp9otCkajxqBdhquH0'
+    'key' => env('GOOGLE_KEY')
 ];
