@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\VehicleBranch;
 use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class VehicleBranchsController extends Controller
 {
@@ -26,8 +27,10 @@ class VehicleBranchsController extends Controller
      */
     public function index()
     {
-        $vehicleBranchs = VehicleBranch::paginate(Setting::paginacao());
-        return view('vehicle_branchs.index', ['vehicleBranchs' => $vehicleBranchs]);
+        $type = Input::get('type');
+        $type = isset($type) ? $type : 0;
+        $vehicleBranchs = VehicleBranch::where(['type'=>$type])->paginate(Setting::paginacao());
+        return view('vehicle_branchs.index', ['type'=>$type,'vehicleBranchs' => $vehicleBranchs]);
     }
 
     /**

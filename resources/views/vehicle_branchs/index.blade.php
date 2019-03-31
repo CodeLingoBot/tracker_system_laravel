@@ -12,6 +12,22 @@
     </div>
 @stop
 @section('layout-content')
+    <form method="GET" id="form-vehicle-branchs">
+        <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+            <label for="type" class="control-label">{{ __('vehicle_branchs.type') }}</label>
+            <select id="type" type="text" class="form-control" name="type" required autofocus onchange="submitType();">
+                @for($index=0; $index<4; $index++)
+                    <option @if ($type == $index) selected="true" @endif
+                    value="{{$index}}">{{__('vehicle_branchs.type_'.$index)}}</option>
+                @endfor
+            </select>
+            @if ($errors->has('type'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('type') }}</strong>
+                </span>
+            @endif
+        </div>
+    </form>
     <div class="table-responsive users-table">
         <table class="table table-striped table-sm data-table">
             <thead class="thead">
@@ -38,6 +54,15 @@
             <?php }?>
             </tbody>
         </table>
-        {{$vehicleBranchs->links()}}
+        {{$vehicleBranchs->appends(['type'=>$type])->links()}}
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    function submitType(){
+        loading_show();
+        $('#form-vehicle-branchs').submit();
+    }
+</script>
 @endsection
