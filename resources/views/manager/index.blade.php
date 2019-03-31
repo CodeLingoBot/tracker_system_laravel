@@ -48,6 +48,18 @@
                         <i class="fas fa-flag"></i>
                         {{__('layouts.app.sidebar.states')}}
                     </a>
+                    <a href="{{ url('tracker_types') }}">
+                        <i class="fas fa-flag"></i>
+                        {{__('layouts.app.sidebar.tracker_types')}}
+                    </a>
+                    <a href="{{ url('vehicle_branchs') }}">
+                        <i class="fas fa-flag"></i>
+                        {{__('layouts.app.sidebar.vehicle_branchs')}}
+                    </a>
+                    <a href="{{ url('vehicle_models') }}">
+                        <i class="fas fa-flag"></i>
+                        {{__('layouts.app.sidebar.vehicle_models')}}
+                    </a>
                 @endif
                 @if (Auth::user()->isAdmin() || Auth::user()->isSubAdmin())
                     <h2>

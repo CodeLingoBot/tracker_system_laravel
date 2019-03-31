@@ -20,6 +20,9 @@ return [
             'fences' => 'Cercas Eletrônicas',
             'contact_types' => 'Tipos de contatos',
             'states' => 'Estados',
+            'tracker_types' => 'Tipos de rastreador',
+            'vehicle_branchs' => 'Marcas de veículos',
+            'vehicle_models' => 'Modelos de veículos',
         ]
     ]
 ];
