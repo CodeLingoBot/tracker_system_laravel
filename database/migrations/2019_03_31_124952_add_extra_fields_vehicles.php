@@ -21,7 +21,7 @@ class AddExtraFieldsVehicles extends Migration
             $table->integer('final_user_id')->unsigned()->nullable()->index();
             $table->foreign('final_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('model_id')->unsigned()->nullable()->index();
-            $table->foreign('model_id')->references('id')->on('vehicle_model')->onDelete('cascade');
+            $table->foreign('model_id')->references('id')->on('vehicle_models')->onDelete('cascade');
             $table->float('odometer')->nullable();
             $table->integer('year')->nullable();
             $table->string('color')->nullable();
