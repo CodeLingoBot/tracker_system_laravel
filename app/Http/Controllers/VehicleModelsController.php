@@ -6,6 +6,7 @@ use App\VehicleModel;
 use App\VehicleBranch;
 use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class VehicleModelsController extends Controller
 {
@@ -27,8 +28,12 @@ class VehicleModelsController extends Controller
      */
     public function index()
     {
-        $vehicleModels = VehicleModel::paginate(Setting::paginacao());
-        return view('vehicle_models.index', ['vehicleModels' => $vehicleModels]);
+        $type = Input::get('type');
+        $type = isset($type) ? $type : 0;
+        $branchId = Input::get('branch_id');
+        $branchId = isset($branchId) ? $branchId : VehicleBranch::where(['type'=>$type])->first()->id;
+        $vehicleModels = VehicleModel::where(['branch_id'=>$branchId])->paginate(Setting::paginacao());
+        return view('vehicle_models.index', ['type'=>$type, 'branchId' => $branchId, 'vehicleModels' => $vehicleModels]);
     }
 
     /**
@@ -53,8 +58,7 @@ class VehicleModelsController extends Controller
      */
     public function create()
     {
-        $vehicleBranchs = VehicleBranch::all();
-        return view('vehicle_models.form', ['vehicleModel' => new VehicleModel(), 'vehicleBranchs' => $vehicleBranchs]);
+        return view('vehicle_models.form', ['vehicleModel' => new VehicleModel()]);
     }
 
     /**
@@ -91,8 +95,7 @@ class VehicleModelsController extends Controller
      */
     public function edit(VehicleModel $vehicleModel)
     {
-        $vehicleBranchs = VehicleBranch::all();
-        return view('vehicle_models.form', ['vehicleModel' => $vehicleModel, 'vehicleBranchs' => $vehicleBranchs]);
+        return view('vehicle_models.form', ['vehicleModel' => $vehicleModel]);
     }
 
     /**

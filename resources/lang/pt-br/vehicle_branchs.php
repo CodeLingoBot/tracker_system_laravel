@@ -8,5 +8,6 @@ return [
     'type_1' => 'Moto',
     'type_2' => 'Náutica',
     'type_3' => 'Caminhão',
-    'type' => 'Tipo'
+    'type' => 'Tipo',
+    'branch_id' => 'Modelo de veículo'
 ];
