@@ -27,7 +27,14 @@ Route::resource('/contact_types', 'ContactTypesController');
 Route::resource('contacts', 'ContactsController');
 Route::resource('/states', 'StatesController');
 Route::resource('/cities', 'CitiesController');
-Route::get('/cep_contries', 'CEPController@contries');
-Route::get('/cep_states', 'CEPController@states');
-Route::get('/cep_cities', 'CEPController@cities');
 Route::get('/manager', 'ManagerController@index');
+Route::resource('/tracker_types', 'TrackerTypesController');
+Route::resource('/vehicle_branchs', 'VehicleBranchsController');
+Route::resource('/vehicle_models', 'VehicleModelsController');
+
+
+Route::get('/cep_contries', 'JSONController@contries');
+Route::get('/cep_states', 'JSONController@states');
+Route::get('/cep_cities', 'JSONController@cities');
+Route::get('/json_branchs/{type}', 'JSONController@branchs');
+Route::get('/json_models/{branch}', 'JSONController@models');

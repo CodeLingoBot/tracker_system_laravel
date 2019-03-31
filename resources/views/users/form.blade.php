@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@php($user = empty($user) ? new App\User() : $user)
 @section('title', __('users.'.($user->id?'edit':'new').'_title'). ($user->id?' ['.$user->name.']':''))
 @section('content_header')
 <div class="my-content-header">
@@ -19,7 +20,6 @@
 </div>
 @stop
 @section('layout-content')
-@php($user = isset($user) ? $user : new App\User())
 <form action="{{ ($user->id?route('users.update', $user):route('users.store')) }}" method="POST">
     @if ($user->id) @method('PUT') @endif
     {!! csrf_field() !!}

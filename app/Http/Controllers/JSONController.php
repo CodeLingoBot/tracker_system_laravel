@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\City;
 use App\State;
+use App\VehicleBranch;
+use App\VehicleModel;
 use Illuminate\Support\Facades\Input;
 
-class CEPController extends Controller
+class JSONController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -16,7 +18,6 @@ class CEPController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin|subadmin');
     }
 
     public function contries()
@@ -58,5 +59,15 @@ class CEPController extends Controller
             ];
         }
         return response()->json($citiesJson);
+    }
+
+    public function branchs($type)
+    {
+        return response()->json(VehicleBranch::where(['type'=>$type])->get());
+    }
+
+    public function models(VehicleBranch $branch)
+    {
+        return response()->json($branch->models);
     }
 }
