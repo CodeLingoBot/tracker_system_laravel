@@ -82,6 +82,12 @@
                         {{__('layouts.app.sidebar.fences')}}
                     </a>
                 @endif
+                @if (!Auth::user()->isAdmin() && !Auth::user()->isSubAdmin())
+                        <a href="{{ url('vehicles') }}">
+                            <i class="fas fa-car"></i>
+                            {{__('layouts.app.sidebar.vehicles')}}
+                        </a>
+                @endif
             </div>
         </div>
     </div>

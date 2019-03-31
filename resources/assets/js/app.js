@@ -12,6 +12,7 @@ window.$ = window.jQuery = $;
 require('./postmon.js');
 window.VMasker = require('./vanilla-masker.min.js');
 require('../bootstrap-datetimepicker/js/bootstrap-datetimepicker');
+require('../color-picker/js/colorpicker');
 
 $.fn.extend({
     mask: function (patern) {
@@ -24,6 +25,16 @@ $.fn.extend({
             separator: ',',
             delimiter: '.',
             unit: unit,
+            zeroCents: true
+        };
+        VMasker(this).maskMoney(patern);
+        return $(this);
+    },
+    maskFloat: function(){
+        const patern = {
+            precision: 2,
+            separator: ',',
+            delimiter: '.',
             zeroCents: true
         };
         VMasker(this).maskMoney(patern);

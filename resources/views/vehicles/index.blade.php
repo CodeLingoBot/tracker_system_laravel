@@ -2,12 +2,14 @@
 @section('title', __('vehicles.index_title'))
 @section('content_header')
     <div class="my-content-header">
-    <span>
-        {{ __('vehicles.index_title') }}
-    </span>
-        <div class="btn-group pull-right btn-group-xs">
-            @include('layouts.partials.buttons.new', ['url' => route('vehicles.create')])
-        </div>
+        <span>
+            {{ __('vehicles.index_title') }}
+        </span>
+        @if(!$final)
+            <div class="btn-group pull-right btn-group-xs">
+                @include('layouts.partials.buttons.new', ['url' => route('vehicles.create')])
+            </div>
+        @endif
     </div>
 @stop
 @section('layout-content')
@@ -19,7 +21,7 @@
                 <th>{{__('app.name')}}</th>
                 <th>{!!__('vehicles.uuid')!!}</th>
                 <th>{!!__('vehicles.driver')!!}</th>
-                <th colspan="2">{{__('app.actions')}}</th>
+                <th colspan="{{$final?1:2}}">{{__('app.actions')}}</th>
             </tr>
             </thead>
             <tbody>
@@ -32,9 +34,11 @@
                 <th>
                     @include('layouts.partials.buttons.edit', ['url' => route('vehicles.edit', $vehicle)])
                 </th>
-                <th>
-                    @include('layouts.partials.buttons.delete', ['url' => route('vehicles.destroy', $vehicle)])
-                </th>
+                @if(!$final)
+                    <th>
+                        @include('layouts.partials.buttons.delete', ['url' => route('vehicles.destroy', $vehicle)])
+                    </th>
+                @endif
             </tr>
             <?php }?>
             </tbody>
