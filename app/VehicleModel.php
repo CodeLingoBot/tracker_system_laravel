@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VehicleModel extends Model
 {
-    protected $table = "vehicle_model";
+    protected $table = "vehicle_models";
     protected $fillable = ["name", "branch_id"];
 
     public function branch()
