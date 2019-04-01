@@ -54,7 +54,7 @@
                     <td>
                         @include('layouts.partials.buttons.show', [
                             'url' => route('contacts.index')."?user_id=".$user->id,
-                            'text' => __('users.show_contacts')
+                            'text' => __('users.show_contacts'), 'icon' => 'fas fa-address-book'
                         ])
                     </td>
                     <td>
@@ -62,7 +62,7 @@
                     </td>
                     <td>
                         @include('layouts.partials.buttons.show', [
-                            'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('app.vehicles') ])
+                            'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('users.vehicles'), 'icon' => 'fa fa-car' ])
                     </td>
                     @if ($user->hasRole('subadmin'))
                         <td>

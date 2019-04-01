@@ -75,11 +75,7 @@ class User extends Authenticatable
     private function setInputVar($key, $class = null, $method = null){
         $value = Input::post($key);
         if (!$value) return;
-        if ($class && $method){
-            $this->{$key} = call_user_func(array($class, $method), $value);
-        } else {
-            $this->{$key} = $value;
-        }
+        $this->{$key} = ($class && $method) ? call_user_func([$class, $method], $value) : $value;
     }
 
     public function city()

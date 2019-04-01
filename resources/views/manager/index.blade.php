@@ -17,9 +17,6 @@
                     </div>
                 @endif
                 @if (Auth::user()->isAdmin())
-                    <h2>
-                        <strong>{{__('layouts.app.sidebar.admin')}}</strong>
-                    </h2>
                     <a href="{{ url('/roles') }}">
                         <i class="fas fa-user-tag"></i>
                         {{__('layouts.app.sidebar.roles')}}
@@ -60,11 +57,11 @@
                         <i class="fas fa-flag"></i>
                         {{__('layouts.app.sidebar.vehicle_models')}}
                     </a>
-                @endif
-                @if (Auth::user()->isAdmin() || Auth::user()->isSubAdmin())
                     <h2>
                         <strong>{{__('layouts.app.sidebar.subadmin')}}</strong>
                     </h2>
+                @endif
+                @if (Auth::user()->isAdmin() || Auth::user()->isSubAdmin())
                     <a href="{{ url('/users') }}">
                         <i class="fas fa-users "></i>
                         {{__('layouts.app.sidebar.users')}}
@@ -81,17 +78,18 @@
                         <i class="fas fa-map"></i>
                         {{__('layouts.app.sidebar.fences')}}
                     </a>
+                    <h2>
+                        <strong>{{__('layouts.app.sidebar.final_user')}}</strong>
+                    </h2>
                 @endif
-                @if (!Auth::user()->isAdmin() && !Auth::user()->isSubAdmin())
-                    <a href="{{ url('/vehicles') }}">
-                        <i class="fas fa-car"></i>
-                        {{__('layouts.app.sidebar.vehicles')}}
-                    </a>
-                    <a href="{{ url('/fences') }}">
-                        <i class="fas fa-map"></i>
-                        {{__('layouts.app.sidebar.fences')}}
-                    </a>
-                @endif
+                <a href="{{ url('/vehicles') }}">
+                    <i class="fas fa-car"></i>
+                    {{__('layouts.app.sidebar.vehicles')}}
+                </a>
+                <a href="{{ url('/fences') }}">
+                    <i class="fas fa-map"></i>
+                    {{__('layouts.app.sidebar.fences')}}
+                </a>
             </div>
         </div>
     </div>

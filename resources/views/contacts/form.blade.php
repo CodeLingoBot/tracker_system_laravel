@@ -61,13 +61,12 @@
 @section('scripts')
     <script>
         function setMask() {
-            const selectEl = document.getElementById("type_id");
-            const selected = selectEl.value;
-            const mask = Array.prototype.slice.call(selectEl.children).filter(
-                function (item) {
-                    return item.value == selected;
-                })[0].getAttribute('data-mask');
-            window.VMask(document.getElementById("value")).maskPattern(mask);
+            const typeSelect = $("#type_id");
+            const mask = typeSelect.children().filter(
+                function (_index, item) {
+                    return item.value == typeSelect.val();
+                }).data('mask');
+            typeSelect.mask(mask);
         }
 
         $(function () {
