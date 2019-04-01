@@ -10,18 +10,29 @@
 @stop
 @section('layout-content')
 <div class="row" style="margin: 20px auto;">
-    <div class="col-md-4 text-right">
-        @include('layouts.partials.buttons.show', [
-                'url' => route('contacts.index')."?user_id=".$user->id,
-                'text' => __('users.show_contacts')
-            ])
-    </div>
-    <div class="col-md-4 text-center">
+    <div class="col-md-offset-{{ !$user->isSubAdmin() ? 2:1 }} col-md-2 text-right">
         @include('layouts.partials.buttons.edit', ['url' => route('users.edit', $user)])
     </div>
-    <div class="col-md-4 text-left">
+    <div class="col-md-2 text-right">
         @include('layouts.partials.buttons.delete', ['url' => route('user.destroy', $user)])
     </div>
+    <div class="col-md-2 text-right">
+        @include('layouts.partials.buttons.show', [
+            'url' => route('contacts.index')."?user_id=".$user->id,
+            'text' => __('users.show_contacts'), 'icon' => 'fas fa-address-book',
+            'class'=>'btn btn-secondary'
+        ])
+    </div>
+    <div class="col-md-2 text-right">
+        @include('layouts.partials.buttons.show', [
+            'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('users.vehicles'), 'icon' => 'fa fa-car', 'class'=>'btn btn-success' ])
+    </div>
+    @if ($user->hasRole('subadmin'))
+        <div class="col-md-2 text-right">
+            @include('layouts.partials.buttons.show', [
+                'url' => url('user/' . $user->id . '/users'), 'text' => __('app.users'), 'icon' => 'fas fa-users', 'class'=>'btn btn-info' ])
+        </div>
+    @endif
 </div>
 <ul class="list-group list-group-flush">
     <li class="list-group-item">

@@ -54,7 +54,8 @@
                     <td>
                         @include('layouts.partials.buttons.show', [
                             'url' => route('contacts.index')."?user_id=".$user->id,
-                            'text' => __('users.show_contacts'), 'icon' => 'fas fa-address-book'
+                            'text' => __('users.show_contacts'), 'icon' => 'fas fa-address-book',
+                            'class'=>'btn btn-secondary'
                         ])
                     </td>
                     <td>
@@ -62,12 +63,12 @@
                     </td>
                     <td>
                         @include('layouts.partials.buttons.show', [
-                            'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('users.vehicles'), 'icon' => 'fa fa-car' ])
+                            'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('users.vehicles'), 'icon' => 'fa fa-car', 'class'=>'btn btn-success' ])
                     </td>
                     @if ($user->hasRole('subadmin'))
                         <td>
                             @include('layouts.partials.buttons.show', [
-                                'url' => url('user/' . $user->id . '/users'), 'text' => __('app.users') ])
+                                'url' => url('user/' . $user->id . '/users'), 'text' => __('app.users'), 'icon' => 'fas fa-users', 'class'=>'btn btn-info' ])
                         </td>
                     @endif
                 </tr>
