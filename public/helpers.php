@@ -15,7 +15,7 @@ class Helper
     public static function moneyToFloat($string)
     {
         $setting = 'App\Setting';
-        return floatval(str_replace($setting::val('tipo-moeda', 'R$') . ' ', '', self::stringToFloat($string)));
+        return floatval(self::stringToFloat(str_replace($setting::val('tipo-moeda', 'R$') . ' ', '', $string)));
     }
 
     public static function stringToFloat($string)

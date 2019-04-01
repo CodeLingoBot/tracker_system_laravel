@@ -60,6 +60,10 @@
                     <td>
                         @include('layouts.partials.buttons.edit', ['url' => route('users.edit', $user) ])
                     </td>
+                    <td>
+                        @include('layouts.partials.buttons.show', [
+                            'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('app.vehicles') ])
+                    </td>
                     @if ($user->hasRole('subadmin'))
                         <td>
                             @include('layouts.partials.buttons.show', [

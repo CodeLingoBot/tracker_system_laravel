@@ -60,26 +60,25 @@ class User extends Authenticatable
 
     public function setExtraFields()
     {
-        if ($zip_code = Input::post('zip_code'))
-            $this->zip_code = $zip_code;
-        if ($city_id = Input::post('city_id'))
-            $this->city_id = $city_id;
-        if ($address = Input::post('address'))
-            $this->address = $address;
-        if ($neighborhood = Input::post('neighborhood'))
-            $this->neighborhood = $neighborhood;
-        if ($is_company = Input::post('is_company'))
-            $this->is_company =$is_company;
-        if ($cpf_cnpj = Input::post('cpf_cnpj'))
-            $this->cpf_cnpj = $cpf_cnpj;
-        if ($accession = Input::post('accession'))
-            $this->accession = \Helper::moneyToFloat($accession);
-        if ($payment_day = Input::post('payment_day'))
-            $this->payment_day = $payment_day;
-        if ($payment_monthy = Input::post('payment_monthy'))
-            $this->payment_monthy = \Helper::moneyToFloat($payment_monthy);
-        if ($validation = Input::post('validation')) {
-            $this->validation = \Helper::parseDate($validation);
+        $this->setInputVar('zip_code');
+        $this->setInputVar('city_id');
+        $this->setInputVar('address');
+        $this->setInputVar('is_company');
+        $this->setInputVar('cpf_cnpj');
+        $this->setInputVar('accession', '\Helper','moneyToFloat');
+        $this->setInputVar('payment_day');
+        $this->setInputVar('neighborhood');
+        $this->setInputVar('payment_monthy', '\Helper','moneyToFloat');
+        $this->setInputVar('validation', '\Helper','parseDate');
+    }
+
+    private function setInputVar($key, $class = null, $method = null){
+        $value = Input::post($key);
+        if (!$value) return;
+        if ($class && $method){
+            $this->{$key} = call_user_func(array($class, $method), $value);
+        } else {
+            $this->{$key} = $value;
         }
     }
 

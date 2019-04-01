@@ -8,6 +8,7 @@ use App\TrackerType;
 use App\User;
 use App\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class VehiclesController extends Controller
 {
@@ -35,9 +36,16 @@ class VehiclesController extends Controller
      */
     public function index()
     {
-        $key = $this->final ? 'final_user_id' : 'created_by';
-        $vehicles = Vehicle::where([$key => $this->user->id])->paginate(Setting::paginacao());
-        return view('vehicles.index', ['final'=>$this->final, 'vehicles' => $vehicles]);
+        $user = User::find(Input::get('final_user_id'));
+        if (!$this->final && $user)
+            $vehicles = Vehicle::where(['final_user_id' => $user->id]);
+        else
+            $vehicles = Vehicle::where(['created_by' => $this->user->id]);
+        return view('vehicles.index', [
+            'final'=>$this->final,
+            'user'=> isset($user) ? $user : $this->user,
+            'vehicles' => $vehicles->paginate(Setting::paginacao())
+        ]);
     }
 
     /**

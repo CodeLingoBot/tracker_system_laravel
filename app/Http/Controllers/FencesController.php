@@ -17,7 +17,6 @@ class FencesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin');
     }
 
     /**
@@ -27,7 +26,7 @@ class FencesController extends Controller
      */
     public function index()
     {
-        $fences = Fence::paginate(Setting::paginacao());
+        $fences = Fence::where(['created_by'=>\Auth::user()->id])->paginate(Setting::paginacao());
         return view('fences.index', ['fences' => $fences]);
     }
 

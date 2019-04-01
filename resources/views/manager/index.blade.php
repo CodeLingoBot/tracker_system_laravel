@@ -73,20 +73,24 @@
                         <i class="fas fa-user-circle"></i>
                         {{__('layouts.app.sidebar.drivers')}}
                     </a>
-                    <a href="{{ url('vehicles') }}">
+                    <a href="{{ url('/vehicles') }}">
                         <i class="fas fa-car"></i>
                         {{__('layouts.app.sidebar.vehicles')}}
                     </a>
-                    <a href="{{ url('fences') }}">
+                    <a href="{{ url('/fences') }}">
                         <i class="fas fa-map"></i>
                         {{__('layouts.app.sidebar.fences')}}
                     </a>
                 @endif
                 @if (!Auth::user()->isAdmin() && !Auth::user()->isSubAdmin())
-                        <a href="{{ url('vehicles') }}">
-                            <i class="fas fa-car"></i>
-                            {{__('layouts.app.sidebar.vehicles')}}
-                        </a>
+                    <a href="{{ url('/vehicles') }}">
+                        <i class="fas fa-car"></i>
+                        {{__('layouts.app.sidebar.vehicles')}}
+                    </a>
+                    <a href="{{ url('/fences') }}">
+                        <i class="fas fa-map"></i>
+                        {{__('layouts.app.sidebar.fences')}}
+                    </a>
                 @endif
             </div>
         </div>

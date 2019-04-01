@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="my-content-header">
         <span>
-            {{ __('vehicles.index_title') }}
+            {{ __('vehicles.index_title') }} [{{ $user->name }}]
         </span>
         @if(!$final)
             <div class="btn-group pull-right btn-group-xs">
