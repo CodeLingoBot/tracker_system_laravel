@@ -111,4 +111,23 @@
             $(".logo-mini").html("<img src='{{ App\Setting::val('logotipo-horizontal-pequeno', '/img/no-image.png') }}'>");
         })
     </script>
+    @if (!Auth::guest())
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        Tawk_API.visitor = {
+            name : '{{ Auth::user()->name }}',
+            email : '{{ Auth::user()->email }}'
+        };
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/5ca261ac1de11b6e3b064d4e/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+        </script>
+        <!--End of Tawk.to Script-->
+    @endif
 @stop
