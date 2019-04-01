@@ -66,7 +66,7 @@
                 function (_index, item) {
                     return item.value == typeSelect.val();
                 }).data('mask');
-            typeSelect.mask(mask);
+            $("#value").mask(mask);
         }
 
         $(function () {
