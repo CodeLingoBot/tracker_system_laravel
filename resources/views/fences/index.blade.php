@@ -46,7 +46,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{__('fences.view_title')}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick='$("#modal").hide();'>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -64,7 +64,7 @@
             $(".modal-iframe").on("click", function (event) {
                 event.preventDefault();
                 $("#modal-iframe").attr("src", this.href);
-                $("#modal").modal("show");
+                $("#modal").show();
             });
         });
     </script>
