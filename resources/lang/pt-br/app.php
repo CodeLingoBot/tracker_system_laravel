@@ -17,5 +17,6 @@ return [
     'type' => 'Tipo',
     'description' => 'Descrição',
     'dashboard' => 'Gerenciamento',
-    'filter' => 'Filtrar'
+    'filter' => 'Filtrar',
+    'to' => 'para'
 ];

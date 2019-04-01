@@ -85,12 +85,20 @@ class User extends Authenticatable
 
     public function contacts()
     {
-        return $this->hasMany('App\Contact', 'id', 'user_id');
+        return $this->hasMany('App\Contact', 'user_id', 'id');
     }
 
     public function invalid()
     {
         if (!$this->validation) return false;
         return strtotime($this->validation) < strtotime(date("Y-m-d H:i:s"));
+    }
+
+    public function users(){
+        return $this->hasMany('App\User', 'created_by', 'id');
+    }
+
+    public function vehicles(){
+        return $this->hasMany('App\Vehicle', 'id', 'final_user_id');
     }
 }

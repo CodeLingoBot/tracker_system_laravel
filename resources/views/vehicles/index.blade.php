@@ -7,7 +7,7 @@
         </span>
         @if(!$final)
             <div class="btn-group pull-right btn-group-xs">
-                @include('layouts.partials.buttons.new', ['url' => route('vehicles.create')])
+                @include('layouts.partials.buttons.new', ['url' => route('vehicles.create', ['final_user_id' => $finalUserId])])
             </div>
         @endif
     </div>
@@ -43,6 +43,6 @@
             <?php }?>
             </tbody>
         </table>
-        {{$vehicles->links()}}
+        {{$vehicles->appends(['final_user_id' => $finalUserId])->links()}}
     </div>
 @endsection

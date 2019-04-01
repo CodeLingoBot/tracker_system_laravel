@@ -27,5 +27,7 @@ return [
     'edit_title' => 'Editar usuário',
     'back_to_user' => 'Voltar para usuário',
     'validation' => 'Validação',
-    'vehicles' => 'Veículos'
+    'vehicles' => 'Veículos',
+    'contacts' => 'Contatos',
+    'users' => 'Usuários'
 ];

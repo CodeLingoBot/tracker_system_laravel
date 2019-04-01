@@ -3,16 +3,16 @@
 @section('content_header')
     <div class="my-content-header">
     <span>
-        {{ __('vehicles.'.($vehicle->id?'edit':'new').'_title') }}
+        {{ __('vehicles.'.($vehicle->id?'edit':'new').'_title') }} {{ $finalUserId ? __('app.to') . " " . App\User::find($finalUserId)->name : "" }}
     </span>
         <div class="btn-group pull-right btn-group-xs">
-            @include('layouts.partials.buttons.back', ['url'=>route('vehicles.index')])
+            @include('layouts.partials.buttons.back', ['url'=>route('vehicles.index', ['final_user_id'=>$finalUserId])])
         </div>
     </div>
 @stop
 @section('layout-content')
     <form class="" method="POST"
-          action="{{ $vehicle->id ? route('vehicles.update', $vehicle) : route('vehicles.store') }}"
+          action="{{ $vehicle->id ? route('vehicles.update', $vehicle) : route('vehicles.store', ['final_user_id'=>$finalUserId]) }}"
           style="width: 100%;">
         {{ csrf_field() }}
         @if($vehicle->id) @method("PUT") @endif
@@ -117,28 +117,32 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12 form-group{{ $errors->has('tracker_id') ? ' has-error' : '' }}">
-                    <label for="final_user_id" class="control-label">{{ __('vehicles.final_user') }}</label>
-                    <select id="final_user_id" type="text" class="form-control" name="final_user_id"
-                            name="{{ old('type', $vehicle->final_user_id) }}" required autofocus>
-                        @foreach($finals as $finalUser)
-                            <option
-                                    value="{{ $finalUser->id }}"
-                                    {!! $finalUser->id ==  $vehicle->final_user_id ? 'selected="true"' : '' !!}
-                            >
-                                {{ $finalUser->name }}
-                            </option>
-                        @endforeach
-                    </select>
+            @if (!$finalUserId)
+                <div class="row">
+                    <div class="col-md-12 form-group{{ $errors->has('tracker_id') ? ' has-error' : '' }}">
+                        <label for="final_user_id" class="control-label">{{ __('vehicles.final_user') }}</label>
+                        <select id="final_user_id" type="text" class="form-control" name="final_user_id"
+                                name="{{ old('type', $vehicle->final_user_id) }}" required autofocus>
+                            @foreach($finals as $finalUser)
+                                <option
+                                        value="{{ $finalUser->id }}"
+                                        {!! $finalUser->id ==  $vehicle->final_user_id ? 'selected="true"' : '' !!}
+                                >
+                                    {{ $finalUser->name }}
+                                </option>
+                            @endforeach
+                        </select>
 
-                    @if ($errors->has('final_user_id'))
-                        <span class="help-block">
-                    <strong>{{ $errors->first('final_user_id') }}</strong>
-                </span>
-                    @endif
+                        @if ($errors->has('final_user_id'))
+                            <span class="help-block">
+                        <strong>{{ $errors->first('final_user_id') }}</strong>
+                    </span>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @else
+                <input type="hidden" value="{{ $finalUserId }}" name="final_user_id">
+            @endif
         @endif
 
         <div class="row">
@@ -190,7 +194,7 @@
                 @endif
             </div>
 
-            @php($color=$vehicle->id && $vehicle->color?$vehicle->color:"#000")
+            @php( $color = ($vehicle->id && $vehicle->color) ? $vehicle->color : "#000" )
             <div class="col-md-4 form-group{{ $errors->has('color') ? ' has-error' : '' }}">
                 <label for="color" class="control-label">{{ __('vehicles.color') }}</label>
                 <input id="color" type="text" class="form-control" name="color" value="{{ old('color', $color) }}"

@@ -27,7 +27,7 @@
         @include('layouts.partials.buttons.show', [
             'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('users.vehicles'), 'icon' => 'fa fa-car', 'class'=>'btn btn-success' ])
     </div>
-    @if ($user->hasRole('subadmin'))
+    @if ($user->isSubAdmin())
         <div class="col-md-2 text-right">
             @include('layouts.partials.buttons.show', [
                 'url' => url('user/' . $user->id . '/users'), 'text' => __('app.users'), 'icon' => 'fas fa-users', 'class'=>'btn btn-info' ])
@@ -133,6 +133,9 @@
             </div>
         </li>
     @endif
+    <li class="list-group-item bg-secondary">
+        {{ __('users.contacts') }}
+    </li>
     @foreach ($user->contacts as $contact)
         <li class="list-group-item">
             <div class="row">
@@ -143,6 +146,38 @@
                 </div>
                 <div class="col-md-8 col-sm-9">
                     {{ $contact->value }}
+                </div>
+            </div>
+        </li>
+    @endforeach
+    <li class="list-group-item bg-secondary">
+        {{ __('users.users') }}
+    </li>
+    @foreach ($user->users as $user)
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-4 col-sm-3">
+                    <strong>
+                        {{ $user->name }}
+                    </strong>
+                </div>
+                <div class="col-md-8 col-sm-9">
+                </div>
+            </div>
+        </li>
+    @endforeach
+    <li class="list-group-item bg-secondary">
+        {{ __('users.vehicles') }}
+    </li>
+    @foreach ($user->vehicles as $vehicles)
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-4 col-sm-3">
+                    <strong>
+                        {{ $vehicles->name }}
+                    </strong>
+                </div>
+                <div class="col-md-8 col-sm-9">
                 </div>
             </div>
         </li>

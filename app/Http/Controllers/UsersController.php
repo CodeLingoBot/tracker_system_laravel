@@ -18,7 +18,7 @@ class UsersController extends Controller
     {
         if (!$user->isAdmin() && !$user->isSubAdmin()) return redirect(route('users'));
         $users = User::where(['created_by' => $user->id])->paginate(Setting::paginacao());
-        return view('laravelusers::usersmanagement.show-users', [
+        return view('users.index', [
             'fromUser' => $user,
             'users' => $users,
             'pagintaionEnabled' => config('laravelusers.enablePagination')

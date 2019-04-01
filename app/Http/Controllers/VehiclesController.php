@@ -44,6 +44,7 @@ class VehiclesController extends Controller
         return view('vehicles.index', [
             'final'=>$this->final,
             'user'=> isset($user) ? $user : $this->user,
+            'finalUserId' => Input::get('final_user_id'),
             'vehicles' => $vehicles->paginate(Setting::paginacao())
         ]);
     }
@@ -79,6 +80,7 @@ class VehiclesController extends Controller
             'trackerTypes'=>TrackerType::all(),
             'finals'=>User::where(["created_by" => $this->user->id])->get(),
             'vehicle' => new Vehicle(),
+            'finalUserId' => Input::get('final_user_id'),
             'drivers' => Driver::all()
         ]);
     }
