@@ -27,7 +27,7 @@
                 <th><?php echo $fence->id; ?></th>
                 <th><?php echo $fence->name; ?></th>
                 <th>
-                    @include('layouts.partials.buttons.show', ['url'=>route('fences.show', $fence), 'class'=>'modal-iframe'])
+                    @include('layouts.partials.buttons.show', ['url'=>route('fences.show', $fence), 'class'=>'btn bt-info modal-iframe'])
                 </th>
                 <th>
                     @include('layouts.partials.buttons.edit', ['url'=>route('fences.edit', $fence)])
