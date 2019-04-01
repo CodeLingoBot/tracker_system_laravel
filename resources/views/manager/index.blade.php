@@ -29,6 +29,10 @@
                         <i class="fas fa-file"></i>
                         {{__('layouts.app.sidebar.file-manager')}}
                     </a>
+                    <a href="{{ url('/tawk') }}">
+                        <i class="fas fa-comments"></i>
+                        {{__('layouts.app.sidebar.tawk')}}
+                    </a>
                     <a href="{{ url('/settings') }}">
                         <i class="fas fa-cogs"></i>
                         {{__('layouts.app.sidebar.settings')}}

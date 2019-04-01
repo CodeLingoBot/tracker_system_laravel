@@ -16,6 +16,8 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@home')->name('home');
 Route::get('/file-manager', 'HomeController@fileManager')->name('fileManager');
 Route::get('/file-manager-frame', 'HomeController@fileManagerFrame')->name('fileManagerFrame');
+Route::get('/tawk', 'HomeController@tawk')->name('tawk');
+Route::get('/tawk-frame', 'HomeController@tawkFrame')->name('tawkFrame');
 Route::resource('/settings', 'SettingsController');
 Route::resource('/roles', 'RolesController');
 Route::get('/user/{user}/users', 'UsersController@index')->name('user');
@@ -31,7 +33,6 @@ Route::get('/manager', 'ManagerController@index');
 Route::resource('/tracker_types', 'TrackerTypesController');
 Route::resource('/vehicle_branchs', 'VehicleBranchsController');
 Route::resource('/vehicle_models', 'VehicleModelsController');
-
 
 Route::get('/cep_contries', 'JSONController@contries');
 Route::get('/cep_states', 'JSONController@states');
