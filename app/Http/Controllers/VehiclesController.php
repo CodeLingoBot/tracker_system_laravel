@@ -131,6 +131,7 @@ class VehiclesController extends Controller
             'trackerTypes'=>  TrackerType::all(),
             'finals'=> User::where(["created_by" => $this->user->id])->get(),
             'vehicle' => $vehicle,
+            'finalUserId' => Input::get('final_user_id'),
             'drivers' => Driver::all()
         ]);
     }
