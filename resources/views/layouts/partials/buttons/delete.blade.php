@@ -1,4 +1,4 @@
-<form class="delete" action="{{$url}}" method="POST" onsubmit="">
+<form class="delete" action="{{$url}}" method="POST" style="display: inline;">
     <input type="hidden" name="_method" value="DELETE">
     {{ csrf_field() }}
     <button type="submit" class="{{ Setting::val('classe-botao-remover', 'btn btn-danger') }}">

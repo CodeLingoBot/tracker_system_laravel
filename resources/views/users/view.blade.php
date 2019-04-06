@@ -162,6 +162,20 @@
                     </strong>
                 </div>
                 <div class="col-md-8 col-sm-9">
+                    @include('layouts.partials.buttons.delete', ['url' => route('user.destroy', $user) ])
+                    @include('layouts.partials.buttons.show', ['url' => route('users.show', $user) ])
+                    @include('layouts.partials.buttons.show', [
+                        'url' => route('contacts.index')."?user_id=".$user->id,
+                        'text' => __('users.show_contacts'), 'icon' => 'fas fa-address-book',
+                        'class'=>'btn btn-secondary'
+                    ])
+                    @include('layouts.partials.buttons.edit', ['url' => route('users.edit', $user) ])
+                    @include('layouts.partials.buttons.show', [
+                        'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('users.vehicles'), 'icon' => 'fa fa-car', 'class'=>'btn btn-success' ])
+                    @if ($user->hasRole('subadmin'))
+                        @include('layouts.partials.buttons.show', [
+                            'url' => url('user/' . $user->id . '/users'), 'text' => __('app.users'), 'icon' => 'fas fa-users', 'class'=>'btn btn-info' ])
+                    @endif
                 </div>
             </div>
         </li>
