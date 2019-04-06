@@ -23,7 +23,8 @@ return [
 			'tracker_types' => 'Tipos de rastreador',
 			'vehicle_branchs' => 'Marcas de veículos',
 			'vehicle_models' => 'Modelos de veículos',
-			'tawk' => 'Chat',
+            'tawk' => 'Chat',
+            'fleets' => 'Frotas',
 		],
 	],
 ];

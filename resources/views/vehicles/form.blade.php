@@ -17,6 +17,33 @@
         {{ csrf_field() }}
         @if($vehicle->id) @method("PUT") @endif
         @if(!$final)
+            @if (!$finalUserId)
+                <div class="row">
+                    <div class="col-md-12 form-group{{ $errors->has('tracker_id') ? ' has-error' : '' }}">
+                        <label for="final_user_id" class="control-label">{{ __('vehicles.final_user') }}</label>
+                        <select id="final_user_id" type="text" class="form-control" name="final_user_id"
+                                name="{{ old('type', $vehicle->final_user_id) }}" required autofocus>
+                            @foreach($finals as $finalUser)
+                                <option
+                                        value="{{ $finalUser->id }}"
+                                        {!! $finalUser->id ==  $vehicle->final_user_id ? 'selected="true"' : '' !!}
+                                >
+                                    {{ $finalUser->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @if ($errors->has('final_user_id'))
+                            <span class="help-block">
+                        <strong>{{ $errors->first('final_user_id') }}</strong>
+                    </span>
+                        @endif
+                    </div>
+                </div>
+            @else
+                <input type="hidden" value="{{ $finalUserId }}" name="final_user_id">
+            @endif
+
             <div class="row">
                 <div class="col-md-6 form-group{{ $errors->has('driver_id') ? ' has-error' : '' }}">
                     <label for="driver_id" class="control-label">{{ __('vehicles.driver') }}</label>
@@ -82,7 +109,29 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 form-group{{ $errors->has('sim_card') ? ' has-error' : '' }}">
+
+                <div class="col-md-4 form-group{{ $errors->has('fleet_id') ? ' has-error' : '' }}">
+                    <label for="fleet_id" class="control-label">{{ __('vehicles.fleet') }}</label>
+                    <select id="fleet_id" type="text" class="form-control" name="fleet_id"
+                            name="{{ old('type', $vehicle->fleet_id) }}" required autofocus>
+                        @foreach($fleets as $fleet)
+                            <option
+                                    value="{{ $fleet->id }}"
+                                    {!! $fleet->id ==  $vehicle->fleet_id ? 'selected="true"' : '' !!}
+                            >
+                                {{ $fleet->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @if ($errors->has('fleet_id'))
+                        <span class="help-block">
+                        <strong>{{ $errors->first('tracker_id') }}</strong>
+                    </span>
+                    @endif
+                </div>
+
+                <div class="col-md-4 form-group{{ $errors->has('sim_card') ? ' has-error' : '' }}">
                     <label for="sim_card" class="control-label">{{ __('vehicles.sim_card') }}</label>
                     <input id="sim_card" type="text" class="form-control" name="sim_card"
                            value="{{ old('sim_card', $vehicle->sim_card) }}"
@@ -95,7 +144,7 @@
                     @endif
                 </div>
 
-                <div class="col-md-6 form-group{{ $errors->has('tracker_id') ? ' has-error' : '' }}">
+                <div class="col-md-4 form-group{{ $errors->has('tracker_id') ? ' has-error' : '' }}">
                     <label for="tracker_id" class="control-label">{{ __('vehicles.tracker') }}</label>
                     <select id="tracker_id" type="text" class="form-control" name="tracker_id"
                             name="{{ old('type', $vehicle->tracker_id) }}" required autofocus>
@@ -116,33 +165,6 @@
                     @endif
                 </div>
             </div>
-
-            @if (!$finalUserId)
-                <div class="row">
-                    <div class="col-md-12 form-group{{ $errors->has('tracker_id') ? ' has-error' : '' }}">
-                        <label for="final_user_id" class="control-label">{{ __('vehicles.final_user') }}</label>
-                        <select id="final_user_id" type="text" class="form-control" name="final_user_id"
-                                name="{{ old('type', $vehicle->final_user_id) }}" required autofocus>
-                            @foreach($finals as $finalUser)
-                                <option
-                                        value="{{ $finalUser->id }}"
-                                        {!! $finalUser->id ==  $vehicle->final_user_id ? 'selected="true"' : '' !!}
-                                >
-                                    {{ $finalUser->name }}
-                                </option>
-                            @endforeach
-                        </select>
-
-                        @if ($errors->has('final_user_id'))
-                            <span class="help-block">
-                        <strong>{{ $errors->first('final_user_id') }}</strong>
-                    </span>
-                        @endif
-                    </div>
-                </div>
-            @else
-                <input type="hidden" value="{{ $finalUserId }}" name="final_user_id">
-            @endif
         @endif
 
         <div class="row">

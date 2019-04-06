@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vehicle extends Model
 {
     protected $table = "vehicles";
-    protected $fillable = ["name", "uuid", "driver_id", "board", "sim_card", "tracker_type_id", "final_user_id", "model_id", "odometer", "year", "color"];
+    protected $fillable = ["name", "uuid", "driver_id", "board", "sim_card", "tracker_type_id", "final_user_id", "model_id", "odometer", "year", "color", "fleet_id"];
 
     public static function boot()
     {

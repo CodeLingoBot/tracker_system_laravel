@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Driver;
+use App\Fleet;
 use App\Setting;
 use App\TrackerType;
 use App\User;
@@ -81,7 +82,8 @@ class VehiclesController extends Controller
             'finals'=>User::where(["created_by" => $this->user->id])->get(),
             'vehicle' => new Vehicle(),
             'finalUserId' => Input::get('final_user_id'),
-            'drivers' => Driver::all()
+            'drivers' => Driver::where(["created_by" => $this->user->id])->get(),
+            'fleets' => Fleet::where(["created_by" => $this->user->id])->get(),
         ]);
     }
 
@@ -132,7 +134,8 @@ class VehiclesController extends Controller
             'finals'=> User::where(["created_by" => $this->user->id])->get(),
             'vehicle' => $vehicle,
             'finalUserId' => Input::get('final_user_id'),
-            'drivers' => Driver::all()
+            'drivers' => Driver::where(["created_by" => $this->user->id])->get(),
+            'fleets' => Fleet::where(["created_by" => $this->user->id])->get(),
         ]);
     }
 

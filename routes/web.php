@@ -33,6 +33,7 @@ Route::get('/manager', 'ManagerController@index');
 Route::resource('/tracker_types', 'TrackerTypesController');
 Route::resource('/vehicle_branchs', 'VehicleBranchsController');
 Route::resource('/vehicle_models', 'VehicleModelsController');
+Route::resource('/fleets', 'FleetsController');
 
 Route::get('/cep_contries', 'JSONController@contries');
 Route::get('/cep_states', 'JSONController@states');

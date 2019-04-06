@@ -15,4 +15,5 @@ return [
     'odometer' => 'Velocidade máxima',
     'year' => 'Ano',
     'color' => 'Cor',
+    'fleet' => 'Frota'
 ];

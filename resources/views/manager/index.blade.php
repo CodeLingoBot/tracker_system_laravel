@@ -74,6 +74,10 @@
                         <i class="fas fa-user-circle"></i>
                         {{__('layouts.app.sidebar.drivers')}}
                     </a>
+                    <a href="{{ url('/fleets') }}">
+                        <i class="fas fa-truck"></i>
+                        {{__('layouts.app.sidebar.fleets')}}
+                    </a>
                     <a href="{{ url('/vehicles') }}">
                         <i class="fas fa-car"></i>
                         {{__('layouts.app.sidebar.vehicles')}}
