@@ -43,7 +43,10 @@ class User extends Authenticatable
     public static function paginate($size)
     {
         $user = \Auth::user();
-        return parent::where(["created_by" => $user->id])->paginate($size);
+        $parent = parent::where('id', '<>', $user->id);
+        if ($user->isSubAdmin())
+            $parent = $parent->where(["created_by" => $user->id]);
+        return $parent->paginate($size);
     }
 
     private static function getSubAdminRole()

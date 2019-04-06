@@ -11,6 +11,10 @@
             @include('layouts.partials.buttons.new', [
                 'url' => route('users.create')
             ])
+        @else
+            @include('layouts.partials.buttons.back', [
+              'url' => route('users')
+            ])
         @endif
     </div>
 </div>
@@ -65,12 +69,12 @@
                         @include('layouts.partials.buttons.show', [
                             'url' => route('vehicles.index',['final_user_id'=>$user->id]), 'text' => __('users.vehicles'), 'icon' => 'fa fa-car', 'class'=>'btn btn-success' ])
                     </td>
-                    @if ($user->hasRole('subadmin'))
-                        <td>
+                    <td>
+                        @if ($user->hasRole('subadmin'))
                             @include('layouts.partials.buttons.show', [
                                 'url' => url('user/' . $user->id . '/users'), 'text' => __('app.users'), 'icon' => 'fas fa-users', 'class'=>'btn btn-info' ])
-                        </td>
-                    @endif
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>
