@@ -141,11 +141,12 @@
             <div class="row">
                 <div class="col-md-4 col-sm-3">
                     <strong>
-                        {{ $contact->type->name }}
-                    </strong>
+                        {{ $contact->type->name }} :
+                    </strong>{{ $contact->value }}
                 </div>
-                <div class="col-md-8 col-sm-9">
-                    {{ $contact->value }}
+                <div class="col-md-8 col-sm-9"><th>
+                    @include('layouts.partials.buttons.edit', ['url' => route('contacts.edit', $contact)."?user_id=".$user->id])
+                    @include('layouts.partials.buttons.delete', ['url' => route('contacts.destroy', $contact)."?user_id=".$user->id])
                 </div>
             </div>
         </li>
