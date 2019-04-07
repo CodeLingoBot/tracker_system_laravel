@@ -50,10 +50,13 @@
                         @endforeach
                     </td>
                     <td>
-                        @include('layouts.partials.buttons.delete', ['url' => route('user.destroy', $user) ])
+                        @include('layouts.partials.buttons.show', ['url' => route('users.show', $user) ])
                     </td>
                     <td>
-                        @include('layouts.partials.buttons.show', ['url' => route('users.show', $user) ])
+                        @include('layouts.partials.buttons.edit', ['url' => route('users.edit', $user) ])
+                    </td>
+                    <td>
+                        @include('layouts.partials.buttons.delete', ['url' => route('user.destroy', $user) ])
                     </td>
                     <td>
                         @include('layouts.partials.buttons.show', [
@@ -61,9 +64,6 @@
                             'text' => __('users.show_contacts'), 'icon' => 'fas fa-address-book',
                             'class'=>'btn btn-secondary'
                         ])
-                    </td>
-                    <td>
-                        @include('layouts.partials.buttons.edit', ['url' => route('users.edit', $user) ])
                     </td>
                     <td>
                         @include('layouts.partials.buttons.show', [
