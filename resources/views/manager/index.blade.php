@@ -98,6 +98,10 @@
                     <i class="fas fa-map"></i>
                     {{__('layouts.app.sidebar.fences')}}
                 </a>
+                <a href="#" onclick="Tawk_API.maximize()">
+                    <i class="fas fa-hands-helping"></i>
+                    {{__('layouts.app.sidebar.support')}}
+                </a>
             </div>
         </div>
     </div>

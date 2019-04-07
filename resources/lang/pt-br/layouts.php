@@ -25,6 +25,7 @@ return [
 			'vehicle_models' => 'Modelos de veículos',
             'tawk' => 'Chat',
             'fleets' => 'Frotas',
+            'support' => 'Suporte'
 		],
 	],
 ];
