@@ -183,15 +183,17 @@
     <li class="list-group-item bg-secondary">
         {{ __('users.vehicles') }}
     </li>
-    @foreach ($user->vehicles as $vehicles)
+    @foreach ($user->vehicles as $vehicle)
         <li class="list-group-item">
             <div class="row">
                 <div class="col-md-4 col-sm-3">
                     <strong>
-                        {{ $vehicles->name }}
+                        {{ $vehicle->name }}
                     </strong>
                 </div>
                 <div class="col-md-8 col-sm-9">
+                    @include('layouts.partials.buttons.edit', ['url' => route('vehicles.edit', $vehicle)])
+                    @include('layouts.partials.buttons.delete', ['url' => route('vehicles.destroy', $vehicle)])
                 </div>
             </div>
         </li>
