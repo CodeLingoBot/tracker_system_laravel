@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST"
+    <form  method="POST"
           action="{{ $trackerType->id ? route('tracker_types.update', $trackerType) : route('tracker_types.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}

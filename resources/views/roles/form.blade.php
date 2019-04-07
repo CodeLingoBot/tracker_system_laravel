@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST" action="{{ $role->id ? route('roles.update', $role) : route('roles.store') }}"
+    <form  method="POST" action="{{ $role->id ? route('roles.update', $role) : route('roles.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}
         @if($role->id) @method("PUT") @endif

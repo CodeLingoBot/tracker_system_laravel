@@ -66,6 +66,16 @@
             filter: brightness(0.9);
         }
     </style>
+    <style>
+        @if(Auth::guest())
+        .content-header, .main-sidebar, .main-header{
+            display: none !important;
+        }
+        .sidebar-mini.sidebar-collapse .content-wrapper{
+            margin-left: 0px !important;
+        }
+        @endif
+    </style>
     @yield('template_linked_css')
     @yield('stylesheets')
 

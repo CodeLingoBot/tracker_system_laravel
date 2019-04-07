@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST" action="{{ $driver->id ? route('drivers.update', $driver) : route('drivers.store') }}"
+    <form  method="POST" action="{{ $driver->id ? route('drivers.update', $driver) : route('drivers.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}
         @if($driver->id) @method("PUT") @endif

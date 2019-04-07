@@ -11,7 +11,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST"
+    <form  method="POST"
           action="{{ $vehicle->id ? route('vehicles.update', $vehicle) : route('vehicles.store', ['final_user_id'=>$finalUserId]) }}"
           style="width: 100%;">
         {{ csrf_field() }}

@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST" action="{{ $fence->id?route('fences.update', $fence):route('fences.store') }}"
+    <form  method="POST" action="{{ $fence->id?route('fences.update', $fence):route('fences.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}
         @if($fence->id) @method("PUT") @endif

@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST"
+    <form  method="POST"
           action="{{ $setting->id ? route('settings.update', $setting) : route('settings.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}

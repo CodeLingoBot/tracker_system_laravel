@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST"
+    <form  method="POST"
           action="{{ $fleet->id ? route('fleets.update', $fleet) : route('fleets.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}

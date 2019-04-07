@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST" action="{{ $city->id?route('cities.update', $city):route('cities.store') }}"
+    <form  method="POST" action="{{ $city->id?route('cities.update', $city):route('cities.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}
         @if($city->id) @method('PUT') @endif

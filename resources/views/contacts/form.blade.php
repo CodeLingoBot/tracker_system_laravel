@@ -12,7 +12,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST"
+    <form  method="POST"
           action="{{ $contact->id ? route('contacts.update', $contact) : route('contacts.store') }}?user_id={{ $user->id }}"
           style="width: 100%;">
         {{ csrf_field() }}

@@ -11,7 +11,7 @@
     </div>
 @stop
 @section('layout-content')
-    <form class="" method="POST" action="{{ $state->id ? route('states.update', $state) : route('states.store') }}"
+    <form  method="POST" action="{{ $state->id ? route('states.update', $state) : route('states.store') }}"
           style="width: 100%;">
         {{ csrf_field() }}
         @if($state->id) @method("PUT") @endif
