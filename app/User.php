@@ -43,10 +43,18 @@ class User extends Authenticatable
     public static function paginate($size)
     {
         $user = \Auth::user();
-        $parent = parent::where('id', '<>', $user->id);
         if ($user->isSubAdmin())
-            $parent = $parent->where(["created_by" => $user->id]);
-        return $parent->paginate($size);
+            return parent::where('id', '<>', $user->id)->where(["created_by" => $user->id])->paginate($size);
+        else if ($user->isAdmin()){
+            $usersId = [];
+            Role::where('slug', 'admin')->orWhere('slug', 'subadmin')->get()->each(function($role) use (&$usersId) {
+                return $role->users->each(function($user) use (&$usersId){
+                    $usersId[] = $user->id;
+                });
+            });
+            sort($usersId);
+            return parent::where('id', '<>', $user->id)->whereIn('id', $usersId)->paginate($size);
+        }
     }
 
     private static function getSubAdminRole()
@@ -102,6 +110,6 @@ class User extends Authenticatable
     }
 
     public function vehicles(){
-        return $this->hasMany('App\Vehicle', 'id', 'final_user_id');
+        return $this->hasMany('App\Vehicle', 'final_user_id', 'id');
     }
 }
