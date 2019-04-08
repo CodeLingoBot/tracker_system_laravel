@@ -182,6 +182,7 @@ return [
         Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
         FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        Sentry\Laravel\ServiceProvider::class,
     ],
 
     /*
@@ -235,6 +236,7 @@ return [
         'GMaps' => FarhanWazir\GoogleMaps\Facades\GMapsFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'Setting' => App\Setting::class,
+        'Sentry' => Sentry\Laravel\Facade::class,
     ],
 
 ];
