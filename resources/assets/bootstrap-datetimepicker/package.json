@@ -26,10 +26,10 @@
   },
   "main": "./js/bootstrap-datetimepicker.js",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-version-check": "^0.3.7",
-    "jshint": "^2.9.4",
-    "load-grunt-tasks": "^3.4.1"
+    "grunt": "1.0.4",
+    "grunt-contrib-jshint": "1.1.0",
+    "grunt-version-check": "0.3.8",
+    "jshint": "2.10.2",
+    "load-grunt-tasks": "3.5.2"
   }
 }
