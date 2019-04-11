@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e810e71314d1e991b5540909f30e4348",
+    "content-hash": "1dfbc314f3b346fbad22e3fd379702dc",
     "packages": [
         {
             "name": "alexusmai/laravel-file-manager",
@@ -1196,16 +1196,16 @@
         },
         {
             "name": "jeremykenedy/laravel-users",
-            "version": "v3.2.0",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremykenedy/laravel-users.git",
-                "reference": "efddd355db1f0754a3b79524a1acafbe8dcd9974"
+                "reference": "2d2755402262f41b054feec1c11f4b8298e58155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremykenedy/laravel-users/zipball/efddd355db1f0754a3b79524a1acafbe8dcd9974",
-                "reference": "efddd355db1f0754a3b79524a1acafbe8dcd9974",
+                "url": "https://api.github.com/repos/jeremykenedy/laravel-users/zipball/2d2755402262f41b054feec1c11f4b8298e58155",
+                "reference": "2d2755402262f41b054feec1c11f4b8298e58155",
                 "shasum": ""
             },
             "require": {
@@ -1248,7 +1248,7 @@
                 "laravel",
                 "management"
             ],
-            "time": "2019-03-23T03:19:14+00:00"
+            "time": "2019-04-05T05:22:07+00:00"
         },
         {
             "name": "jeroennoten/laravel-adminlte",
