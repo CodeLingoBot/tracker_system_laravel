@@ -1,4 +1,5 @@
 <?php
+include '_functions.php';
 include __DIR__.'/../vendor/autoload.php';
 $GLOBALS['logger'] = [];
 function log_info($file, $message){
