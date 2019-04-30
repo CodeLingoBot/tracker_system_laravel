@@ -17,7 +17,8 @@
     "jeroennoten/laravel-adminlte": "1.25.1",
     "laravel/framework": "5.8.13",
     "laravel/tinker": "1.0.8",
-    "sentry/sentry-laravel": "1.0.1"
+    "sentry/sentry-laravel": "1.0.1",
+    "katzgrau/klogger": "dev-master"
   },
   "require-dev": {
     "fzaninotto/faker": "1.8.0",
