@@ -15,10 +15,11 @@
     "jeremykenedy/laravel-roles": "1.6.0",
     "jeremykenedy/laravel-users": "3.3.0",
     "jeroennoten/laravel-adminlte": "1.25.1",
+    "katzgrau/klogger": "dev-master",
     "laravel/framework": "5.8.13",
     "laravel/tinker": "1.0.8",
     "sentry/sentry-laravel": "1.0.1",
-    "katzgrau/klogger": "dev-master"
+    "vlucas/phpdotenv": "^3.3"
   },
   "require-dev": {
     "fzaninotto/faker": "1.8.0",
