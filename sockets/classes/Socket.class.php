@@ -24,11 +24,11 @@ class Socket{
                         break;
                     }
                     do {
-                        if (false === ($buf = socket_read($msgsock, 2048, PHP_NORMAL_READ))) {
+                        if (false === ($buffer = socket_read($msgsock))) {
                             log_info("app_crx1","socket_read() failed: reason: " . socket_strerror(socket_last_error($msgsock)));
                             break 2;
                         }
-                        $function($buf);
+                        $function($buffer);
                     } while (true);
                     socket_close($msgsock);
                 } while (true);
