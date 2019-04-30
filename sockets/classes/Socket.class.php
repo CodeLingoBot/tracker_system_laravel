@@ -7,14 +7,17 @@ class Socket{
             {
                 if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
                     log_info("app_crx1","socket_create() failed: reason: " . socket_strerror(socket_last_error()));
+                    continue;
                 }
 
                 if (socket_bind($sock, $address, $port) === false) {
                     log_info("app_crx1","socket_bind() failed: reason: " . socket_strerror(socket_last_error($sock)));
+                    continue;
                 }
 
                 if (socket_listen($sock, 5) === false) {
                     log_info("app_crx1","socket_listen() failed: reason: " . socket_strerror(socket_last_error($sock)));
+                    continue;
                 }
 
                 do {
@@ -32,6 +35,7 @@ class Socket{
             } catch (Exception $exception) {
                 log_info("app_crx1","Exception: ". $exception->getMessage());
             }
+            sleep(5);
         }
 	}
 }
