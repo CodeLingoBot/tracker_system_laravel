@@ -22,6 +22,6 @@ function buffer2hex($data)
 		$retorno .= implode(' ', str_split($line,2));
 		$offset += $width;
 	}
-	return $retorno;
 	sprintf($retorno);
+	return $retorno;
 }
