@@ -19,7 +19,7 @@ class Socket{
 			if (($msgsock = socket_accept($sock)) === false) {
 				log_info("app_crx1","socket_accept() failed: reason: " . socket_strerror(socket_last_error($sock)));
 				break;
-			}		
+			}
 			do {
 				if (false === ($buf = socket_read($msgsock, 2048, PHP_NORMAL_READ))) {
 					log_info("app_crx1","socket_read() failed: reason: " . socket_strerror(socket_last_error($msgsock)));
