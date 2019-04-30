@@ -23,7 +23,7 @@ class Socket{
                         log_info("app_crx1","socket_accept() failed: reason: " . socket_strerror(socket_last_error($sock)));
                         break;
                     }
-                    while(socket_recv($msgSock, $buffer, 2048, 0x40)) {
+                    while(socket_recv($msgSock, $buffer, 2048, 0x40) !== 0) {
                         $function($buffer);
                     }
                     socket_close($msgSock);
