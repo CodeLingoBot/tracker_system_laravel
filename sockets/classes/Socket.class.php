@@ -19,18 +19,14 @@ class Socket{
 
                 do {
                     log_info("app_crx1","waiting");
-                    if (($msgsock = socket_accept($sock)) === false) {
+                    if (($msgSock = socket_accept($sock)) === false) {
                         log_info("app_crx1","socket_accept() failed: reason: " . socket_strerror(socket_last_error($sock)));
                         break;
                     }
-                    do {
-                        if (false === ($buffer = socket_read($msgsock))) {
-                            log_info("app_crx1","socket_read() failed: reason: " . socket_strerror(socket_last_error($msgsock)));
-                            break 2;
-                        }
+                    while(socket_recv($msgSock, $buffer, 2048, 0x40)) {
                         $function($buffer);
-                    } while (true);
-                    socket_close($msgsock);
+                    }
+                    socket_close($msgSock);
                 } while (true);
                 socket_close($sock);
             } catch (Exception $exception) {
