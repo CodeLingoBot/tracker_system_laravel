@@ -21,6 +21,7 @@ function buffer2hex($data)
 	$chars = str_split(strtr($data, $from, $to), $width);
 
 	$offset = 0;
+	$retorno = "";
 	foreach ($hex as $i => $line)
 	{
 		$implosion = implode(' ', str_split($line,2));
