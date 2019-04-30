@@ -11,10 +11,4 @@ function log_info($file, $message){
     $GLOBALS['logger'][$file]->info($message);
 }
 include 'config/_general.php';
-include 'classes/CRC.class.php';
-include 'classes/Hex.class.php';
-include 'classes/Notify.class.php';
-include 'classes/Point.class.php';
-include 'classes/Serial.class.php';
 include 'classes/Socket.class.php';
-include 'classes/Tracker.class.php';
