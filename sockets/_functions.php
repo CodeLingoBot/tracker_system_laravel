@@ -1,11 +1,11 @@
 <?php
 function buffer2hex($data)
 {
-	static $from = '';
-	static $to = '';
-	static $width = 50; # number of bytes per line
-	static $pad = '.'; # padding for non-visible characters
-	if ($from==='')
+	$from = '';
+	$to = '';
+	$width = 50;
+	$pad = '.';
+	if ($from ==='')
 	{
 		for ($i=0; $i<=0xFF; $i++)
 		{

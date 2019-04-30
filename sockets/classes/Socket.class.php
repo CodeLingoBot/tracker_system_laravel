@@ -25,7 +25,6 @@ class Socket{
                     }
                     while(socket_recv($msgSock, $buffer, 2048, 0x40) !== 0) {
                         $function($buffer);
-		                sleep(1);
                     }
                     socket_close($msgSock);
                 } while (true);
