@@ -29,5 +29,5 @@ function buffer2hex($data)
 		log_info("app_crx1", sprintf('%6X', $offset).' : ' . $implosion . ' [' . $chars[$i] . ']');
 		$offset += $width;
 	}
-	return $implosion;
+	return $retorno;
 }
