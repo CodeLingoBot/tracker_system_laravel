@@ -9,6 +9,7 @@ function log_info($file, $message){
         ]);
     }
     $GLOBALS['logger'][$file]->info($message);
+    echo $message."\n";
 }
 include 'config/_general.php';
 include 'classes/Socket.class.php';

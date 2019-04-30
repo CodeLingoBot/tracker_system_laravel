@@ -49,7 +49,7 @@ function hex_dump($data, $newline="\n")
     $offset = 0;
     foreach ($hex as $i => $line)
     {
-      lof_info(sprintf('%6X',$offset).' : '.implode(' ', str_split($line,2)) . ' [' . $chars[$i] . ']');
+      log_info(sprintf('%6X',$offset).' : '.implode(' ', str_split($line,2)) . ' [' . $chars[$i] . ']');
       $offset += $width;
     }
 }
