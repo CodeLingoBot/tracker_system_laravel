@@ -4,7 +4,7 @@ class CRX{
     public $imei;
     private static $config;
 
-    public function protocol01($hexArray){
+    public function protocol01($buffer, $hexArray){
         $this->imei = '';
         for($i=4; $i<12; $i++){
             $this->imei = $this->imei.$hexArray[$i];
@@ -12,7 +12,7 @@ class CRX{
         $this->imei = substr($this->imei, 1, 15);
         $commandArr = array();
         $command = '78 78 05 01 '.strtoupper($hexArray[12]).' '.strtoupper($hexArray[13]);
-        $newString = chr(0x05).chr(0x01).$hexArray[12].$hexArray[13];
+        $newString = chr(0x05).chr(0x01).$buffer[12].$buffer[13];
         $crc16 = $this->getCrc16($newString, strlen($newString));
         $crc16h = floor($crc16/256);
         $crc16l = $crc16 - $crc16h*256;
