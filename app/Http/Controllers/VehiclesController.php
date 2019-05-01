@@ -97,7 +97,7 @@ class VehiclesController extends Controller
     public function show(Vehicle $vehicle)
     {
         return view('vehicles.show', [
-            'last_location' => LocationInformation::where('imei', $vehicle->uuid)->last()
+            'last_location' => LocationInformation::where('imei', $vehicle->uuid)->order_by('created_at', 'desc')->first()
         ]);
     }
 
