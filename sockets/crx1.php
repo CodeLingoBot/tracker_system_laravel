@@ -14,6 +14,8 @@ Socket::loop(CRX::config('ip'), CRX::config('port'), function ($buffer, $socket)
     try{
         if (method_exists($crx, "protocol".$protocolNumber))
             $command = $crx->{"protocol".$protocolNumber}($buffer, $hexArray);
+        else
+            log_info("app_crx1", "'protocol".$protocolNumber."' not implemented");
     } catch(Exception $e){
         $command = false;
         log_info("app_crx1", $e->getMessage());
