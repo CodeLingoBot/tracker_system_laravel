@@ -100,8 +100,10 @@ class VehiclesController extends Controller
         $lastLocation = LocationInformation::where('imei', $vehicle->uuid)->orderBy('created_at', 'desc')->first();
         $map = null;
         if ($lastLocation){
-            GMaps::initialize();
-            $map = GMaps::create_map(['center'=>$lastLocation->latitude_decimal.";".$lastLocation->longitude_decimal]);
+            GMaps::initialize(['center'=>$lastLocation->latitude_decimal.";".$lastLocation->longitude_decimal]);
+            $map = GMaps::create_map();
+            $marker = array();
+            $map->add_marker($marker);
         }
         return view('vehicles.show', [
             'map' => $map
