@@ -25,12 +25,12 @@ class DB{
         $keyArr = [];
         foreach($data as $key => $value){
             $keyArr[] = $key;
-            if (is_string($value)){
+            if ($value === NULL){
+                $valuesArr[] =  "NULL";
+            }else if (is_string($value)){
                 $valuesArr[] =  "'".$value."'";
             } elseif (is_bool($value)){
                 $valuesArr[] =  $value ? "true" : "false";
-            } elseif ($value === NULL){
-                $valuesArr[] =  "NULL";
             } else {
                 $valuesArr[] =  $value;
             }
