@@ -24,4 +24,4 @@ Socket::loop(CRX::config('ip'), CRX::config('port'), function ($buffer, $socket,
     if ($command){
         socket_send($socket, $command, strlen($command), 0);
     }
-});
+}, 'CRX');
