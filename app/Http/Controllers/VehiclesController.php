@@ -101,8 +101,7 @@ class VehiclesController extends Controller
         $map = null;
         if ($lastLocation){
             GMaps::initialize(['center'=>$lastLocation->latitude_decimal.";".$lastLocation->longitude_decimal]);
-            $gmap = new GMaps();
-            $gmap->add_marker(['position'=>$lastLocation->latitude_decimal.";".$lastLocation->longitude_decimal]);
+            Gmaps::add_marker(['position'=>$lastLocation->latitude_decimal.";".$lastLocation->longitude_decimal]);
             $map = GMaps::create_map();
         }
         return view('vehicles.show', [
