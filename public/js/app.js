@@ -36,12 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -57,18 +77,24 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
+/******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ "./node_modules/jquery/dist/jquery.js":
+/*!********************************************!*\
+  !*** ./node_modules/jquery/dist/jquery.js ***!
+  \********************************************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.3.1
+ * jQuery JavaScript Library v3.4.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -78,13 +104,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2018-01-20T17:24Z
+ * Date: 2019-04-10T19:48Z
  */
 ( function( global, factory ) {
 
 	"use strict";
 
-	if ( typeof module === "object" && typeof module.exports === "object" ) {
+	if (  true && typeof module.exports === "object" ) {
 
 		// For CommonJS and CommonJS-like environments where a proper `window`
 		// is present, execute the factory and get jQuery.
@@ -160,20 +186,33 @@ var isWindow = function isWindow( obj ) {
 	var preservedScriptAttributes = {
 		type: true,
 		src: true,
+		nonce: true,
 		noModule: true
 	};
 
-	function DOMEval( code, doc, node ) {
+	function DOMEval( code, node, doc ) {
 		doc = doc || document;
 
-		var i,
+		var i, val,
 			script = doc.createElement( "script" );
 
 		script.text = code;
 		if ( node ) {
 			for ( i in preservedScriptAttributes ) {
-				if ( node[ i ] ) {
-					script[ i ] = node[ i ];
+
+				// Support: Firefox 64+, Edge 18+
+				// Some browsers don't support the "nonce" property on scripts.
+				// On the other hand, just using `getAttribute` is not enough as
+				// the `nonce` attribute is reset to an empty string whenever it
+				// becomes browsing-context connected.
+				// See https://github.com/whatwg/html/issues/2369
+				// See https://html.spec.whatwg.org/#nonce-attributes
+				// The `node.getAttribute` check was added for the sake of
+				// `jQuery.globalEval` so that it can fake a nonce-containing node
+				// via an object.
+				val = node[ i ] || node.getAttribute && node.getAttribute( i );
+				if ( val ) {
+					script.setAttribute( i, val );
 				}
 			}
 		}
@@ -198,7 +237,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.3.1",
+	version = "3.4.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -327,25 +366,28 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 			// Extend the base object
 			for ( name in options ) {
-				src = target[ name ];
 				copy = options[ name ];
 
+				// Prevent Object.prototype pollution
 				// Prevent never-ending loop
-				if ( target === copy ) {
+				if ( name === "__proto__" || target === copy ) {
 					continue;
 				}
 
 				// Recurse if we're merging plain objects or arrays
 				if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
 					( copyIsArray = Array.isArray( copy ) ) ) ) {
+					src = target[ name ];
 
-					if ( copyIsArray ) {
-						copyIsArray = false;
-						clone = src && Array.isArray( src ) ? src : [];
-
+					// Ensure proper type for the source value
+					if ( copyIsArray && !Array.isArray( src ) ) {
+						clone = [];
+					} else if ( !copyIsArray && !jQuery.isPlainObject( src ) ) {
+						clone = {};
 					} else {
-						clone = src && jQuery.isPlainObject( src ) ? src : {};
+						clone = src;
 					}
+					copyIsArray = false;
 
 					// Never move original objects, clone them
 					target[ name ] = jQuery.extend( deep, clone, copy );
@@ -398,9 +440,6 @@ jQuery.extend( {
 	},
 
 	isEmptyObject: function( obj ) {
-
-		/* eslint-disable no-unused-vars */
-		// See https://github.com/eslint/eslint/issues/6125
 		var name;
 
 		for ( name in obj ) {
@@ -410,8 +449,8 @@ jQuery.extend( {
 	},
 
 	// Evaluates a script in a global context
-	globalEval: function( code ) {
-		DOMEval( code );
+	globalEval: function( code, options ) {
+		DOMEval( code, { nonce: options && options.nonce } );
 	},
 
 	each: function( obj, callback ) {
@@ -567,14 +606,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.3.3
+ * Sizzle CSS Selector Engine v2.3.4
  * https://sizzlejs.com/
  *
- * Copyright jQuery Foundation and other contributors
+ * Copyright JS Foundation and other contributors
  * Released under the MIT license
- * http://jquery.org/license
+ * https://js.foundation/
  *
- * Date: 2016-08-08
+ * Date: 2019-04-08
  */
 (function( window ) {
 
@@ -608,6 +647,7 @@ var i,
 	classCache = createCache(),
 	tokenCache = createCache(),
 	compilerCache = createCache(),
+	nonnativeSelectorCache = createCache(),
 	sortOrder = function( a, b ) {
 		if ( a === b ) {
 			hasDuplicate = true;
@@ -669,8 +709,7 @@ var i,
 
 	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
 	rcombinators = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace + "*" ),
-
-	rattributeQuotes = new RegExp( "=" + whitespace + "*([^\\]'\"]*?)" + whitespace + "*\\]", "g" ),
+	rdescend = new RegExp( whitespace + "|>" ),
 
 	rpseudo = new RegExp( pseudos ),
 	ridentifier = new RegExp( "^" + identifier + "$" ),
@@ -691,6 +730,7 @@ var i,
 			whitespace + "*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i" )
 	},
 
+	rhtml = /HTML$/i,
 	rinputs = /^(?:input|select|textarea|button)$/i,
 	rheader = /^h\d$/i,
 
@@ -745,9 +785,9 @@ var i,
 		setDocument();
 	},
 
-	disabledAncestor = addCombinator(
+	inDisabledFieldset = addCombinator(
 		function( elem ) {
-			return elem.disabled === true && ("form" in elem || "label" in elem);
+			return elem.disabled === true && elem.nodeName.toLowerCase() === "fieldset";
 		},
 		{ dir: "parentNode", next: "legend" }
 	);
@@ -860,18 +900,22 @@ function Sizzle( selector, context, results, seed ) {
 
 			// Take advantage of querySelectorAll
 			if ( support.qsa &&
-				!compilerCache[ selector + " " ] &&
-				(!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
+				!nonnativeSelectorCache[ selector + " " ] &&
+				(!rbuggyQSA || !rbuggyQSA.test( selector )) &&
 
-				if ( nodeType !== 1 ) {
-					newContext = context;
-					newSelector = selector;
-
-				// qSA looks outside Element context, which is not what we want
-				// Thanks to Andrew Dupont for this workaround technique
-				// Support: IE <=8
+				// Support: IE 8 only
 				// Exclude object elements
-				} else if ( context.nodeName.toLowerCase() !== "object" ) {
+				(nodeType !== 1 || context.nodeName.toLowerCase() !== "object") ) {
+
+				newSelector = selector;
+				newContext = context;
+
+				// qSA considers elements outside a scoping root when evaluating child or
+				// descendant combinators, which is not what we want.
+				// In such cases, we work around the behavior by prefixing every selector in the
+				// list with an ID selector referencing the scope context.
+				// Thanks to Andrew Dupont for this technique.
+				if ( nodeType === 1 && rdescend.test( selector ) ) {
 
 					// Capture the context ID, setting it first if necessary
 					if ( (nid = context.getAttribute( "id" )) ) {
@@ -893,17 +937,16 @@ function Sizzle( selector, context, results, seed ) {
 						context;
 				}
 
-				if ( newSelector ) {
-					try {
-						push.apply( results,
-							newContext.querySelectorAll( newSelector )
-						);
-						return results;
-					} catch ( qsaError ) {
-					} finally {
-						if ( nid === expando ) {
-							context.removeAttribute( "id" );
-						}
+				try {
+					push.apply( results,
+						newContext.querySelectorAll( newSelector )
+					);
+					return results;
+				} catch ( qsaError ) {
+					nonnativeSelectorCache( selector, true );
+				} finally {
+					if ( nid === expando ) {
+						context.removeAttribute( "id" );
 					}
 				}
 			}
@@ -1067,7 +1110,7 @@ function createDisabledPseudo( disabled ) {
 					// Where there is no isDisabled, check manually
 					/* jshint -W018 */
 					elem.isDisabled !== !disabled &&
-						disabledAncestor( elem ) === disabled;
+						inDisabledFieldset( elem ) === disabled;
 			}
 
 			return elem.disabled === disabled;
@@ -1124,10 +1167,13 @@ support = Sizzle.support = {};
  * @returns {Boolean} True iff elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
-	// documentElement is verified for cases where it doesn't yet exist
-	// (such as loading iframes in IE - #4833)
-	var documentElement = elem && (elem.ownerDocument || elem).documentElement;
-	return documentElement ? documentElement.nodeName !== "HTML" : false;
+	var namespace = elem.namespaceURI,
+		docElem = (elem.ownerDocument || elem).documentElement;
+
+	// Support: IE <=8
+	// Assume HTML when documentElement doesn't yet exist, such as inside loading iframes
+	// https://bugs.jquery.com/ticket/4833
+	return !rhtml.test( namespace || docElem && docElem.nodeName || "HTML" );
 };
 
 /**
@@ -1549,11 +1595,8 @@ Sizzle.matchesSelector = function( elem, expr ) {
 		setDocument( elem );
 	}
 
-	// Make sure that attribute selectors are quoted
-	expr = expr.replace( rattributeQuotes, "='$1']" );
-
 	if ( support.matchesSelector && documentIsHTML &&
-		!compilerCache[ expr + " " ] &&
+		!nonnativeSelectorCache[ expr + " " ] &&
 		( !rbuggyMatches || !rbuggyMatches.test( expr ) ) &&
 		( !rbuggyQSA     || !rbuggyQSA.test( expr ) ) ) {
 
@@ -1567,7 +1610,9 @@ Sizzle.matchesSelector = function( elem, expr ) {
 					elem.document && elem.document.nodeType !== 11 ) {
 				return ret;
 			}
-		} catch (e) {}
+		} catch (e) {
+			nonnativeSelectorCache( expr, true );
+		}
 	}
 
 	return Sizzle( expr, document, null, [ elem ] ).length > 0;
@@ -2026,7 +2071,7 @@ Expr = Sizzle.selectors = {
 		"contains": markFunction(function( text ) {
 			text = text.replace( runescape, funescape );
 			return function( elem ) {
-				return ( elem.textContent || elem.innerText || getText( elem ) ).indexOf( text ) > -1;
+				return ( elem.textContent || getText( elem ) ).indexOf( text ) > -1;
 			};
 		}),
 
@@ -2165,7 +2210,11 @@ Expr = Sizzle.selectors = {
 		}),
 
 		"lt": createPositionalPseudo(function( matchIndexes, length, argument ) {
-			var i = argument < 0 ? argument + length : argument;
+			var i = argument < 0 ?
+				argument + length :
+				argument > length ?
+					length :
+					argument;
 			for ( ; --i >= 0; ) {
 				matchIndexes.push( i );
 			}
@@ -3215,18 +3264,18 @@ jQuery.each( {
 		return siblings( elem.firstChild );
 	},
 	contents: function( elem ) {
-        if ( nodeName( elem, "iframe" ) ) {
-            return elem.contentDocument;
-        }
+		if ( typeof elem.contentDocument !== "undefined" ) {
+			return elem.contentDocument;
+		}
 
-        // Support: IE 9 - 11 only, iOS 7 only, Android Browser <=4.3 only
-        // Treat the template element as a regular one in browsers that
-        // don't support it.
-        if ( nodeName( elem, "template" ) ) {
-            elem = elem.content || elem;
-        }
+		// Support: IE 9 - 11 only, iOS 7 only, Android Browser <=4.3 only
+		// Treat the template element as a regular one in browsers that
+		// don't support it.
+		if ( nodeName( elem, "template" ) ) {
+			elem = elem.content || elem;
+		}
 
-        return jQuery.merge( [], elem.childNodes );
+		return jQuery.merge( [], elem.childNodes );
 	}
 }, function( name, fn ) {
 	jQuery.fn[ name ] = function( until, selector ) {
@@ -4535,6 +4584,22 @@ var rcssNum = new RegExp( "^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i" );
 
 var cssExpand = [ "Top", "Right", "Bottom", "Left" ];
 
+var documentElement = document.documentElement;
+
+
+
+	var isAttached = function( elem ) {
+			return jQuery.contains( elem.ownerDocument, elem );
+		},
+		composed = { composed: true };
+
+	// Check attachment across shadow DOM boundaries when possible (gh-3504)
+	if ( documentElement.attachShadow ) {
+		isAttached = function( elem ) {
+			return jQuery.contains( elem.ownerDocument, elem ) ||
+				elem.getRootNode( composed ) === elem.ownerDocument;
+		};
+	}
 var isHiddenWithinTree = function( elem, el ) {
 
 		// isHiddenWithinTree might be called from jQuery#filter function;
@@ -4549,7 +4614,7 @@ var isHiddenWithinTree = function( elem, el ) {
 			// Support: Firefox <=43 - 45
 			// Disconnected elements can have computed display: none, so first confirm that elem is
 			// in the document.
-			jQuery.contains( elem.ownerDocument, elem ) &&
+			isAttached( elem ) &&
 
 			jQuery.css( elem, "display" ) === "none";
 	};
@@ -4591,7 +4656,8 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 		unit = valueParts && valueParts[ 3 ] || ( jQuery.cssNumber[ prop ] ? "" : "px" ),
 
 		// Starting value computation is required for potential unit mismatches
-		initialInUnit = ( jQuery.cssNumber[ prop ] || unit !== "px" && +initial ) &&
+		initialInUnit = elem.nodeType &&
+			( jQuery.cssNumber[ prop ] || unit !== "px" && +initial ) &&
 			rcssNum.exec( jQuery.css( elem, prop ) );
 
 	if ( initialInUnit && initialInUnit[ 3 ] !== unit ) {
@@ -4738,7 +4804,7 @@ jQuery.fn.extend( {
 } );
 var rcheckableType = ( /^(?:checkbox|radio)$/i );
 
-var rtagName = ( /<([a-z][^\/\0>\x20\t\r\n\f]+)/i );
+var rtagName = ( /<([a-z][^\/\0>\x20\t\r\n\f]*)/i );
 
 var rscriptType = ( /^$|^module$|\/(?:java|ecma)script/i );
 
@@ -4810,7 +4876,7 @@ function setGlobalEval( elems, refElements ) {
 var rhtml = /<|&#?\w+;/;
 
 function buildFragment( elems, context, scripts, selection, ignored ) {
-	var elem, tmp, tag, wrap, contains, j,
+	var elem, tmp, tag, wrap, attached, j,
 		fragment = context.createDocumentFragment(),
 		nodes = [],
 		i = 0,
@@ -4874,13 +4940,13 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 			continue;
 		}
 
-		contains = jQuery.contains( elem.ownerDocument, elem );
+		attached = isAttached( elem );
 
 		// Append to fragment
 		tmp = getAll( fragment.appendChild( elem ), "script" );
 
 		// Preserve script evaluation history
-		if ( contains ) {
+		if ( attached ) {
 			setGlobalEval( tmp );
 		}
 
@@ -4923,8 +4989,6 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 	div.innerHTML = "<textarea>x</textarea>";
 	support.noCloneChecked = !!div.cloneNode( true ).lastChild.defaultValue;
 } )();
-var documentElement = document.documentElement;
-
 
 
 var
@@ -4940,8 +5004,19 @@ function returnFalse() {
 	return false;
 }
 
+// Support: IE <=9 - 11+
+// focus() and blur() are asynchronous, except when they are no-op.
+// So expect focus to be synchronous when the element is already active,
+// and blur to be synchronous when the element is not already active.
+// (focus and blur are always synchronous in other supported browsers,
+// this just defines when we can count on it).
+function expectSync( elem, type ) {
+	return ( elem === safeActiveElement() ) === ( type === "focus" );
+}
+
 // Support: IE <=9 only
-// See #13393 for more info
+// Accessing document.activeElement can throw unexpectedly
+// https://bugs.jquery.com/ticket/13393
 function safeActiveElement() {
 	try {
 		return document.activeElement;
@@ -5241,9 +5316,10 @@ jQuery.event = {
 			while ( ( handleObj = matched.handlers[ j++ ] ) &&
 				!event.isImmediatePropagationStopped() ) {
 
-				// Triggered event must either 1) have no namespace, or 2) have namespace(s)
-				// a subset or equal to those in the bound event (both can have no namespace).
-				if ( !event.rnamespace || event.rnamespace.test( handleObj.namespace ) ) {
+				// If the event is namespaced, then each handler is only invoked if it is
+				// specially universal or its namespaces are a superset of the event's.
+				if ( !event.rnamespace || handleObj.namespace === false ||
+					event.rnamespace.test( handleObj.namespace ) ) {
 
 					event.handleObj = handleObj;
 					event.data = handleObj.data;
@@ -5367,39 +5443,53 @@ jQuery.event = {
 			// Prevent triggered image.load events from bubbling to window.load
 			noBubble: true
 		},
-		focus: {
-
-			// Fire native event if possible so blur/focus sequence is correct
-			trigger: function() {
-				if ( this !== safeActiveElement() && this.focus ) {
-					this.focus();
-					return false;
-				}
-			},
-			delegateType: "focusin"
-		},
-		blur: {
-			trigger: function() {
-				if ( this === safeActiveElement() && this.blur ) {
-					this.blur();
-					return false;
-				}
-			},
-			delegateType: "focusout"
-		},
 		click: {
 
-			// For checkbox, fire native event so checked state will be right
-			trigger: function() {
-				if ( this.type === "checkbox" && this.click && nodeName( this, "input" ) ) {
-					this.click();
-					return false;
+			// Utilize native event to ensure correct state for checkable inputs
+			setup: function( data ) {
+
+				// For mutual compressibility with _default, replace `this` access with a local var.
+				// `|| data` is dead code meant only to preserve the variable through minification.
+				var el = this || data;
+
+				// Claim the first handler
+				if ( rcheckableType.test( el.type ) &&
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
+
+					// dataPriv.set( el, "click", ... )
+					leverageNative( el, "click", returnTrue );
 				}
+
+				// Return false to allow normal processing in the caller
+				return false;
+			},
+			trigger: function( data ) {
+
+				// For mutual compressibility with _default, replace `this` access with a local var.
+				// `|| data` is dead code meant only to preserve the variable through minification.
+				var el = this || data;
+
+				// Force setup before triggering a click
+				if ( rcheckableType.test( el.type ) &&
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
+
+					leverageNative( el, "click" );
+				}
+
+				// Return non-false to allow normal event-path propagation
+				return true;
 			},
 
-			// For cross-browser consistency, don't fire native .click() on links
+			// For cross-browser consistency, suppress native .click() on links
+			// Also prevent it if we're currently inside a leveraged native-event stack
 			_default: function( event ) {
-				return nodeName( event.target, "a" );
+				var target = event.target;
+				return rcheckableType.test( target.type ) &&
+					target.click && nodeName( target, "input" ) &&
+					dataPriv.get( target, "click" ) ||
+					nodeName( target, "a" );
 			}
 		},
 
@@ -5415,6 +5505,85 @@ jQuery.event = {
 		}
 	}
 };
+
+// Ensure the presence of an event listener that handles manually-triggered
+// synthetic events by interrupting progress until reinvoked in response to
+// *native* events that it fires directly, ensuring that state changes have
+// already occurred before other listeners are invoked.
+function leverageNative( el, type, expectSync ) {
+
+	// Missing expectSync indicates a trigger call, which must force setup through jQuery.event.add
+	if ( !expectSync ) {
+		jQuery.event.add( el, type, returnTrue );
+		return;
+	}
+
+	// Register the controller as a special universal handler for all event namespaces
+	dataPriv.set( el, type, false );
+	jQuery.event.add( el, type, {
+		namespace: false,
+		handler: function( event ) {
+			var notAsync, result,
+				saved = dataPriv.get( this, type );
+
+			if ( ( event.isTrigger & 1 ) && this[ type ] ) {
+
+				// Interrupt processing of the outer synthetic .trigger()ed event
+				if ( !saved ) {
+
+					// Store arguments for use when handling the inner native event
+					saved = slice.call( arguments );
+					dataPriv.set( this, type, saved );
+
+					// Trigger the native event and capture its result
+					// Support: IE <=9 - 11+
+					// focus() and blur() are asynchronous
+					notAsync = expectSync( this, type );
+					this[ type ]();
+					result = dataPriv.get( this, type );
+					if ( saved !== result || notAsync ) {
+						dataPriv.set( this, type, false );
+					} else {
+						result = undefined;
+					}
+					if ( saved !== result ) {
+
+						// Cancel the outer synthetic event
+						event.stopImmediatePropagation();
+						event.preventDefault();
+						return result;
+					}
+
+				// If this is an inner synthetic event for an event with a bubbling surrogate
+				// (focus or blur), assume that the surrogate already propagated from triggering the
+				// native event and prevent that from happening again here.
+				// This technically gets the ordering wrong w.r.t. to `.trigger()` (in which the
+				// bubbling surrogate propagates *after* the non-bubbling base), but that seems
+				// less bad than duplication.
+				} else if ( ( jQuery.event.special[ type ] || {} ).delegateType ) {
+					event.stopPropagation();
+				}
+
+			// If this is a native event triggered above, everything is now in order
+			// Fire an inner synthetic event with the original arguments
+			} else if ( saved ) {
+
+				// ...and capture the result
+				dataPriv.set( this, type, jQuery.event.trigger(
+
+					// Support: IE <=9 - 11+
+					// Extend with the prototype to reset the above stopImmediatePropagation()
+					jQuery.extend( saved.shift(), jQuery.Event.prototype ),
+					saved,
+					this
+				) );
+
+				// Abort handling of the native event
+				event.stopImmediatePropagation();
+			}
+		}
+	} );
+}
 
 jQuery.removeEvent = function( elem, type, handle ) {
 
@@ -5528,6 +5697,7 @@ jQuery.each( {
 	shiftKey: true,
 	view: true,
 	"char": true,
+	code: true,
 	charCode: true,
 	key: true,
 	keyCode: true,
@@ -5573,6 +5743,33 @@ jQuery.each( {
 		return event.which;
 	}
 }, jQuery.event.addProp );
+
+jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateType ) {
+	jQuery.event.special[ type ] = {
+
+		// Utilize native event if possible so blur/focus sequence is correct
+		setup: function() {
+
+			// Claim the first handler
+			// dataPriv.set( this, "focus", ... )
+			// dataPriv.set( this, "blur", ... )
+			leverageNative( this, type, expectSync );
+
+			// Return false to allow normal processing in the caller
+			return false;
+		},
+		trigger: function() {
+
+			// Force setup before trigger
+			leverageNative( this, type );
+
+			// Return non-false to allow normal event-path propagation
+			return true;
+		},
+
+		delegateType: delegateType
+	};
+} );
 
 // Create mouseenter/leave events using mouseover/out and event-time checks
 // so that event delegation works in jQuery.
@@ -5824,11 +6021,13 @@ function domManip( collection, args, callback, ignored ) {
 						if ( node.src && ( node.type || "" ).toLowerCase()  !== "module" ) {
 
 							// Optional AJAX dependency, but won't run scripts if not present
-							if ( jQuery._evalUrl ) {
-								jQuery._evalUrl( node.src );
+							if ( jQuery._evalUrl && !node.noModule ) {
+								jQuery._evalUrl( node.src, {
+									nonce: node.nonce || node.getAttribute( "nonce" )
+								} );
 							}
 						} else {
-							DOMEval( node.textContent.replace( rcleanScript, "" ), doc, node );
+							DOMEval( node.textContent.replace( rcleanScript, "" ), node, doc );
 						}
 					}
 				}
@@ -5850,7 +6049,7 @@ function remove( elem, selector, keepData ) {
 		}
 
 		if ( node.parentNode ) {
-			if ( keepData && jQuery.contains( node.ownerDocument, node ) ) {
+			if ( keepData && isAttached( node ) ) {
 				setGlobalEval( getAll( node, "script" ) );
 			}
 			node.parentNode.removeChild( node );
@@ -5868,7 +6067,7 @@ jQuery.extend( {
 	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
 		var i, l, srcElements, destElements,
 			clone = elem.cloneNode( true ),
-			inPage = jQuery.contains( elem.ownerDocument, elem );
+			inPage = isAttached( elem );
 
 		// Fix IE cloning issues
 		if ( !support.noCloneChecked && ( elem.nodeType === 1 || elem.nodeType === 11 ) &&
@@ -6164,8 +6363,10 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 
 		// Support: IE 9 only
 		// Detect overflow:scroll screwiness (gh-3699)
+		// Support: Chrome <=64
+		// Don't get tricked when zoom affects offsetWidth (gh-4029)
 		div.style.position = "absolute";
-		scrollboxSizeVal = div.offsetWidth === 36 || "absolute";
+		scrollboxSizeVal = roundPixelMeasures( div.offsetWidth / 3 ) === 12;
 
 		documentElement.removeChild( container );
 
@@ -6236,7 +6437,7 @@ function curCSS( elem, name, computed ) {
 	if ( computed ) {
 		ret = computed.getPropertyValue( name ) || computed[ name ];
 
-		if ( ret === "" && !jQuery.contains( elem.ownerDocument, elem ) ) {
+		if ( ret === "" && !isAttached( elem ) ) {
 			ret = jQuery.style( elem, name );
 		}
 
@@ -6292,29 +6493,12 @@ function addGetHookIf( conditionFn, hookFn ) {
 }
 
 
-var
+var cssPrefixes = [ "Webkit", "Moz", "ms" ],
+	emptyStyle = document.createElement( "div" ).style,
+	vendorProps = {};
 
-	// Swappable if display is none or starts with table
-	// except "table", "table-cell", or "table-caption"
-	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
-	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
-	rcustomProp = /^--/,
-	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
-	cssNormalTransform = {
-		letterSpacing: "0",
-		fontWeight: "400"
-	},
-
-	cssPrefixes = [ "Webkit", "Moz", "ms" ],
-	emptyStyle = document.createElement( "div" ).style;
-
-// Return a css property mapped to a potentially vendor prefixed property
+// Return a vendor-prefixed property or undefined
 function vendorPropName( name ) {
-
-	// Shortcut for names that are not vendor prefixed
-	if ( name in emptyStyle ) {
-		return name;
-	}
 
 	// Check for vendor prefixed names
 	var capName = name[ 0 ].toUpperCase() + name.slice( 1 ),
@@ -6328,15 +6512,32 @@ function vendorPropName( name ) {
 	}
 }
 
-// Return a property mapped along what jQuery.cssProps suggests or to
-// a vendor prefixed property.
+// Return a potentially-mapped jQuery.cssProps or vendor prefixed property
 function finalPropName( name ) {
-	var ret = jQuery.cssProps[ name ];
-	if ( !ret ) {
-		ret = jQuery.cssProps[ name ] = vendorPropName( name ) || name;
+	var final = jQuery.cssProps[ name ] || vendorProps[ name ];
+
+	if ( final ) {
+		return final;
 	}
-	return ret;
+	if ( name in emptyStyle ) {
+		return name;
+	}
+	return vendorProps[ name ] = vendorPropName( name ) || name;
 }
+
+
+var
+
+	// Swappable if display is none or starts with table
+	// except "table", "table-cell", or "table-caption"
+	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
+	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
+	rcustomProp = /^--/,
+	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
+	cssNormalTransform = {
+		letterSpacing: "0",
+		fontWeight: "400"
+	};
 
 function setPositiveNumber( elem, value, subtract ) {
 
@@ -6409,7 +6610,10 @@ function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computed
 			delta -
 			extra -
 			0.5
-		) );
+
+		// If offsetWidth/offsetHeight is unknown, then we can't determine content-box scroll gutter
+		// Use an explicit zero to avoid NaN (gh-3964)
+		) ) || 0;
 	}
 
 	return delta;
@@ -6419,9 +6623,16 @@ function getWidthOrHeight( elem, dimension, extra ) {
 
 	// Start with computed style
 	var styles = getStyles( elem ),
+
+		// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-4322).
+		// Fake content-box until we know it's needed to know the true value.
+		boxSizingNeeded = !support.boxSizingReliable() || extra,
+		isBorderBox = boxSizingNeeded &&
+			jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+		valueIsBorderBox = isBorderBox,
+
 		val = curCSS( elem, dimension, styles ),
-		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
-		valueIsBorderBox = isBorderBox;
+		offsetProp = "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 );
 
 	// Support: Firefox <=54
 	// Return a confounding non-pixel value or feign ignorance, as appropriate.
@@ -6432,22 +6643,29 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		val = "auto";
 	}
 
-	// Check for style in case a browser which returns unreliable values
-	// for getComputedStyle silently falls back to the reliable elem.style
-	valueIsBorderBox = valueIsBorderBox &&
-		( support.boxSizingReliable() || val === elem.style[ dimension ] );
 
 	// Fall back to offsetWidth/offsetHeight when value is "auto"
 	// This happens for inline elements with no explicit setting (gh-3571)
 	// Support: Android <=4.1 - 4.3 only
 	// Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
-	if ( val === "auto" ||
-		!parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) {
+	// Support: IE 9-11 only
+	// Also use offsetWidth/offsetHeight for when box sizing is unreliable
+	// We use getClientRects() to check for hidden/disconnected.
+	// In those cases, the computed value can be trusted to be border-box
+	if ( ( !support.boxSizingReliable() && isBorderBox ||
+		val === "auto" ||
+		!parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) &&
+		elem.getClientRects().length ) {
 
-		val = elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ];
+		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
-		// offsetWidth/offsetHeight provide border-box values
-		valueIsBorderBox = true;
+		// Where available, offsetWidth/offsetHeight approximate border box dimensions.
+		// Where not available (e.g., SVG), assume unreliable box-sizing and interpret the
+		// retrieved value as a content box dimension.
+		valueIsBorderBox = offsetProp in elem;
+		if ( valueIsBorderBox ) {
+			val = elem[ offsetProp ];
+		}
 	}
 
 	// Normalize "" and auto
@@ -6493,6 +6711,13 @@ jQuery.extend( {
 		"flexGrow": true,
 		"flexShrink": true,
 		"fontWeight": true,
+		"gridArea": true,
+		"gridColumn": true,
+		"gridColumnEnd": true,
+		"gridColumnStart": true,
+		"gridRow": true,
+		"gridRowEnd": true,
+		"gridRowStart": true,
 		"lineHeight": true,
 		"opacity": true,
 		"order": true,
@@ -6548,7 +6773,9 @@ jQuery.extend( {
 			}
 
 			// If a number was passed in, add the unit (except for certain CSS properties)
-			if ( type === "number" ) {
+			// The isCustomProp check can be removed in jQuery 4.0 when we only auto-append
+			// "px" to a few hardcoded values.
+			if ( type === "number" && !isCustomProp ) {
 				value += ret && ret[ 3 ] || ( jQuery.cssNumber[ origName ] ? "" : "px" );
 			}
 
@@ -6648,18 +6875,29 @@ jQuery.each( [ "height", "width" ], function( i, dimension ) {
 		set: function( elem, value, extra ) {
 			var matches,
 				styles = getStyles( elem ),
-				isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
-				subtract = extra && boxModelAdjustment(
-					elem,
-					dimension,
-					extra,
-					isBorderBox,
-					styles
-				);
+
+				// Only read styles.position if the test has a chance to fail
+				// to avoid forcing a reflow.
+				scrollboxSizeBuggy = !support.scrollboxSize() &&
+					styles.position === "absolute",
+
+				// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-3991)
+				boxSizingNeeded = scrollboxSizeBuggy || extra,
+				isBorderBox = boxSizingNeeded &&
+					jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+				subtract = extra ?
+					boxModelAdjustment(
+						elem,
+						dimension,
+						extra,
+						isBorderBox,
+						styles
+					) :
+					0;
 
 			// Account for unreliable border-box dimensions by comparing offset* to computed and
 			// faking a content-box to get border and padding (gh-3699)
-			if ( isBorderBox && support.scrollboxSize() === styles.position ) {
+			if ( isBorderBox && scrollboxSizeBuggy ) {
 				subtract -= Math.ceil(
 					elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
 					parseFloat( styles[ dimension ] ) -
@@ -6827,9 +7065,9 @@ Tween.propHooks = {
 			// Use .style if available and use plain properties where available.
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );
-			} else if ( tween.elem.nodeType === 1 &&
-				( tween.elem.style[ jQuery.cssProps[ tween.prop ] ] != null ||
-					jQuery.cssHooks[ tween.prop ] ) ) {
+			} else if ( tween.elem.nodeType === 1 && (
+					jQuery.cssHooks[ tween.prop ] ||
+					tween.elem.style[ finalPropName( tween.prop ) ] != null ) ) {
 				jQuery.style( tween.elem, tween.prop, tween.now + tween.unit );
 			} else {
 				tween.elem[ tween.prop ] = tween.now;
@@ -8536,6 +8774,10 @@ jQuery.param = function( a, traditional ) {
 				encodeURIComponent( value == null ? "" : value );
 		};
 
+	if ( a == null ) {
+		return "";
+	}
+
 	// If an array was passed in, assume that it is an array of form elements.
 	if ( Array.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
 
@@ -9038,12 +9280,14 @@ jQuery.extend( {
 						if ( !responseHeaders ) {
 							responseHeaders = {};
 							while ( ( match = rheaders.exec( responseHeadersString ) ) ) {
-								responseHeaders[ match[ 1 ].toLowerCase() ] = match[ 2 ];
+								responseHeaders[ match[ 1 ].toLowerCase() + " " ] =
+									( responseHeaders[ match[ 1 ].toLowerCase() + " " ] || [] )
+										.concat( match[ 2 ] );
 							}
 						}
-						match = responseHeaders[ key.toLowerCase() ];
+						match = responseHeaders[ key.toLowerCase() + " " ];
 					}
-					return match == null ? null : match;
+					return match == null ? null : match.join( ", " );
 				},
 
 				// Raw string
@@ -9432,7 +9676,7 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 } );
 
 
-jQuery._evalUrl = function( url ) {
+jQuery._evalUrl = function( url, options ) {
 	return jQuery.ajax( {
 		url: url,
 
@@ -9442,7 +9686,16 @@ jQuery._evalUrl = function( url ) {
 		cache: true,
 		async: false,
 		global: false,
-		"throws": true
+
+		// Only evaluate the response if it is successful (gh-4126)
+		// dataFilter is not invoked for failure responses, so using it instead
+		// of the default converter is kludgy but it works.
+		converters: {
+			"text script": function() {}
+		},
+		dataFilter: function( response ) {
+			jQuery.globalEval( response, options );
+		}
 	} );
 };
 
@@ -9725,24 +9978,21 @@ jQuery.ajaxPrefilter( "script", function( s ) {
 // Bind script tag hack transport
 jQuery.ajaxTransport( "script", function( s ) {
 
-	// This transport only deals with cross domain requests
-	if ( s.crossDomain ) {
+	// This transport only deals with cross domain or forced-by-attrs requests
+	if ( s.crossDomain || s.scriptAttrs ) {
 		var script, callback;
 		return {
 			send: function( _, complete ) {
-				script = jQuery( "<script>" ).prop( {
-					charset: s.scriptCharset,
-					src: s.url
-				} ).on(
-					"load error",
-					callback = function( evt ) {
+				script = jQuery( "<script>" )
+					.attr( s.scriptAttrs || {} )
+					.prop( { charset: s.scriptCharset, src: s.url } )
+					.on( "load error", callback = function( evt ) {
 						script.remove();
 						callback = null;
 						if ( evt ) {
 							complete( evt.type === "error" ? 404 : 200, evt.type );
 						}
-					}
-				);
+					} );
 
 				// Use native DOM manipulation to avoid our domManip AJAX trickery
 				document.head.appendChild( script[ 0 ] );
@@ -10435,489 +10685,15 @@ return jQuery;
 
 
 /***/ }),
-/* 1 */
+
+/***/ "./resources/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js":
+/*!**********************************************************************************!*\
+  !*** ./resources/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2);
-module.exports = __webpack_require__(7);
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-__webpack_require__(0);
-
-
-window.$ = window.jQuery = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
-
-__webpack_require__(3);
-window.VMasker = __webpack_require__(4);
-__webpack_require__(5);
-__webpack_require__(6);
-
-__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn.extend({
-    mask: function mask(patern) {
-        VMasker(this).maskPattern(patern);
-        return __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this);
-    },
-    maskMoney: function maskMoney(unit) {
-        var patern = {
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: unit,
-            zeroCents: true
-        };
-        VMasker(this).maskMoney(patern);
-        return __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this);
-    },
-    maskFloat: function maskFloat() {
-        var patern = {
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            zeroCents: true
-        };
-        VMasker(this).maskMoney(patern);
-        return __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this);
-    }
-});
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function postmon_run_plugin() {
-    (function ($) {
-        $.postmon = _defineProperty({
-            obj: [],
-            filtrar_json: false,
-            endpoint_method: "POST",
-            paises_endpoint: "pais.json",
-            estados_endpoint: "estado.json",
-            cidades_endpoint: "cidade.json",
-            loading: {
-                init: null,
-                end: null
-            },
-            montar: function montar(select, dados) {
-                $(select).children().remove();
-                dados.forEach(function (item) {
-                    var option = $("<option value=" + item.id + ">" + item.nome + "</option>");
-                    for (var chave in item) {
-                        option.data(chave, item[chave]);
-                    }
-                    $(select).append(option);
-                });
-            },
-            paises: function paises(select) {
-                if ($.postmon.loading.init) $.postmon.loading.init();
-                $.ajax({
-                    type: $.postmon.endpoint_method,
-                    async: false,
-                    url: $.postmon.paises_endpoint,
-                    dataType: 'json',
-                    success: function success(dados) {
-                        $.postmon.montar(select, dados);
-                        if ($.postmon.loading.end) $.postmon.loading.end();
-                    }
-                });
-            },
-            estados: function estados(select, pais_id) {
-                if ($.postmon.loading.init) $.postmon.loading.init();
-                $.ajax({
-                    type: $.postmon.endpoint_method,
-                    async: false,
-                    url: $.postmon.estados_endpoint,
-                    data: {
-                        "id": pais_id
-                    },
-                    dataType: 'json',
-                    success: function success(dados) {
-                        if ($.postmon.filtrar_json) {
-                            dados = $.postmon.filtrar(dados, 'pais_id', pais_id);
-                        }
-                        $.postmon.montar(select, dados);
-                        if ($.postmon.loading.end) $.postmon.loading.end();
-                    }
-                });
-            },
-            cidades: function cidades(select, estado_id) {
-                if ($.postmon.loading.init) $.postmon.loading.init();
-                $.ajax({
-                    type: $.postmon.endpoint_method,
-                    async: false,
-                    url: $.postmon.cidades_endpoint,
-                    data: {
-                        "id": estado_id
-                    },
-                    dataType: 'json',
-                    success: function success(dados) {
-                        if ($.postmon.filtrar_json) {
-                            dados = $.postmon.filtrar(dados, 'estado_id', estado_id);
-                        }
-                        $.postmon.montar(select, dados);
-                        if ($.postmon.loading.end) $.postmon.loading.end();
-                    }
-                });
-            },
-            primeiro: function primeiro(select) {
-                var opcoes = select.children('option');
-                if (opcoes.length == 0) {
-                    return null;
-                }
-                return opcoes[0].value;
-            },
-            filtrar: function filtrar(dados, chave, valor) {
-                return dados.filter(function (el) {
-                    return el[chave] == valor;
-                });
-            },
-            uuid: function uuid(el) {
-                return el.data('postmon-jquery-uuid');
-            },
-            parsar: function parsar(select, selecionado, chave) {
-                if (!selecionado) {
-                    return $.postmon.primeiro(select);
-                }
-                if (!isNaN(selecionado * 1)) {
-                    return selecionado;
-                }
-                return select.children().filter(function () {
-                    return $(this).data(chave) == selecionado;
-                }).val();
-            },
-            cep: function cep(uuid) {
-                if ($.postmon.loading.init) $.postmon.loading.init();
-                var cepLimpo = $.postmon.obj[uuid].input.cep.val().match(/\d/g).join("");
-                $.ajax({
-                    url: 'https://api.postmon.com.br/v1/cep/' + cepLimpo,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function success(dados) {
-                        $.postmon.obj[uuid].selected = {
-                            pais: 0,
-                            estado: dados.estado,
-                            cidade: dados.cidade
-                        };
-                        $.postmon.obj[uuid].select.pais.val($.postmon.obj[uuid].selected.pais).change();
-                        $.postmon.obj[uuid].input.bairro.val(dados.bairro);
-                        $.postmon.obj[uuid].input.endereco.val(dados.logradouro);
-                        if ($.postmon.loading.end) $.postmon.loading.end();
-                    }
-                });
-            },
-            eventos: {
-                estado: function estado(uuid) {
-                    var select_cidade = $.postmon.obj[uuid].select.cidade;
-                    $.postmon.cidades(select_cidade, $.postmon.obj[uuid].select.estado.val());
-                    $.postmon.obj[uuid].selected.cidade = $.postmon.parsar(select_cidade, $.postmon.obj[uuid].selected.cidade, 'nome');
-                    select_cidade.val($.postmon.obj[uuid].selected.cidade);
-                },
-                pais: function pais(uuid) {
-                    var pais_id = $.postmon.obj[uuid].select.pais.val();
-                    $.postmon.obj[uuid].selected.pais = pais_id;
-                    var select_estado = $.postmon.obj[uuid].select.estado;
-                    $.postmon.estados(select_estado, pais_id);
-                    select_estado.change(function () {
-                        $.postmon.eventos.estado(uuid);
-                    });
-                    $.postmon.obj[uuid].selected.estado = $.postmon.parsar(select_estado, $.postmon.obj[uuid].selected.estado, 'sigla');
-                    select_estado.val($.postmon.obj[uuid].selected.estado).change();
-                }
-            }
-        }, "uuid", function uuid() {
-            return Math.random().toString(36).substring(2) + new Date().getTime().toString(36);
-        });
-        $.fn.postmon = function (_ref) {
-            var _ref$select = _ref.select,
-                select = _ref$select === undefined ? {
-                pais: pais,
-                estado: estado,
-                cidade: cidade
-            } : _ref$select,
-                _ref$input = _ref.input,
-                input = _ref$input === undefined ? {
-                cep: $("<input type='text'>"),
-                bairro: $("<input type='text'>"),
-                endereco: $("<input type='text'>")
-            } : _ref$input,
-                _ref$selected = _ref.selected,
-                selected = _ref$selected === undefined ? {
-                pais: null,
-                estado: null,
-                cidade: null
-            } : _ref$selected;
-
-            var uuid = $.postmon.uuid();
-            $.postmon.obj[uuid] = {
-                select: select,
-                input: input,
-                selected: selected
-            };
-            var obj = $.postmon.obj[uuid];
-            $.postmon.paises(obj.select.pais);
-            obj.select.pais.change(function () {
-                $.postmon.eventos.pais(uuid);
-            });
-            obj.select.pais.val(selected.pais || $.postmon.primeiro(obj.select.pais)).change();
-            obj.input.cep.change(function () {
-                $.postmon.cep(uuid, obj.input.cep);
-            });
-        };
-    })(jQuery);
-}
-(function () {
-    if (!window.jQuery) {
-        var script = document.createElement("SCRIPT");
-        script.src = 'https://code.jquery.com/jquery-3.3.1.min.js';
-        script.type = 'text/javascript';
-        script.onload = function () {
-            var $ = window.jQuery;
-            postmon_run_plugin();
-        };
-        document.getElementsByTagName("head")[0].appendChild(script);
-    } else {
-        postmon_run_plugin();
-    }
-})();
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-(function (root, factory) {
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
-    module.exports = factory();
-  } else {
-    root.VMasker = factory();
-  }
-})(this, function () {
-  var DIGIT = "9",
-      ALPHA = "A",
-      ALPHANUM = "S",
-      BY_PASS_KEYS = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93],
-      isAllowedKeyCode = function isAllowedKeyCode(keyCode) {
-    for (var i = 0, len = BY_PASS_KEYS.length; i < len; i++) {
-      if (keyCode == BY_PASS_KEYS[i]) {
-        return false;
-      }
-    }
-    return true;
-  },
-      mergeMoneyOptions = function mergeMoneyOptions(opts) {
-    opts = opts || {};
-    opts = {
-      precision: opts.hasOwnProperty("precision") ? opts.precision : 2,
-      separator: opts.separator || ",",
-      delimiter: opts.delimiter || ".",
-      unit: opts.unit && opts.unit.replace(/[\s]/g, '') + " " || "",
-      suffixUnit: opts.suffixUnit && " " + opts.suffixUnit.replace(/[\s]/g, '') || "",
-      zeroCents: opts.zeroCents,
-      lastOutput: opts.lastOutput
-    };
-    opts.moneyPrecision = opts.zeroCents ? 0 : opts.precision;
-    return opts;
-  },
-
-  // Fill wildcards past index in output with placeholder
-  addPlaceholdersToOutput = function addPlaceholdersToOutput(output, index, placeholder) {
-    for (; index < output.length; index++) {
-      if (output[index] === DIGIT || output[index] === ALPHA || output[index] === ALPHANUM) {
-        output[index] = placeholder;
-      }
-    }
-    return output;
-  };
-
-  var VanillaMasker = function VanillaMasker(elements) {
-    this.elements = elements;
-  };
-
-  VanillaMasker.prototype.unbindElementToMask = function () {
-    for (var i = 0, len = this.elements.length; i < len; i++) {
-      this.elements[i].lastOutput = "";
-      this.elements[i].onkeyup = false;
-      this.elements[i].onkeydown = false;
-
-      if (this.elements[i].value.length) {
-        this.elements[i].value = this.elements[i].value.replace(/\D/g, '');
-      }
-    }
-  };
-
-  VanillaMasker.prototype.bindElementToMask = function (maskFunction) {
-    var that = this,
-        onType = function onType(e) {
-      e = e || window.event;
-      var source = e.target || e.srcElement;
-
-      if (isAllowedKeyCode(e.keyCode)) {
-        setTimeout(function () {
-          that.opts.lastOutput = source.lastOutput;
-          source.value = VMasker[maskFunction](source.value, that.opts);
-          source.lastOutput = source.value;
-          if (source.setSelectionRange && that.opts.suffixUnit) {
-            source.setSelectionRange(source.value.length, source.value.length - that.opts.suffixUnit.length);
-          }
-        }, 0);
-      }
-    };
-    for (var i = 0, len = this.elements.length; i < len; i++) {
-      this.elements[i].lastOutput = "";
-      this.elements[i].onkeyup = onType;
-      if (this.elements[i].value.length) {
-        this.elements[i].value = VMasker[maskFunction](this.elements[i].value, this.opts);
-      }
-    }
-  };
-
-  VanillaMasker.prototype.maskMoney = function (opts) {
-    this.opts = mergeMoneyOptions(opts);
-    this.bindElementToMask("toMoney");
-  };
-
-  VanillaMasker.prototype.maskNumber = function () {
-    this.opts = {};
-    this.bindElementToMask("toNumber");
-  };
-
-  VanillaMasker.prototype.maskAlphaNum = function () {
-    this.opts = {};
-    this.bindElementToMask("toAlphaNumeric");
-  };
-
-  VanillaMasker.prototype.maskPattern = function (pattern) {
-    this.opts = { pattern: pattern };
-    this.bindElementToMask("toPattern");
-  };
-
-  VanillaMasker.prototype.unMask = function () {
-    this.unbindElementToMask();
-  };
-
-  var VMasker = function VMasker(el) {
-    if (!el) {
-      throw new Error("VanillaMasker: There is no element to bind.");
-    }
-    var elements = "length" in el ? el.length ? el : [] : [el];
-    return new VanillaMasker(elements);
-  };
-
-  VMasker.toMoney = function (value, opts) {
-    opts = mergeMoneyOptions(opts);
-    if (opts.zeroCents) {
-      opts.lastOutput = opts.lastOutput || "";
-      var zeroMatcher = "(" + opts.separator + "[0]{0," + opts.precision + "})",
-          zeroRegExp = new RegExp(zeroMatcher, "g"),
-          digitsLength = value.toString().replace(/[\D]/g, "").length || 0,
-          lastDigitLength = opts.lastOutput.toString().replace(/[\D]/g, "").length || 0;
-      value = value.toString().replace(zeroRegExp, "");
-      if (digitsLength < lastDigitLength) {
-        value = value.slice(0, value.length - 1);
-      }
-    }
-    var number = value.toString().replace(/[\D]/g, ""),
-        clearDelimiter = new RegExp("^(0|\\" + opts.delimiter + ")"),
-        clearSeparator = new RegExp("(\\" + opts.separator + ")$"),
-        money = number.substr(0, number.length - opts.moneyPrecision),
-        masked = money.substr(0, money.length % 3),
-        cents = new Array(opts.precision + 1).join("0");
-    money = money.substr(money.length % 3, money.length);
-    for (var i = 0, len = money.length; i < len; i++) {
-      if (i % 3 === 0) {
-        masked += opts.delimiter;
-      }
-      masked += money[i];
-    }
-    masked = masked.replace(clearDelimiter, "");
-    masked = masked.length ? masked : "0";
-    if (!opts.zeroCents) {
-      var beginCents = number.length - opts.precision,
-          centsValue = number.substr(beginCents, opts.precision),
-          centsLength = centsValue.length,
-          centsSliced = opts.precision > centsLength ? opts.precision : centsLength;
-      cents = (cents + centsValue).slice(-centsSliced);
-    }
-    var output = opts.unit + masked + opts.separator + cents + opts.suffixUnit;
-    return output.replace(clearSeparator, "");
-  };
-
-  VMasker.toPattern = function (value, opts) {
-    var pattern = (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) === 'object' ? opts.pattern : opts,
-        patternChars = pattern.replace(/\W/g, ''),
-        output = pattern.split(""),
-        values = value.toString().replace(/\W/g, ""),
-        charsValues = values.replace(/\W/g, ''),
-        index = 0,
-        i,
-        outputLength = output.length,
-        placeholder = (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) === 'object' ? opts.placeholder : undefined;
-
-    for (i = 0; i < outputLength; i++) {
-      // Reached the end of input
-      if (index >= values.length) {
-        if (patternChars.length == charsValues.length) {
-          return output.join("");
-        } else if (placeholder !== undefined && patternChars.length > charsValues.length) {
-          return addPlaceholdersToOutput(output, i, placeholder).join("");
-        } else {
-          break;
-        }
-      }
-      // Remaining chars in input
-      else {
-          if (output[i] === DIGIT && values[index].match(/[0-9]/) || output[i] === ALPHA && values[index].match(/[a-zA-Z]/) || output[i] === ALPHANUM && values[index].match(/[0-9a-zA-Z]/)) {
-            output[i] = values[index++];
-          } else if (output[i] === DIGIT || output[i] === ALPHA || output[i] === ALPHANUM) {
-            if (placeholder !== undefined) {
-              return addPlaceholdersToOutput(output, i, placeholder).join("");
-            } else {
-              return output.slice(0, i).join("");
-            }
-          }
-        }
-    }
-    return output.join("").substr(0, i);
-  };
-
-  VMasker.toNumber = function (value) {
-    return value.toString().replace(/(?!^-)[^0-9]/g, "");
-  };
-
-  VMasker.toAlphaNumeric = function (value) {
-    return value.toString().replace(/[^a-z0-9 ]+/i, "");
-  };
-
-  return VMasker;
-});
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /* =========================================================
  * bootstrap-datetimepicker.js
@@ -10945,63 +10721,66 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================= */
-
 (function (factory) {
-  if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+  if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') factory(require('jquery'));else factory(jQuery);
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else {}
 })(function ($, undefined) {
-
   // Add ECMA262-5 Array methods if not supported natively (IE8)
   if (!('indexOf' in Array.prototype)) {
     Array.prototype.indexOf = function (find, i) {
       if (i === undefined) i = 0;
       if (i < 0) i += this.length;
       if (i < 0) i = 0;
+
       for (var n = this.length; i < n; i++) {
         if (i in this && this[i] === find) {
           return i;
         }
       }
+
       return -1;
     };
-  }
+  } // Add timezone abbreviation support for ie6+, Chrome, Firefox
 
-  // Add timezone abbreviation support for ie6+, Chrome, Firefox
+
   function timeZoneAbbreviation() {
     var abbreviation, date, formattedStr, i, len, matchedStrings, ref, str;
     date = new Date().toString();
     formattedStr = ((ref = date.split('(')[1]) != null ? ref.slice(0, -1) : 0) || date.split(' ');
+
     if (formattedStr instanceof Array) {
       matchedStrings = [];
+
       for (var i = 0, len = formattedStr.length; i < len; i++) {
         str = formattedStr[i];
+
         if ((abbreviation = (ref = str.match(/\b[A-Z]+\b/)) !== null) ? ref[0] : 0) {
           matchedStrings.push(abbreviation);
         }
       }
+
       formattedStr = matchedStrings.pop();
     }
+
     return formattedStr;
   }
 
   function UTCDate() {
     return new Date(Date.UTC.apply(Date, arguments));
-  }
+  } // Picker object
 
-  // Picker object
+
   var Datetimepicker = function Datetimepicker(element, options) {
     var that = this;
-
-    this.element = $(element);
-
-    // add container for single page application
+    this.element = $(element); // add container for single page application
     // when page switch the datetimepicker div will be removed also.
-    this.container = options.container || 'body';
 
+    this.container = options.container || 'body';
     this.language = options.language || this.element.data('date-language') || 'en';
     this.language = this.language in dates ? this.language : this.language.split('-')[0]; // fr-CA fallback to fr
+
     this.language = this.language in dates ? this.language : 'en';
     this.isRTL = dates[this.language].rtl || false;
     this.formatType = options.formatType || this.element.data('format-type') || 'standard';
@@ -11010,15 +10789,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     this.isVisible = false;
     this.isInput = this.element.is('input');
     this.fontAwesome = options.fontAwesome || this.element.data('font-awesome') || false;
-
     this.bootcssVer = options.bootcssVer || (this.isInput ? this.element.is('.form-control') ? 3 : 2 : this.bootcssVer = this.element.is('.input-group') ? 3 : 2);
-
     this.component = this.element.is('.date') ? this.bootcssVer === 3 ? this.element.find('.input-group-addon .glyphicon-th, .input-group-addon .glyphicon-time, .input-group-addon .glyphicon-remove, .input-group-addon .glyphicon-calendar, .input-group-addon .fa-calendar, .input-group-addon .fa-clock-o').parent() : this.element.find('.add-on .icon-th, .add-on .icon-time, .add-on .icon-calendar, .add-on .fa-calendar, .add-on .fa-clock-o').parent() : false;
     this.componentReset = this.element.is('.date') ? this.bootcssVer === 3 ? this.element.find('.input-group-addon .glyphicon-remove, .input-group-addon .fa-times').parent() : this.element.find('.add-on .icon-remove, .add-on .fa-times').parent() : false;
     this.hasInput = this.component && this.element.find('input').length;
+
     if (this.component && this.component.length === 0) {
       this.component = false;
     }
+
     this.linkField = options.linkField || this.element.data('link-field') || false;
     this.linkFormat = DPGlobal.parseFormat(options.linkFormat || this.element.data('link-format') || DPGlobal.getDefaultFormat(this.formatType, 'link'), this.formatType);
     this.minuteStep = options.minuteStep || this.element.data('minute-step') || 5;
@@ -11028,7 +10807,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     this.zIndex = options.zIndex || this.element.data('z-index') || undefined;
     this.title = typeof options.title === 'undefined' ? false : options.title;
     this.timezone = options.timezone || timeZoneAbbreviation();
-
     this.icons = {
       leftArrow: this.fontAwesome ? 'fa-arrow-left' : this.bootcssVer === 3 ? 'glyphicon-arrow-left' : 'icon-arrow-left',
       rightArrow: this.fontAwesome ? 'fa-arrow-right' : this.bootcssVer === 3 ? 'glyphicon-arrow-right' : 'icon-arrow-right'
@@ -11045,6 +10823,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     };
 
     this.formatViewType = 'datetime';
+
     if ('formatViewType' in options) {
       this.formatViewType = options.formatViewType;
     } else if ('formatViewType' in this.element.data()) {
@@ -11052,22 +10831,25 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     this.minView = 0;
+
     if ('minView' in options) {
       this.minView = options.minView;
     } else if ('minView' in this.element.data()) {
       this.minView = this.element.data('min-view');
     }
-    this.minView = DPGlobal.convertViewMode(this.minView);
 
+    this.minView = DPGlobal.convertViewMode(this.minView);
     this.maxView = DPGlobal.modes.length - 1;
+
     if ('maxView' in options) {
       this.maxView = options.maxView;
     } else if ('maxView' in this.element.data()) {
       this.maxView = this.element.data('max-view');
     }
-    this.maxView = DPGlobal.convertViewMode(this.maxView);
 
+    this.maxView = DPGlobal.convertViewMode(this.maxView);
     this.wheelViewModeNavigation = false;
+
     if ('wheelViewModeNavigation' in options) {
       this.wheelViewModeNavigation = options.wheelViewModeNavigation;
     } else if ('wheelViewModeNavigation' in this.element.data()) {
@@ -11083,6 +10865,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     this.wheelViewModeNavigationDelay = 100;
+
     if ('wheelViewModeNavigationDelay' in options) {
       this.wheelViewModeNavigationDelay = options.wheelViewModeNavigationDelay;
     } else if ('wheelViewModeNavigationDelay' in this.element.data()) {
@@ -11090,38 +10873,46 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     this.startViewMode = 2;
+
     if ('startView' in options) {
       this.startViewMode = options.startView;
     } else if ('startView' in this.element.data()) {
       this.startViewMode = this.element.data('start-view');
     }
+
     this.startViewMode = DPGlobal.convertViewMode(this.startViewMode);
     this.viewMode = this.startViewMode;
-
     this.viewSelect = this.minView;
+
     if ('viewSelect' in options) {
       this.viewSelect = options.viewSelect;
     } else if ('viewSelect' in this.element.data()) {
       this.viewSelect = this.element.data('view-select');
     }
-    this.viewSelect = DPGlobal.convertViewMode(this.viewSelect);
 
+    this.viewSelect = DPGlobal.convertViewMode(this.viewSelect);
     this.forceParse = true;
+
     if ('forceParse' in options) {
       this.forceParse = options.forceParse;
     } else if ('dateForceParse' in this.element.data()) {
       this.forceParse = this.element.data('date-force-parse');
     }
+
     var template = this.bootcssVer === 3 ? DPGlobal.templateV3 : DPGlobal.template;
+
     while (template.indexOf('{iconType}') !== -1) {
       template = template.replace('{iconType}', this.icontype);
     }
+
     while (template.indexOf('{leftArrow}') !== -1) {
       template = template.replace('{leftArrow}', this.icons.leftArrow);
     }
+
     while (template.indexOf('{rightArrow}') !== -1) {
       template = template.replace('{rightArrow}', this.icons.rightArrow);
     }
+
     this.picker = $(template).appendTo(this.isInline ? this.element : this.container) // 'body')
     .on({
       click: $.proxy(this.click, this),
@@ -11130,7 +10921,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
     if (this.wheelViewModeNavigation) {
       if ($.fn.mousewheel) {
-        this.picker.on({ mousewheel: $.proxy(this.mousewheel, this) });
+        this.picker.on({
+          mousewheel: $.proxy(this.mousewheel, this)
+        });
       } else {
         console.log('Mouse Wheel event is not supported. Please include the jQuery Mouse Wheel plugin before enabling this option');
       }
@@ -11141,6 +10934,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     } else {
       this.picker.addClass('datetimepicker-dropdown-' + this.pickerPosition + ' dropdown-menu');
     }
+
     if (this.isRTL) {
       this.picker.addClass('datetimepicker-rtl');
       var selector = this.bootcssVer === 3 ? '.prev span, .next span' : '.prev i, .next i';
@@ -11148,8 +10942,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     $(document).on('mousedown touchend', this.clickedOutside);
-
     this.autoclose = false;
+
     if ('autoclose' in options) {
       this.autoclose = options.autoclose;
     } else if ('dateAutoclose' in this.element.data()) {
@@ -11157,6 +10951,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     this.keyboardNavigation = true;
+
     if ('keyboardNavigation' in options) {
       this.keyboardNavigation = options.keyboardNavigation;
     } else if ('dateKeyboardNavigation' in this.element.data()) {
@@ -11166,8 +10961,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     this.todayBtn = options.todayBtn || this.element.data('date-today-btn') || false;
     this.clearBtn = options.clearBtn || this.element.data('date-clear-btn') || false;
     this.todayHighlight = options.todayHighlight || this.element.data('date-today-highlight') || false;
-
     this.weekStart = 0;
+
     if (typeof options.weekStart !== 'undefined') {
       this.weekStart = options.weekStart;
     } else if (typeof this.element.data('date-weekstart') !== 'undefined') {
@@ -11175,71 +10970,96 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     } else if (typeof dates[this.language].weekStart !== 'undefined') {
       this.weekStart = dates[this.language].weekStart;
     }
+
     this.weekStart = this.weekStart % 7;
     this.weekEnd = (this.weekStart + 6) % 7;
+
     this.onRenderDay = function (date) {
       var render = (options.onRenderDay || function () {
         return [];
       })(date);
+
       if (typeof render === 'string') {
         render = [render];
       }
+
       var res = ['day'];
       return res.concat(render ? render : []);
     };
+
     this.onRenderHour = function (date) {
       var render = (options.onRenderHour || function () {
         return [];
       })(date);
+
       var res = ['hour'];
+
       if (typeof render === 'string') {
         render = [render];
       }
+
       return res.concat(render ? render : []);
     };
+
     this.onRenderMinute = function (date) {
       var render = (options.onRenderMinute || function () {
         return [];
       })(date);
+
       var res = ['minute'];
+
       if (typeof render === 'string') {
         render = [render];
       }
+
       if (date < this.startDate || date > this.endDate) {
         res.push('disabled');
       } else if (Math.floor(this.date.getUTCMinutes() / this.minuteStep) === Math.floor(date.getUTCMinutes() / this.minuteStep)) {
         res.push('active');
       }
+
       return res.concat(render ? render : []);
     };
+
     this.onRenderYear = function (date) {
       var render = (options.onRenderYear || function () {
         return [];
       })(date);
+
       var res = ['year'];
+
       if (typeof render === 'string') {
         render = [render];
       }
+
       if (this.date.getUTCFullYear() === date.getUTCFullYear()) {
         res.push('active');
       }
+
       var currentYear = date.getUTCFullYear();
       var endYear = this.endDate.getUTCFullYear();
+
       if (date < this.startDate || currentYear > endYear) {
         res.push('disabled');
       }
+
       return res.concat(render ? render : []);
     };
+
     this.onRenderMonth = function (date) {
       var render = (options.onRenderMonth || function () {
         return [];
       })(date);
+
       var res = ['month'];
+
       if (typeof render === 'string') {
         render = [render];
       }
+
       return res.concat(render ? render : []);
     };
+
     this.startDate = new Date(-8639968443048000);
     this.endDate = new Date(8639968443048000);
     this.datesDisabled = [];
@@ -11262,10 +11082,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   Datetimepicker.prototype = {
     constructor: Datetimepicker,
-
     _events: [],
     _attachEvents: function _attachEvents() {
       this._detachEvents();
+
       if (this.isInput) {
         // single input
         this._events = [[this.element, {
@@ -11275,8 +11095,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         }]];
       } else if (this.component && this.hasInput) {
         // component: input + button
-        this._events = [
-        // For components that are not readonly, allow keyboard nav
+        this._events = [// For components that are not readonly, allow keyboard nav
         [this.element.find('input'), {
           focus: $.proxy(this.show, this),
           keyup: $.proxy(this.update, this),
@@ -11284,8 +11103,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         }], [this.component, {
           click: $.proxy(this.show, this)
         }]];
+
         if (this.componentReset) {
-          this._events.push([this.componentReset, { click: $.proxy(this.reset, this) }]);
+          this._events.push([this.componentReset, {
+            click: $.proxy(this.reset, this)
+          }]);
         }
       } else if (this.element.is('div')) {
         // inline datetimepicker
@@ -11295,41 +11117,44 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           click: $.proxy(this.show, this)
         }]];
       }
+
       for (var i = 0, el, ev; i < this._events.length; i++) {
         el = this._events[i][0];
         ev = this._events[i][1];
         el.on(ev);
       }
     },
-
     _detachEvents: function _detachEvents() {
       for (var i = 0, el, ev; i < this._events.length; i++) {
         el = this._events[i][0];
         ev = this._events[i][1];
         el.off(ev);
       }
+
       this._events = [];
     },
-
     show: function show(e) {
       this.picker.show();
       this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
+
       if (this.forceParse) {
         this.update();
       }
+
       this.place();
       $(window).on('resize', $.proxy(this.place, this));
+
       if (e) {
         e.stopPropagation();
         e.preventDefault();
       }
+
       this.isVisible = true;
       this.element.trigger({
         type: 'show',
         date: this.date
       });
     },
-
     hide: function hide() {
       if (!this.isVisible) return;
       if (this.isInline) return;
@@ -11337,6 +11162,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       $(window).off('resize', this.place);
       this.viewMode = this.startViewMode;
       this.showMode();
+
       if (!this.isInput) {
         $(document).off('mousedown', this.hide);
       }
@@ -11348,39 +11174,35 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         date: this.date
       });
     },
-
     remove: function remove() {
       this._detachEvents();
+
       $(document).off('mousedown', this.clickedOutside);
       this.picker.remove();
       delete this.picker;
       delete this.element.data().datetimepicker;
     },
-
     getDate: function getDate() {
       var d = this.getUTCDate();
+
       if (d === null) {
         return null;
       }
+
       return new Date(d.getTime() + d.getTimezoneOffset() * 60000);
     },
-
     getUTCDate: function getUTCDate() {
       return this.date;
     },
-
     getInitialDate: function getInitialDate() {
       return this.initialDate;
     },
-
     setInitialDate: function setInitialDate(initialDate) {
       this.initialDate = initialDate;
     },
-
     setDate: function setDate(d) {
       this.setUTCDate(new Date(d.getTime() - d.getTimezoneOffset() * 60000));
     },
-
     setUTCDate: function setUTCDate(d) {
       if (d >= this.startDate && d <= this.endDate) {
         this.date = d;
@@ -11396,63 +11218,68 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         });
       }
     },
-
     setFormat: function setFormat(format) {
       this.format = DPGlobal.parseFormat(format, this.formatType);
       var element;
+
       if (this.isInput) {
         element = this.element;
       } else if (this.component) {
         element = this.element.find('input');
       }
+
       if (element && element.val()) {
         this.setValue();
       }
     },
-
     setValue: function setValue() {
       var formatted = this.getFormattedDate();
+
       if (!this.isInput) {
         if (this.component) {
           this.element.find('input').val(formatted);
         }
+
         this.element.data('date', formatted);
       } else {
         this.element.val(formatted);
       }
+
       if (this.linkField) {
         $('#' + this.linkField).val(this.getFormattedDate(this.linkFormat));
       }
     },
-
     getFormattedDate: function getFormattedDate(format) {
       format = format || this.format;
       return DPGlobal.formatDate(this.date, format, this.language, this.formatType, this.timezone);
     },
-
     setStartDate: function setStartDate(startDate) {
       this.startDate = startDate || this.startDate;
+
       if (this.startDate.valueOf() !== 8639968443048000) {
         this.startDate = DPGlobal.parseDate(this.startDate, this.format, this.language, this.formatType, this.timezone);
       }
+
       this.update();
       this.updateNavArrows();
     },
-
     setEndDate: function setEndDate(endDate) {
       this.endDate = endDate || this.endDate;
+
       if (this.endDate.valueOf() !== 8639968443048000) {
         this.endDate = DPGlobal.parseDate(this.endDate, this.format, this.language, this.formatType, this.timezone);
       }
+
       this.update();
       this.updateNavArrows();
     },
-
     setDatesDisabled: function setDatesDisabled(datesDisabled) {
       this.datesDisabled = datesDisabled || [];
+
       if (!$.isArray(this.datesDisabled)) {
         this.datesDisabled = this.datesDisabled.split(/,\s*/);
       }
+
       var mThis = this;
       this.datesDisabled = $.map(this.datesDisabled, function (d) {
         return DPGlobal.parseDate(d, mThis.format, mThis.language, mThis.formatType, mThis.timezone).toDateString();
@@ -11460,47 +11287,48 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       this.update();
       this.updateNavArrows();
     },
-
     setTitle: function setTitle(selector, value) {
       return this.picker.find(selector).find('th:eq(1)').text(this.title === false ? value : this.title);
     },
-
     setDaysOfWeekDisabled: function setDaysOfWeekDisabled(daysOfWeekDisabled) {
       this.daysOfWeekDisabled = daysOfWeekDisabled || [];
+
       if (!$.isArray(this.daysOfWeekDisabled)) {
         this.daysOfWeekDisabled = this.daysOfWeekDisabled.split(/,\s*/);
       }
+
       this.daysOfWeekDisabled = $.map(this.daysOfWeekDisabled, function (d) {
         return parseInt(d, 10);
       });
       this.update();
       this.updateNavArrows();
     },
-
     setMinutesDisabled: function setMinutesDisabled(minutesDisabled) {
       this.minutesDisabled = minutesDisabled || [];
+
       if (!$.isArray(this.minutesDisabled)) {
         this.minutesDisabled = this.minutesDisabled.split(/,\s*/);
       }
+
       this.minutesDisabled = $.map(this.minutesDisabled, function (d) {
         return parseInt(d, 10);
       });
       this.update();
       this.updateNavArrows();
     },
-
     setHoursDisabled: function setHoursDisabled(hoursDisabled) {
       this.hoursDisabled = hoursDisabled || [];
+
       if (!$.isArray(this.hoursDisabled)) {
         this.hoursDisabled = this.hoursDisabled.split(/,\s*/);
       }
+
       this.hoursDisabled = $.map(this.hoursDisabled, function (d) {
         return parseInt(d, 10);
       });
       this.update();
       this.updateNavArrows();
     },
-
     place: function place() {
       if (this.isInline) return;
 
@@ -11508,6 +11336,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var index_highest = 0;
         $('div').each(function () {
           var index_current = parseInt($(this).css('zIndex'), 10);
+
           if (index_current > index_highest) {
             index_highest = index_current;
           }
@@ -11516,6 +11345,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       }
 
       var offset, top, left, containerOffset;
+
       if (this.container instanceof $) {
         containerOffset = this.container.offset();
       } else {
@@ -11525,18 +11355,21 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       if (this.component) {
         offset = this.component.offset();
         left = offset.left;
+
         if (this.pickerPosition === 'bottom-left' || this.pickerPosition === 'top-left') {
           left += this.component.outerWidth() - this.picker.outerWidth();
         }
       } else {
         offset = this.element.offset();
         left = offset.left;
+
         if (this.pickerPosition === 'bottom-left' || this.pickerPosition === 'top-left') {
           left += this.element.outerWidth() - this.picker.outerWidth();
         }
       }
 
       var bodyWidth = document.body.clientWidth || window.innerWidth;
+
       if (left + 220 > bodyWidth) {
         left = bodyWidth - 220;
       }
@@ -11549,24 +11382,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
       top = top - containerOffset.top;
       left = left - containerOffset.left;
-
       this.picker.css({
         top: top,
         left: left,
         zIndex: this.zIndex
       });
     },
-
     hour_minute: "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]",
-
     update: function update() {
       var date,
           fromArgs = false;
+
       if (arguments && arguments.length && (typeof arguments[0] === 'string' || arguments[0] instanceof Date)) {
         date = arguments[0];
         fromArgs = true;
       } else {
         date = (this.isInput ? this.element.val() : this.element.find('input').val()) || this.element.data('date') || this.initialDate;
+
         if (typeof date === 'string') {
           date = date.replace(/^\s+|\s+$/g, '');
         }
@@ -11584,7 +11416,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       }
 
       this.date = DPGlobal.parseDate(date, this.format, this.language, this.formatType, this.timezone);
-
       if (fromArgs) this.setValue();
 
       if (this.date < this.startDate) {
@@ -11594,34 +11425,37 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       } else {
         this.viewDate = new Date(this.date);
       }
+
       this.fill();
     },
-
     fillDow: function fillDow() {
       var dowCnt = this.weekStart,
           html = '<tr>';
+
       while (dowCnt < this.weekStart + 7) {
         html += '<th class="dow">' + dates[this.language].daysMin[dowCnt++ % 7] + '</th>';
       }
+
       html += '</tr>';
       this.picker.find('.datetimepicker-days thead').append(html);
     },
-
     fillMonths: function fillMonths() {
       var html = '';
       var d = new Date(this.viewDate);
+
       for (var i = 0; i < 12; i++) {
         d.setUTCMonth(i);
         var classes = this.onRenderMonth(d);
         html += '<span class="' + classes.join(' ') + '">' + dates[this.language].monthsShort[i] + '</span>';
       }
+
       this.picker.find('.datetimepicker-months td').html(html);
     },
-
     fill: function fill() {
       if (!this.date || !this.viewDate) {
         return;
       }
+
       var d = new Date(this.viewDate),
           year = d.getUTCFullYear(),
           month = d.getUTCMonth(),
@@ -11634,6 +11468,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           currentDate = new UTCDate(this.date.getUTCFullYear(), this.date.getUTCMonth(), this.date.getUTCDate()).valueOf(),
           today = new Date();
       this.setTitle('.datetimepicker-days', dates[this.language].months[month] + ' ' + year);
+
       if (this.formatViewType === 'time') {
         var formatted = this.getFormattedDate();
         this.setTitle('.datetimepicker-hours', formatted);
@@ -11642,6 +11477,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         this.setTitle('.datetimepicker-hours', dayMonth + ' ' + dates[this.language].months[month] + ' ' + year);
         this.setTitle('.datetimepicker-minutes', dayMonth + ' ' + dates[this.language].months[month] + ' ' + year);
       }
+
       this.picker.find('tfoot th.today').text(dates[this.language].today || dates['en'].today).toggle(this.todayBtn !== false);
       this.picker.find('tfoot th.clear').text(dates[this.language].clear || dates['en'].clear).toggle(this.clearBtn !== false);
       this.updateNavArrows();
@@ -11655,69 +11491,88 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       nextMonth = nextMonth.valueOf();
       var html = [];
       var classes;
+
       while (prevMonth.valueOf() < nextMonth) {
         if (prevMonth.getUTCDay() === this.weekStart) {
           html.push('<tr>');
         }
+
         classes = this.onRenderDay(prevMonth);
+
         if (prevMonth.getUTCFullYear() < year || prevMonth.getUTCFullYear() === year && prevMonth.getUTCMonth() < month) {
           classes.push('old');
         } else if (prevMonth.getUTCFullYear() > year || prevMonth.getUTCFullYear() === year && prevMonth.getUTCMonth() > month) {
           classes.push('new');
-        }
-        // Compare internal UTC date with local today, not UTC today
+        } // Compare internal UTC date with local today, not UTC today
+
+
         if (this.todayHighlight && prevMonth.getUTCFullYear() === today.getFullYear() && prevMonth.getUTCMonth() === today.getMonth() && prevMonth.getUTCDate() === today.getDate()) {
           classes.push('today');
         }
+
         if (prevMonth.valueOf() === currentDate) {
           classes.push('active');
         }
+
         if (prevMonth.valueOf() + 86400000 <= this.startDate || prevMonth.valueOf() > this.endDate || $.inArray(prevMonth.getUTCDay(), this.daysOfWeekDisabled) !== -1 || $.inArray(prevMonth.toDateString(), this.datesDisabled) !== -1) {
           classes.push('disabled');
         }
+
         html.push('<td class="' + classes.join(' ') + '">' + prevMonth.getUTCDate() + '</td>');
+
         if (prevMonth.getUTCDay() === this.weekEnd) {
           html.push('</tr>');
         }
+
         prevMonth.setUTCDate(prevMonth.getUTCDate() + 1);
       }
-      this.picker.find('.datetimepicker-days tbody').empty().append(html.join(''));
 
+      this.picker.find('.datetimepicker-days tbody').empty().append(html.join(''));
       html = [];
       var txt = '',
           meridian = '',
           meridianOld = '';
       var hoursDisabled = this.hoursDisabled || [];
       d = new Date(this.viewDate);
+
       for (var i = 0; i < 24; i++) {
         d.setUTCHours(i);
         classes = this.onRenderHour(d);
+
         if (hoursDisabled.indexOf(i) !== -1) {
           classes.push('disabled');
         }
-        var actual = UTCDate(year, month, dayMonth, i);
-        // We want the previous hour for the startDate
+
+        var actual = UTCDate(year, month, dayMonth, i); // We want the previous hour for the startDate
+
         if (actual.valueOf() + 3600000 <= this.startDate || actual.valueOf() > this.endDate) {
           classes.push('disabled');
         } else if (hours === i) {
           classes.push('active');
         }
+
         if (this.showMeridian && dates[this.language].meridiem.length === 2) {
           meridian = i < 12 ? dates[this.language].meridiem[0] : dates[this.language].meridiem[1];
+
           if (meridian !== meridianOld) {
             if (meridianOld !== '') {
               html.push('</fieldset>');
             }
+
             html.push('<fieldset class="hour"><legend>' + meridian.toUpperCase() + '</legend>');
           }
+
           meridianOld = meridian;
           txt = i % 12 ? i % 12 : 12;
+
           if (i < 12) {
             classes.push('hour_am');
           } else {
             classes.push('hour_pm');
           }
+
           html.push('<span class="' + classes.join(' ') + '">' + txt + '</span>');
+
           if (i === 23) {
             html.push('</fieldset>');
           }
@@ -11726,30 +11581,36 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           html.push('<span class="' + classes.join(' ') + '">' + txt + '</span>');
         }
       }
-      this.picker.find('.datetimepicker-hours td').html(html.join(''));
 
+      this.picker.find('.datetimepicker-hours td').html(html.join(''));
       html = [];
       txt = '';
       meridian = '';
       meridianOld = '';
       var minutesDisabled = this.minutesDisabled || [];
       d = new Date(this.viewDate);
+
       for (var i = 0; i < 60; i += this.minuteStep) {
         if (minutesDisabled.indexOf(i) !== -1) continue;
         d.setUTCMinutes(i);
         d.setUTCSeconds(0);
         classes = this.onRenderMinute(d);
+
         if (this.showMeridian && dates[this.language].meridiem.length === 2) {
           meridian = hours < 12 ? dates[this.language].meridiem[0] : dates[this.language].meridiem[1];
+
           if (meridian !== meridianOld) {
             if (meridianOld !== '') {
               html.push('</fieldset>');
             }
+
             html.push('<fieldset class="minute"><legend>' + meridian.toUpperCase() + '</legend>');
           }
+
           meridianOld = meridian;
           txt = hours % 12 ? hours % 12 : 12;
           html.push('<span class="' + classes.join(' ') + '">' + txt + ':' + (i < 10 ? '0' + i : i) + '</span>');
+
           if (i === 59) {
             html.push('</fieldset>');
           }
@@ -11758,21 +11619,25 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           html.push('<span class="' + classes.join(' ') + '">' + hours + ':' + (i < 10 ? '0' + i : i) + '</span>');
         }
       }
-      this.picker.find('.datetimepicker-minutes td').html(html.join(''));
 
+      this.picker.find('.datetimepicker-minutes td').html(html.join(''));
       var currentYear = this.date.getUTCFullYear();
       var months = this.setTitle('.datetimepicker-months', year).end().find('.month').removeClass('active');
+
       if (currentYear === year) {
         // getUTCMonths() returns 0 based, and we need to select the next one
         // To cater bootstrap 2 we don't need to select the next one
         months.eq(this.date.getUTCMonth()).addClass('active');
       }
+
       if (year < startYear || year > endYear) {
         months.addClass('disabled');
       }
+
       if (year === startYear) {
         months.slice(0, startMonth).addClass('disabled');
       }
+
       if (year === endYear) {
         months.slice(endMonth).addClass('disabled');
       }
@@ -11782,80 +11647,125 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       var yearCont = this.setTitle('.datetimepicker-years', year + '-' + (year + 9)).end().find('td');
       year -= 1;
       d = new Date(this.viewDate);
+
       for (var i = -1; i < 11; i++) {
         d.setUTCFullYear(year);
         classes = this.onRenderYear(d);
+
         if (i === -1 || i === 10) {
           classes.push(old);
         }
+
         html += '<span class="' + classes.join(' ') + '">' + year + '</span>';
         year += 1;
       }
+
       yearCont.html(html);
       this.place();
     },
-
     updateNavArrows: function updateNavArrows() {
       var d = new Date(this.viewDate),
           year = d.getUTCFullYear(),
           month = d.getUTCMonth(),
           day = d.getUTCDate(),
           hour = d.getUTCHours();
+
       switch (this.viewMode) {
         case 0:
           if (year <= this.startDate.getUTCFullYear() && month <= this.startDate.getUTCMonth() && day <= this.startDate.getUTCDate() && hour <= this.startDate.getUTCHours()) {
-            this.picker.find('.prev').css({ visibility: 'hidden' });
+            this.picker.find('.prev').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.prev').css({ visibility: 'visible' });
+            this.picker.find('.prev').css({
+              visibility: 'visible'
+            });
           }
+
           if (year >= this.endDate.getUTCFullYear() && month >= this.endDate.getUTCMonth() && day >= this.endDate.getUTCDate() && hour >= this.endDate.getUTCHours()) {
-            this.picker.find('.next').css({ visibility: 'hidden' });
+            this.picker.find('.next').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.next').css({ visibility: 'visible' });
+            this.picker.find('.next').css({
+              visibility: 'visible'
+            });
           }
+
           break;
+
         case 1:
           if (year <= this.startDate.getUTCFullYear() && month <= this.startDate.getUTCMonth() && day <= this.startDate.getUTCDate()) {
-            this.picker.find('.prev').css({ visibility: 'hidden' });
+            this.picker.find('.prev').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.prev').css({ visibility: 'visible' });
+            this.picker.find('.prev').css({
+              visibility: 'visible'
+            });
           }
+
           if (year >= this.endDate.getUTCFullYear() && month >= this.endDate.getUTCMonth() && day >= this.endDate.getUTCDate()) {
-            this.picker.find('.next').css({ visibility: 'hidden' });
+            this.picker.find('.next').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.next').css({ visibility: 'visible' });
+            this.picker.find('.next').css({
+              visibility: 'visible'
+            });
           }
+
           break;
+
         case 2:
           if (year <= this.startDate.getUTCFullYear() && month <= this.startDate.getUTCMonth()) {
-            this.picker.find('.prev').css({ visibility: 'hidden' });
+            this.picker.find('.prev').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.prev').css({ visibility: 'visible' });
+            this.picker.find('.prev').css({
+              visibility: 'visible'
+            });
           }
+
           if (year >= this.endDate.getUTCFullYear() && month >= this.endDate.getUTCMonth()) {
-            this.picker.find('.next').css({ visibility: 'hidden' });
+            this.picker.find('.next').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.next').css({ visibility: 'visible' });
+            this.picker.find('.next').css({
+              visibility: 'visible'
+            });
           }
+
           break;
+
         case 3:
         case 4:
           if (year <= this.startDate.getUTCFullYear()) {
-            this.picker.find('.prev').css({ visibility: 'hidden' });
+            this.picker.find('.prev').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.prev').css({ visibility: 'visible' });
+            this.picker.find('.prev').css({
+              visibility: 'visible'
+            });
           }
+
           if (year >= this.endDate.getUTCFullYear()) {
-            this.picker.find('.next').css({ visibility: 'hidden' });
+            this.picker.find('.next').css({
+              visibility: 'hidden'
+            });
           } else {
-            this.picker.find('.next').css({ visibility: 'visible' });
+            this.picker.find('.next').css({
+              visibility: 'visible'
+            });
           }
+
           break;
       }
     },
-
     mousewheel: function mousewheel(e) {
-
       e.preventDefault();
       e.stopPropagation();
 
@@ -11864,11 +11774,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       }
 
       this.wheelPause = true;
-
       var originalEvent = e.originalEvent;
-
       var delta = originalEvent.wheelDelta;
-
       var mode = delta > 0 ? 1 : delta === 0 ? 0 : -1;
 
       if (this.wheelViewModeNavigationInverseDirection) {
@@ -11876,20 +11783,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       }
 
       this.showMode(mode);
-
       setTimeout($.proxy(function () {
-
         this.wheelPause = false;
       }, this), this.wheelViewModeNavigationDelay);
     },
-
     click: function click(e) {
       e.stopPropagation();
       e.preventDefault();
       var target = $(e.target).closest('span, td, th, legend');
+
       if (target.is('.' + this.icontype)) {
         target = $(target).parent().closest('span, td, th, legend');
       }
+
       if (target.length === 1) {
         if (target.is('.disabled')) {
           this.element.trigger({
@@ -11900,30 +11806,37 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           });
           return;
         }
+
         switch (target[0].nodeName.toLowerCase()) {
           case 'th':
             switch (target[0].className) {
               case 'switch':
                 this.showMode(1);
                 break;
+
               case 'prev':
               case 'next':
                 var dir = DPGlobal.modes[this.viewMode].navStep * (target[0].className === 'prev' ? -1 : 1);
+
                 switch (this.viewMode) {
                   case 0:
                     this.viewDate = this.moveHour(this.viewDate, dir);
                     break;
+
                   case 1:
                     this.viewDate = this.moveDate(this.viewDate, dir);
                     break;
+
                   case 2:
                     this.viewDate = this.moveMonth(this.viewDate, dir);
                     break;
+
                   case 3:
                   case 4:
                     this.viewDate = this.moveYear(this.viewDate, dir);
                     break;
                 }
+
                 this.fill();
                 this.element.trigger({
                   type: target[0].className + ':' + this.convertViewModeText(this.viewMode),
@@ -11932,29 +11845,37 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   endDate: this.endDate
                 });
                 break;
+
               case 'clear':
                 this.reset();
+
                 if (this.autoclose) {
                   this.hide();
                 }
+
                 break;
+
               case 'today':
                 var date = new Date();
-                date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0);
+                date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0); // Respect startDate and endDate.
 
-                // Respect startDate and endDate.
                 if (date < this.startDate) date = this.startDate;else if (date > this.endDate) date = this.endDate;
-
                 this.viewMode = this.startViewMode;
                 this.showMode(0);
+
                 this._setDate(date);
+
                 this.fill();
+
                 if (this.autoclose) {
                   this.hide();
                 }
+
                 break;
             }
+
             break;
+
           case 'span':
             if (!target.is('.disabled')) {
               var year = this.viewDate.getUTCFullYear(),
@@ -11973,6 +11894,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   type: 'changeMonth',
                   date: this.viewDate
                 });
+
                 if (this.viewSelect >= 3) {
                   this._setDate(UTCDate(year, month, day, hours, minutes, seconds, 0));
                 }
@@ -11984,11 +11906,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   type: 'changeYear',
                   date: this.viewDate
                 });
+
                 if (this.viewSelect >= 4) {
                   this._setDate(UTCDate(year, month, day, hours, minutes, seconds, 0));
                 }
               } else if (target.is('.hour')) {
                 hours = parseInt(target.text(), 10) || 0;
+
                 if (target.hasClass('hour_am') || target.hasClass('hour_pm')) {
                   if (hours === 12 && target.hasClass('hour_am')) {
                     hours = 0;
@@ -11996,11 +11920,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     hours += 12;
                   }
                 }
+
                 this.viewDate.setUTCHours(hours);
                 this.element.trigger({
                   type: 'changeHour',
                   date: this.viewDate
                 });
+
                 if (this.viewSelect >= 1) {
                   this._setDate(UTCDate(year, month, day, hours, minutes, seconds, 0));
                 }
@@ -12011,25 +11937,31 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   type: 'changeMinute',
                   date: this.viewDate
                 });
+
                 if (this.viewSelect >= 0) {
                   this._setDate(UTCDate(year, month, day, hours, minutes, seconds, 0));
                 }
               }
+
               if (this.viewMode !== 0) {
                 var oldViewMode = this.viewMode;
                 this.showMode(-1);
                 this.fill();
+
                 if (oldViewMode === this.viewMode && this.autoclose) {
                   this.hide();
                 }
               } else {
                 this.fill();
+
                 if (this.autoclose) {
                   this.hide();
                 }
               }
             }
+
             break;
+
           case 'td':
             if (target.is('.day') && !target.is('.disabled')) {
               var day = parseInt(target.text(), 10) || 1;
@@ -12038,6 +11970,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   hours = this.viewDate.getUTCHours(),
                   minutes = this.viewDate.getUTCMinutes(),
                   seconds = this.viewDate.getUTCSeconds();
+
               if (target.is('.old')) {
                 if (month === 0) {
                   month = 11;
@@ -12053,72 +11986,75 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   month += 1;
                 }
               }
+
               this.viewDate.setUTCFullYear(year);
               this.viewDate.setUTCMonth(month, day);
               this.element.trigger({
                 type: 'changeDay',
                 date: this.viewDate
               });
+
               if (this.viewSelect >= 2) {
                 this._setDate(UTCDate(year, month, day, hours, minutes, seconds, 0));
               }
             }
+
             var oldViewMode = this.viewMode;
             this.showMode(-1);
             this.fill();
+
             if (oldViewMode === this.viewMode && this.autoclose) {
               this.hide();
             }
+
             break;
         }
       }
     },
-
     _setDate: function _setDate(date, which) {
       if (!which || which === 'date') this.date = date;
       if (!which || which === 'view') this.viewDate = date;
       this.fill();
       this.setValue();
       var element;
+
       if (this.isInput) {
         element = this.element;
       } else if (this.component) {
         element = this.element.find('input');
       }
+
       if (element) {
         element.change();
       }
+
       this.element.trigger({
         type: 'changeDate',
         date: this.getDate()
       });
       if (date === null) this.date = this.viewDate;
     },
-
     moveMinute: function moveMinute(date, dir) {
       if (!dir) return date;
-      var new_date = new Date(date.valueOf());
-      //dir = dir > 0 ? 1 : -1;
+      var new_date = new Date(date.valueOf()); //dir = dir > 0 ? 1 : -1;
+
       new_date.setUTCMinutes(new_date.getUTCMinutes() + dir * this.minuteStep);
       return new_date;
     },
-
     moveHour: function moveHour(date, dir) {
       if (!dir) return date;
-      var new_date = new Date(date.valueOf());
-      //dir = dir > 0 ? 1 : -1;
+      var new_date = new Date(date.valueOf()); //dir = dir > 0 ? 1 : -1;
+
       new_date.setUTCHours(new_date.getUTCHours() + dir);
       return new_date;
     },
-
     moveDate: function moveDate(date, dir) {
       if (!dir) return date;
-      var new_date = new Date(date.valueOf());
-      //dir = dir > 0 ? 1 : -1;
+      var new_date = new Date(date.valueOf()); //dir = dir > 0 ? 1 : -1;
+
       new_date.setUTCDate(new_date.getUTCDate() + dir);
       return new_date;
     },
-
     moveMonth: function moveMonth(date, dir) {
       if (!dir) return date;
       var new_date = new Date(date.valueOf()),
@@ -12128,21 +12064,20 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           new_month,
           test;
       dir = dir > 0 ? 1 : -1;
+
       if (mag === 1) {
-        test = dir === -1
-        // If going back one month, make sure month is not current month
+        test = dir === -1 // If going back one month, make sure month is not current month
         // (eg, Mar 31 -> Feb 31 === Feb 28, not Mar 02)
         ? function () {
           return new_date.getUTCMonth() === month;
-        }
-        // If going forward one month, make sure month is as expected
+        } // If going forward one month, make sure month is as expected
         // (eg, Jan 31 -> Feb 31 === Feb 28, not Mar 02)
         : function () {
           return new_date.getUTCMonth() !== new_month;
         };
         new_month = month + dir;
-        new_date.setUTCMonth(new_month);
-        // Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
+        new_date.setUTCMonth(new_month); // Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
+
         if (new_month < 0 || new_month > 11) new_month = (new_month + 12) % 12;
       } else {
         // For magnitudes >1, move one month at a time...
@@ -12150,56 +12085,64 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           // ...which might decrease the day (eg, Jan 31 to Feb 28, etc)...
           new_date = this.moveMonth(new_date, dir);
         } // ...then reset the day, keeping it in the new month
+
+
         new_month = new_date.getUTCMonth();
         new_date.setUTCDate(day);
+
         test = function test() {
           return new_month !== new_date.getUTCMonth();
         };
-      }
-      // Common date-resetting loop -- if date is beyond end of month, make it
+      } // Common date-resetting loop -- if date is beyond end of month, make it
       // end of month
+
+
       while (test()) {
         new_date.setUTCDate(--day);
         new_date.setUTCMonth(new_month);
       }
+
       return new_date;
     },
-
     moveYear: function moveYear(date, dir) {
       return this.moveMonth(date, dir * 12);
     },
-
     dateWithinRange: function dateWithinRange(date) {
       return date >= this.startDate && date <= this.endDate;
     },
-
     keydown: function keydown(e) {
       if (this.picker.is(':not(:visible)')) {
         if (e.keyCode === 27) // allow escape to hide and re-show picker
           this.show();
         return;
       }
+
       var dateChanged = false,
           dir,
           newDate,
           newViewDate;
+
       switch (e.keyCode) {
         case 27:
           // escape
           this.hide();
           e.preventDefault();
           break;
+
         case 37: // left
+
         case 39:
           // right
           if (!this.keyboardNavigation) break;
           dir = e.keyCode === 37 ? -1 : 1;
           var viewMode = this.viewMode;
+
           if (e.ctrlKey) {
             viewMode += 2;
           } else if (e.shiftKey) {
             viewMode += 1;
           }
+
           if (viewMode === 4) {
             newDate = this.moveYear(this.date, dir);
             newViewDate = this.moveYear(this.viewDate, dir);
@@ -12216,6 +12159,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             newDate = this.moveMinute(this.date, dir);
             newViewDate = this.moveMinute(this.viewDate, dir);
           }
+
           if (this.dateWithinRange(newDate)) {
             this.date = newDate;
             this.viewDate = newViewDate;
@@ -12224,18 +12168,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             e.preventDefault();
             dateChanged = true;
           }
+
           break;
+
         case 38: // up
+
         case 40:
           // down
           if (!this.keyboardNavigation) break;
           dir = e.keyCode === 38 ? -1 : 1;
           viewMode = this.viewMode;
+
           if (e.ctrlKey) {
             viewMode += 2;
           } else if (e.shiftKey) {
             viewMode += 1;
           }
+
           if (viewMode === 4) {
             newDate = this.moveYear(this.date, dir);
             newViewDate = this.moveYear(this.viewDate, dir);
@@ -12257,6 +12206,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             newDate = this.moveMinute(this.date, dir * 4);
             newViewDate = this.moveMinute(this.viewDate, dir * 4);
           }
+
           if (this.dateWithinRange(newDate)) {
             this.date = newDate;
             this.viewDate = newViewDate;
@@ -12265,49 +12215,59 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             e.preventDefault();
             dateChanged = true;
           }
+
           break;
+
         case 13:
           // enter
           if (this.viewMode !== 0) {
             var oldViewMode = this.viewMode;
             this.showMode(-1);
             this.fill();
+
             if (oldViewMode === this.viewMode && this.autoclose) {
               this.hide();
             }
           } else {
             this.fill();
+
             if (this.autoclose) {
               this.hide();
             }
           }
+
           e.preventDefault();
           break;
+
         case 9:
           // tab
           this.hide();
           break;
       }
+
       if (dateChanged) {
         var element;
+
         if (this.isInput) {
           element = this.element;
         } else if (this.component) {
           element = this.element.find('input');
         }
+
         if (element) {
           element.change();
         }
+
         this.element.trigger({
           type: 'changeDate',
           date: this.getDate()
         });
       }
     },
-
     showMode: function showMode(dir) {
       if (dir) {
         var newViewMode = Math.max(0, Math.min(DPGlobal.modes.length - 1, this.viewMode + dir));
+
         if (newViewMode >= this.minView && newViewMode <= this.maxView) {
           this.element.trigger({
             type: 'changeMode',
@@ -12315,7 +12275,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             oldViewMode: this.viewMode,
             newViewMode: newViewMode
           });
-
           this.viewMode = newViewMode;
         }
       }
@@ -12328,31 +12287,35 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         In jquery 1.7.2+ everything works fine.
        */
       //this.picker.find('>div').hide().filter('.datetimepicker-'+DPGlobal.modes[this.viewMode].clsName).show();
+
+
       this.picker.find('>div').hide().filter('.datetimepicker-' + DPGlobal.modes[this.viewMode].clsName).css('display', 'block');
       this.updateNavArrows();
     },
-
     reset: function reset() {
       this._setDate(null, 'date');
     },
-
     convertViewModeText: function convertViewModeText(viewMode) {
       switch (viewMode) {
         case 4:
           return 'decade';
+
         case 3:
           return 'year';
+
         case 2:
           return 'month';
+
         case 1:
           return 'day';
+
         case 0:
           return 'hour';
       }
     }
   };
-
   var old = $.fn.datetimepicker;
+
   $.fn.datetimepicker = function (option) {
     var args = Array.apply(null, arguments);
     args.shift();
@@ -12360,12 +12323,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     this.each(function () {
       var $this = $(this),
           data = $this.data('datetimepicker'),
-          options = (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' && option;
+          options = _typeof(option) === 'object' && option;
+
       if (!data) {
         $this.data('datetimepicker', data = new Datetimepicker(this, $.extend({}, $.fn.datetimepicker.defaults, options)));
       }
+
       if (typeof option === 'string' && typeof data[option] === 'function') {
         internal_return = data[option].apply(data, args);
+
         if (internal_return !== undefined) {
           return false;
         }
@@ -12389,7 +12355,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       meridiem: []
     }
   };
-
   var DPGlobal = {
     modes: [{
       clsName: 'minutes',
@@ -12429,11 +12394,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     },
     validParts: function validParts(type) {
       if (type === 'standard') {
-        return (/t|hh?|HH?|p|P|z|Z|ii?|ss?|dd?|DD?|mm?|MM?|yy(?:yy)?/g
-        );
+        return /t|hh?|HH?|p|P|z|Z|ii?|ss?|dd?|DD?|mm?|MM?|yy(?:yy)?/g;
       } else if (type === 'php') {
-        return (/[dDjlNwzFmMnStyYaABgGhHis]/g
-        );
+        return /[dDjlNwzFmMnStyYaABgGhHis]/g;
       } else {
         throw new Error('Invalid format type.');
       }
@@ -12444,10 +12407,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       // so it's a bad format delimiter, anyway
       var separators = format.replace(this.validParts(type), '\0').split('\0'),
           parts = format.match(this.validParts(type));
+
       if (!separators || !separators.length || !parts || parts.length === 0) {
         throw new Error('Invalid date format.');
       }
-      return { separators: separators, parts: parts };
+
+      return {
+        separators: separators,
+        parts: parts
+      };
     },
     parseDate: function parseDate(date, format, language, type, timezone) {
       if (date instanceof Date) {
@@ -12455,41 +12423,52 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         dateUTC.setMilliseconds(0);
         return dateUTC;
       }
+
       if (/^\d{4}\-\d{1,2}\-\d{1,2}$/.test(date)) {
         format = this.parseFormat('yyyy-mm-dd', type);
       }
+
       if (/^\d{4}\-\d{1,2}\-\d{1,2}[T ]\d{1,2}\:\d{1,2}$/.test(date)) {
         format = this.parseFormat('yyyy-mm-dd hh:ii', type);
       }
+
       if (/^\d{4}\-\d{1,2}\-\d{1,2}[T ]\d{1,2}\:\d{1,2}\:\d{1,2}[Z]{0,1}$/.test(date)) {
         format = this.parseFormat('yyyy-mm-dd hh:ii:ss', type);
       }
+
       if (/^[-+]\d+[dmwy]([\s,]+[-+]\d+[dmwy])*$/.test(date)) {
         var part_re = /([-+]\d+)([dmwy])/,
             parts = date.match(/([-+]\d+)([dmwy])/g),
             part,
             dir;
         date = new Date();
+
         for (var i = 0; i < parts.length; i++) {
           part = part_re.exec(parts[i]);
           dir = parseInt(part[1]);
+
           switch (part[2]) {
             case 'd':
               date.setUTCDate(date.getUTCDate() + dir);
               break;
+
             case 'm':
               date = Datetimepicker.prototype.moveMonth.call(Datetimepicker.prototype, date, dir);
               break;
+
             case 'w':
               date.setUTCDate(date.getUTCDate() + dir * 7);
               break;
+
             case 'y':
               date = Datetimepicker.prototype.moveYear.call(Datetimepicker.prototype, date, dir);
               break;
           }
         }
+
         return UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), 0);
       }
+
       var parts = date && date.toString().match(this.nonpunctuation) || [],
           date = new Date(0, 0, 0, 0, 0, 0, 0),
           parsed = {},
@@ -12527,13 +12506,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         },
         m: function m(d, v) {
           v -= 1;
+
           while (v < 0) {
             v += 12;
-          }v %= 12;
+          }
+
+          v %= 12;
           d.setUTCMonth(v);
+
           while (d.getUTCMonth() !== v) {
             if (isNaN(d.getUTCMonth())) return d;else d.setUTCDate(d.getUTCDate() - 1);
-          }return d;
+          }
+
+          return d;
         },
         d: function d(_d, v) {
           return _d.setUTCDate(v);
@@ -12553,10 +12538,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       setters_map['P'] = setters_map['p'];
       setters_map['Z'] = setters_map['z'];
       date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+
       if (parts.length === format.parts.length) {
         for (var i = 0, cnt = format.parts.length; i < cnt; i++) {
           val = parseInt(parts[i], 10);
           part = format.parts[i];
+
           if (isNaN(val)) {
             switch (part) {
               case 'MM':
@@ -12567,6 +12554,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 });
                 val = $.inArray(filtered[0], dates[language].months) + 1;
                 break;
+
               case 'M':
                 filtered = $(dates[language].monthsShort).filter(function () {
                   var m = this.slice(0, parts[i].length),
@@ -12575,31 +12563,37 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 });
                 val = $.inArray(filtered[0], dates[language].monthsShort) + 1;
                 break;
+
               case 'p':
               case 'P':
                 val = $.inArray(parts[i].toLowerCase(), dates[language].meridiem);
                 break;
+
               case 'z':
               case 'Z':
                 timezone;
                 break;
-
             }
           }
+
           parsed[part] = val;
         }
+
         for (var i = 0, s; i < setters_order.length; i++) {
           s = setters_order[i];
           if (s in parsed && !isNaN(parsed[s])) setters_map[s](date, parsed[s]);
         }
       }
+
       return date;
     },
     formatDate: function formatDate(date, format, language, type, timezone) {
       if (date === null) {
         return '';
       }
+
       var val;
+
       if (type === 'standard') {
         val = {
           t: date.getTime(),
@@ -12630,6 +12624,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         } else {
           val.H = val.h;
         }
+
         val.HH = (val.H < 10 ? '0' : '') + val.H;
         val.P = val.p.toUpperCase();
         val.Z = val.z;
@@ -12653,8 +12648,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           j: date.getUTCDate(),
           l: dates[language].days[date.getUTCDay()],
           D: dates[language].daysShort[date.getUTCDay()],
-          w: date.getUTCDay(), // 0 -> 6
-          N: date.getUTCDay() === 0 ? 7 : date.getUTCDay(), // 1 -> 7
+          w: date.getUTCDay(),
+          // 0 -> 6
+          N: date.getUTCDay() === 0 ? 7 : date.getUTCDay(),
+          // 1 -> 7
           S: date.getUTCDate() % 10 <= dates[language].suffix.length ? dates[language].suffix[date.getUTCDate() % 10 - 1] : '',
           // hour
           a: dates[language].meridiem.length === 2 ? dates[language].meridiem[date.getUTCHours() < 12 ? 0 : 1] : '',
@@ -12675,17 +12672,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       } else {
         throw new Error('Invalid format type.');
       }
+
       var date = [],
           seps = $.extend([], format.separators);
+
       for (var i = 0, cnt = format.parts.length; i < cnt; i++) {
         if (seps.length) {
           date.push(seps.shift());
         }
+
         date.push(val[format.parts[i]]);
       }
+
       if (seps.length) {
         date.push(seps.shift());
       }
+
       return date.join('');
     },
     convertViewMode: function convertViewMode(viewMode) {
@@ -12694,18 +12696,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         case 'decade':
           viewMode = 4;
           break;
+
         case 3:
         case 'year':
           viewMode = 3;
           break;
+
         case 2:
         case 'month':
           viewMode = 2;
           break;
+
         case 1:
         case 'day':
           viewMode = 1;
           break;
+
         case 0:
         case 'hour':
           viewMode = 0;
@@ -12722,7 +12728,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   DPGlobal.template = '<div class="datetimepicker">' + '<div class="datetimepicker-minutes">' + '<table class=" table-condensed">' + DPGlobal.headTemplate + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-hours">' + '<table class=" table-condensed">' + DPGlobal.headTemplate + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-days">' + '<table class=" table-condensed">' + DPGlobal.headTemplate + '<tbody></tbody>' + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-months">' + '<table class="table-condensed">' + DPGlobal.headTemplate + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-years">' + '<table class="table-condensed">' + DPGlobal.headTemplate + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '</div>';
   DPGlobal.templateV3 = '<div class="datetimepicker">' + '<div class="datetimepicker-minutes">' + '<table class=" table-condensed">' + DPGlobal.headTemplateV3 + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-hours">' + '<table class=" table-condensed">' + DPGlobal.headTemplateV3 + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-days">' + '<table class=" table-condensed">' + DPGlobal.headTemplateV3 + '<tbody></tbody>' + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-months">' + '<table class="table-condensed">' + DPGlobal.headTemplateV3 + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '<div class="datetimepicker-years">' + '<table class="table-condensed">' + DPGlobal.headTemplateV3 + DPGlobal.contTemplate + DPGlobal.footTemplate + '</table>' + '</div>' + '</div>';
   $.fn.datetimepicker.DPGlobal = DPGlobal;
-
   /* DATETIMEPICKER NO CONFLICT
    * =================== */
 
@@ -12730,15 +12735,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     $.fn.datetimepicker = old;
     return this;
   };
-
   /* DATETIMEPICKER DATA-API
    * ================== */
+
 
   $(document).on('focus.datetimepicker.data-api click.datetimepicker.data-api', '[data-provide="datetimepicker"]', function (e) {
     var $this = $(this);
     if ($this.data('datetimepicker')) return;
-    e.preventDefault();
-    // component click requires us to explicitly show it
+    e.preventDefault(); // component click requires us to explicitly show it
+
     $this.datetimepicker('show');
   });
   $(function () {
@@ -12747,7 +12752,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
-/* 6 */
+
+/***/ "./resources/assets/color-picker/js/colorpicker.js":
+/*!*********************************************************!*\
+  !*** ./resources/assets/color-picker/js/colorpicker.js ***!
+  \*********************************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 /**
@@ -12759,454 +12769,1054 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
  * 
  */
 (function ($) {
-	var ColorPicker = function () {
-		var ids = {},
-		    inAction,
-		    charMin = 65,
-		    visible,
-		    tpl = '<div class="colorpicker"><div class="colorpicker_color"><div><div></div></div></div><div class="colorpicker_hue"><div></div></div><div class="colorpicker_new_color"></div><div class="colorpicker_current_color"></div><div class="colorpicker_hex"><input type="text" maxlength="6" size="6" /></div><div class="colorpicker_rgb_r colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_rgb_g colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_rgb_b colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_h colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_s colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_b colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_submit"></div></div>',
-		    defaults = {
-			eventName: 'click',
-			onShow: function onShow() {},
-			onBeforeShow: function onBeforeShow() {},
-			onHide: function onHide() {},
-			onChange: function onChange() {},
-			onSubmit: function onSubmit() {},
-			color: 'ff0000',
-			livePreview: true,
-			flat: false
-		},
-		    fillRGBFields = function fillRGBFields(hsb, cal) {
-			var rgb = HSBToRGB(hsb);
-			$(cal).data('colorpicker').fields.eq(1).val(rgb.r).end().eq(2).val(rgb.g).end().eq(3).val(rgb.b).end();
-		},
-		    fillHSBFields = function fillHSBFields(hsb, cal) {
-			$(cal).data('colorpicker').fields.eq(4).val(hsb.h).end().eq(5).val(hsb.s).end().eq(6).val(hsb.b).end();
-		},
-		    fillHexFields = function fillHexFields(hsb, cal) {
-			$(cal).data('colorpicker').fields.eq(0).val(HSBToHex(hsb)).end();
-		},
-		    setSelector = function setSelector(hsb, cal) {
-			$(cal).data('colorpicker').selector.css('backgroundColor', '#' + HSBToHex({ h: hsb.h, s: 100, b: 100 }));
-			$(cal).data('colorpicker').selectorIndic.css({
-				left: parseInt(150 * hsb.s / 100, 10),
-				top: parseInt(150 * (100 - hsb.b) / 100, 10)
-			});
-		},
-		    setHue = function setHue(hsb, cal) {
-			$(cal).data('colorpicker').hue.css('top', parseInt(150 - 150 * hsb.h / 360, 10));
-		},
-		    setCurrentColor = function setCurrentColor(hsb, cal) {
-			$(cal).data('colorpicker').currentColor.css('backgroundColor', '#' + HSBToHex(hsb));
-		},
-		    setNewColor = function setNewColor(hsb, cal) {
-			$(cal).data('colorpicker').newColor.css('backgroundColor', '#' + HSBToHex(hsb));
-		},
-		    keyDown = function keyDown(ev) {
-			var pressedKey = ev.charCode || ev.keyCode || -1;
-			if (pressedKey > charMin && pressedKey <= 90 || pressedKey == 32) {
-				return false;
-			}
-			var cal = $(this).parent().parent();
-			if (cal.data('colorpicker').livePreview === true) {
-				change.apply(this);
-			}
-		},
-		    change = function change(ev) {
-			var cal = $(this).parent().parent(),
-			    col;
-			if (this.parentNode.className.indexOf('_hex') > 0) {
-				cal.data('colorpicker').color = col = HexToHSB(fixHex(this.value));
-			} else if (this.parentNode.className.indexOf('_hsb') > 0) {
-				cal.data('colorpicker').color = col = fixHSB({
-					h: parseInt(cal.data('colorpicker').fields.eq(4).val(), 10),
-					s: parseInt(cal.data('colorpicker').fields.eq(5).val(), 10),
-					b: parseInt(cal.data('colorpicker').fields.eq(6).val(), 10)
-				});
-			} else {
-				cal.data('colorpicker').color = col = RGBToHSB(fixRGB({
-					r: parseInt(cal.data('colorpicker').fields.eq(1).val(), 10),
-					g: parseInt(cal.data('colorpicker').fields.eq(2).val(), 10),
-					b: parseInt(cal.data('colorpicker').fields.eq(3).val(), 10)
-				}));
-			}
-			if (ev) {
-				fillRGBFields(col, cal.get(0));
-				fillHexFields(col, cal.get(0));
-				fillHSBFields(col, cal.get(0));
-			}
-			setSelector(col, cal.get(0));
-			setHue(col, cal.get(0));
-			setNewColor(col, cal.get(0));
-			cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col)]);
-		},
-		    blur = function blur(ev) {
-			var cal = $(this).parent().parent();
-			cal.data('colorpicker').fields.parent().removeClass('colorpicker_focus');
-		},
-		    focus = function focus() {
-			charMin = this.parentNode.className.indexOf('_hex') > 0 ? 70 : 65;
-			$(this).parent().parent().data('colorpicker').fields.parent().removeClass('colorpicker_focus');
-			$(this).parent().addClass('colorpicker_focus');
-		},
-		    downIncrement = function downIncrement(ev) {
-			var field = $(this).parent().find('input').focus();
-			var current = {
-				el: $(this).parent().addClass('colorpicker_slider'),
-				max: this.parentNode.className.indexOf('_hsb_h') > 0 ? 360 : this.parentNode.className.indexOf('_hsb') > 0 ? 100 : 255,
-				y: ev.pageY,
-				field: field,
-				val: parseInt(field.val(), 10),
-				preview: $(this).parent().parent().data('colorpicker').livePreview
-			};
-			$(document).bind('mouseup', current, upIncrement);
-			$(document).bind('mousemove', current, moveIncrement);
-		},
-		    moveIncrement = function moveIncrement(ev) {
-			ev.data.field.val(Math.max(0, Math.min(ev.data.max, parseInt(ev.data.val + ev.pageY - ev.data.y, 10))));
-			if (ev.data.preview) {
-				change.apply(ev.data.field.get(0), [true]);
-			}
-			return false;
-		},
-		    upIncrement = function upIncrement(ev) {
-			change.apply(ev.data.field.get(0), [true]);
-			ev.data.el.removeClass('colorpicker_slider').find('input').focus();
-			$(document).unbind('mouseup', upIncrement);
-			$(document).unbind('mousemove', moveIncrement);
-			return false;
-		},
-		    downHue = function downHue(ev) {
-			var current = {
-				cal: $(this).parent(),
-				y: $(this).offset().top
-			};
-			current.preview = current.cal.data('colorpicker').livePreview;
-			$(document).bind('mouseup', current, upHue);
-			$(document).bind('mousemove', current, moveHue);
-		},
-		    moveHue = function moveHue(ev) {
-			change.apply(ev.data.cal.data('colorpicker').fields.eq(4).val(parseInt(360 * (150 - Math.max(0, Math.min(150, ev.pageY - ev.data.y))) / 150, 10)).get(0), [ev.data.preview]);
-			return false;
-		},
-		    upHue = function upHue(ev) {
-			fillRGBFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
-			fillHexFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
-			$(document).unbind('mouseup', upHue);
-			$(document).unbind('mousemove', moveHue);
-			return false;
-		},
-		    downSelector = function downSelector(ev) {
-			var current = {
-				cal: $(this).parent(),
-				pos: $(this).offset()
-			};
-			current.preview = current.cal.data('colorpicker').livePreview;
-			$(document).bind('mouseup', current, upSelector);
-			$(document).bind('mousemove', current, moveSelector);
-		},
-		    moveSelector = function moveSelector(ev) {
-			change.apply(ev.data.cal.data('colorpicker').fields.eq(6).val(parseInt(100 * (150 - Math.max(0, Math.min(150, ev.pageY - ev.data.pos.top))) / 150, 10)).end().eq(5).val(parseInt(100 * Math.max(0, Math.min(150, ev.pageX - ev.data.pos.left)) / 150, 10)).get(0), [ev.data.preview]);
-			return false;
-		},
-		    upSelector = function upSelector(ev) {
-			fillRGBFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
-			fillHexFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
-			$(document).unbind('mouseup', upSelector);
-			$(document).unbind('mousemove', moveSelector);
-			return false;
-		},
-		    enterSubmit = function enterSubmit(ev) {
-			$(this).addClass('colorpicker_focus');
-		},
-		    leaveSubmit = function leaveSubmit(ev) {
-			$(this).removeClass('colorpicker_focus');
-		},
-		    clickSubmit = function clickSubmit(ev) {
-			var cal = $(this).parent();
-			var col = cal.data('colorpicker').color;
-			cal.data('colorpicker').origColor = col;
-			setCurrentColor(col, cal.get(0));
-			cal.data('colorpicker').onSubmit(col, HSBToHex(col), HSBToRGB(col), cal.data('colorpicker').el);
-		},
-		    show = function show(ev) {
-			var cal = $('#' + $(this).data('colorpickerId'));
-			cal.data('colorpicker').onBeforeShow.apply(this, [cal.get(0)]);
-			var pos = $(this).offset();
-			var viewPort = getViewport();
-			var top = pos.top + this.offsetHeight;
-			var left = pos.left;
-			if (top + 176 > viewPort.t + viewPort.h) {
-				top -= this.offsetHeight + 176;
-			}
-			if (left + 356 > viewPort.l + viewPort.w) {
-				left -= 356;
-			}
-			cal.css({ left: left + 'px', top: top + 'px' });
-			if (cal.data('colorpicker').onShow.apply(this, [cal.get(0)]) != false) {
-				cal.show();
-			}
-			$(document).bind('mousedown', { cal: cal }, hide);
-			return false;
-		},
-		    hide = function hide(ev) {
-			if (!isChildOf(ev.data.cal.get(0), ev.target, ev.data.cal.get(0))) {
-				if (ev.data.cal.data('colorpicker').onHide.apply(this, [ev.data.cal.get(0)]) != false) {
-					ev.data.cal.hide();
-				}
-				$(document).unbind('mousedown', hide);
-			}
-		},
-		    isChildOf = function isChildOf(parentEl, el, container) {
-			if (parentEl == el) {
-				return true;
-			}
-			if (parentEl.contains) {
-				return parentEl.contains(el);
-			}
-			if (parentEl.compareDocumentPosition) {
-				return !!(parentEl.compareDocumentPosition(el) & 16);
-			}
-			var prEl = el.parentNode;
-			while (prEl && prEl != container) {
-				if (prEl == parentEl) return true;
-				prEl = prEl.parentNode;
-			}
-			return false;
-		},
-		    getViewport = function getViewport() {
-			var m = document.compatMode == 'CSS1Compat';
-			return {
-				l: window.pageXOffset || (m ? document.documentElement.scrollLeft : document.body.scrollLeft),
-				t: window.pageYOffset || (m ? document.documentElement.scrollTop : document.body.scrollTop),
-				w: window.innerWidth || (m ? document.documentElement.clientWidth : document.body.clientWidth),
-				h: window.innerHeight || (m ? document.documentElement.clientHeight : document.body.clientHeight)
-			};
-		},
-		    fixHSB = function fixHSB(hsb) {
-			return {
-				h: Math.min(360, Math.max(0, hsb.h)),
-				s: Math.min(100, Math.max(0, hsb.s)),
-				b: Math.min(100, Math.max(0, hsb.b))
-			};
-		},
-		    fixRGB = function fixRGB(rgb) {
-			return {
-				r: Math.min(255, Math.max(0, rgb.r)),
-				g: Math.min(255, Math.max(0, rgb.g)),
-				b: Math.min(255, Math.max(0, rgb.b))
-			};
-		},
-		    fixHex = function fixHex(hex) {
-			var len = 6 - hex.length;
-			if (len > 0) {
-				var o = [];
-				for (var i = 0; i < len; i++) {
-					o.push('0');
-				}
-				o.push(hex);
-				hex = o.join('');
-			}
-			return hex;
-		},
-		    HexToRGB = function HexToRGB(hex) {
-			var hex = parseInt(hex.indexOf('#') > -1 ? hex.substring(1) : hex, 16);
-			return { r: hex >> 16, g: (hex & 0x00FF00) >> 8, b: hex & 0x0000FF };
-		},
-		    HexToHSB = function HexToHSB(hex) {
-			return RGBToHSB(HexToRGB(hex));
-		},
-		    RGBToHSB = function RGBToHSB(rgb) {
-			var hsb = {
-				h: 0,
-				s: 0,
-				b: 0
-			};
-			var min = Math.min(rgb.r, rgb.g, rgb.b);
-			var max = Math.max(rgb.r, rgb.g, rgb.b);
-			var delta = max - min;
-			hsb.b = max;
-			if (max != 0) {}
-			hsb.s = max != 0 ? 255 * delta / max : 0;
-			if (hsb.s != 0) {
-				if (rgb.r == max) {
-					hsb.h = (rgb.g - rgb.b) / delta;
-				} else if (rgb.g == max) {
-					hsb.h = 2 + (rgb.b - rgb.r) / delta;
-				} else {
-					hsb.h = 4 + (rgb.r - rgb.g) / delta;
-				}
-			} else {
-				hsb.h = -1;
-			}
-			hsb.h *= 60;
-			if (hsb.h < 0) {
-				hsb.h += 360;
-			}
-			hsb.s *= 100 / 255;
-			hsb.b *= 100 / 255;
-			return hsb;
-		},
-		    HSBToRGB = function HSBToRGB(hsb) {
-			var rgb = {};
-			var h = Math.round(hsb.h);
-			var s = Math.round(hsb.s * 255 / 100);
-			var v = Math.round(hsb.b * 255 / 100);
-			if (s == 0) {
-				rgb.r = rgb.g = rgb.b = v;
-			} else {
-				var t1 = v;
-				var t2 = (255 - s) * v / 255;
-				var t3 = (t1 - t2) * (h % 60) / 60;
-				if (h == 360) h = 0;
-				if (h < 60) {
-					rgb.r = t1;rgb.b = t2;rgb.g = t2 + t3;
-				} else if (h < 120) {
-					rgb.g = t1;rgb.b = t2;rgb.r = t1 - t3;
-				} else if (h < 180) {
-					rgb.g = t1;rgb.r = t2;rgb.b = t2 + t3;
-				} else if (h < 240) {
-					rgb.b = t1;rgb.r = t2;rgb.g = t1 - t3;
-				} else if (h < 300) {
-					rgb.b = t1;rgb.g = t2;rgb.r = t2 + t3;
-				} else if (h < 360) {
-					rgb.r = t1;rgb.g = t2;rgb.b = t1 - t3;
-				} else {
-					rgb.r = 0;rgb.g = 0;rgb.b = 0;
-				}
-			}
-			return { r: Math.round(rgb.r), g: Math.round(rgb.g), b: Math.round(rgb.b) };
-		},
-		    RGBToHex = function RGBToHex(rgb) {
-			var hex = [rgb.r.toString(16), rgb.g.toString(16), rgb.b.toString(16)];
-			$.each(hex, function (nr, val) {
-				if (val.length == 1) {
-					hex[nr] = '0' + val;
-				}
-			});
-			return hex.join('');
-		},
-		    HSBToHex = function HSBToHex(hsb) {
-			return RGBToHex(HSBToRGB(hsb));
-		},
-		    restoreOriginal = function restoreOriginal() {
-			var cal = $(this).parent();
-			var col = cal.data('colorpicker').origColor;
-			cal.data('colorpicker').color = col;
-			fillRGBFields(col, cal.get(0));
-			fillHexFields(col, cal.get(0));
-			fillHSBFields(col, cal.get(0));
-			setSelector(col, cal.get(0));
-			setHue(col, cal.get(0));
-			setNewColor(col, cal.get(0));
-		};
-		return {
-			init: function init(opt) {
-				opt = $.extend({}, defaults, opt || {});
-				if (typeof opt.color == 'string') {
-					opt.color = HexToHSB(opt.color);
-				} else if (opt.color.r != undefined && opt.color.g != undefined && opt.color.b != undefined) {
-					opt.color = RGBToHSB(opt.color);
-				} else if (opt.color.h != undefined && opt.color.s != undefined && opt.color.b != undefined) {
-					opt.color = fixHSB(opt.color);
-				} else {
-					return this;
-				}
-				return this.each(function () {
-					if (!$(this).data('colorpickerId')) {
-						var options = $.extend({}, opt);
-						options.origColor = opt.color;
-						var id = 'collorpicker_' + parseInt(Math.random() * 1000);
-						$(this).data('colorpickerId', id);
-						var cal = $(tpl).attr('id', id);
-						if (options.flat) {
-							cal.appendTo(this).show();
-						} else {
-							cal.appendTo(document.body);
-						}
-						options.fields = cal.find('input').bind('keyup', keyDown).bind('change', change).bind('blur', blur).bind('focus', focus);
-						cal.find('span').bind('mousedown', downIncrement).end().find('>div.colorpicker_current_color').bind('click', restoreOriginal);
-						options.selector = cal.find('div.colorpicker_color').bind('mousedown', downSelector);
-						options.selectorIndic = options.selector.find('div div');
-						options.el = this;
-						options.hue = cal.find('div.colorpicker_hue div');
-						cal.find('div.colorpicker_hue').bind('mousedown', downHue);
-						options.newColor = cal.find('div.colorpicker_new_color');
-						options.currentColor = cal.find('div.colorpicker_current_color');
-						cal.data('colorpicker', options);
-						cal.find('div.colorpicker_submit').bind('mouseenter', enterSubmit).bind('mouseleave', leaveSubmit).bind('click', clickSubmit);
-						fillRGBFields(options.color, cal.get(0));
-						fillHSBFields(options.color, cal.get(0));
-						fillHexFields(options.color, cal.get(0));
-						setHue(options.color, cal.get(0));
-						setSelector(options.color, cal.get(0));
-						setCurrentColor(options.color, cal.get(0));
-						setNewColor(options.color, cal.get(0));
-						if (options.flat) {
-							cal.css({
-								position: 'relative',
-								display: 'block'
-							});
-						} else {
-							$(this).bind(options.eventName, show);
-						}
-					}
-				});
-			},
-			showPicker: function showPicker() {
-				return this.each(function () {
-					if ($(this).data('colorpickerId')) {
-						show.apply(this);
-					}
-				});
-			},
-			hidePicker: function hidePicker() {
-				return this.each(function () {
-					if ($(this).data('colorpickerId')) {
-						$('#' + $(this).data('colorpickerId')).hide();
-					}
-				});
-			},
-			setColor: function setColor(col) {
-				if (typeof col == 'string') {
-					col = HexToHSB(col);
-				} else if (col.r != undefined && col.g != undefined && col.b != undefined) {
-					col = RGBToHSB(col);
-				} else if (col.h != undefined && col.s != undefined && col.b != undefined) {
-					col = fixHSB(col);
-				} else {
-					return this;
-				}
-				return this.each(function () {
-					if ($(this).data('colorpickerId')) {
-						var cal = $('#' + $(this).data('colorpickerId'));
-						cal.data('colorpicker').color = col;
-						cal.data('colorpicker').origColor = col;
-						fillRGBFields(col, cal.get(0));
-						fillHSBFields(col, cal.get(0));
-						fillHexFields(col, cal.get(0));
-						setHue(col, cal.get(0));
-						setSelector(col, cal.get(0));
-						setCurrentColor(col, cal.get(0));
-						setNewColor(col, cal.get(0));
-					}
-				});
-			}
-		};
-	}();
-	$.fn.extend({
-		ColorPicker: ColorPicker.init,
-		ColorPickerHide: ColorPicker.hidePicker,
-		ColorPickerShow: ColorPicker.showPicker,
-		ColorPickerSetColor: ColorPicker.setColor
-	});
+  var ColorPicker = function () {
+    var ids = {},
+        inAction,
+        charMin = 65,
+        visible,
+        tpl = '<div class="colorpicker"><div class="colorpicker_color"><div><div></div></div></div><div class="colorpicker_hue"><div></div></div><div class="colorpicker_new_color"></div><div class="colorpicker_current_color"></div><div class="colorpicker_hex"><input type="text" maxlength="6" size="6" /></div><div class="colorpicker_rgb_r colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_rgb_g colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_rgb_b colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_h colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_s colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_b colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_submit"></div></div>',
+        defaults = {
+      eventName: 'click',
+      onShow: function onShow() {},
+      onBeforeShow: function onBeforeShow() {},
+      onHide: function onHide() {},
+      onChange: function onChange() {},
+      onSubmit: function onSubmit() {},
+      color: 'ff0000',
+      livePreview: true,
+      flat: false
+    },
+        fillRGBFields = function fillRGBFields(hsb, cal) {
+      var rgb = HSBToRGB(hsb);
+      $(cal).data('colorpicker').fields.eq(1).val(rgb.r).end().eq(2).val(rgb.g).end().eq(3).val(rgb.b).end();
+    },
+        fillHSBFields = function fillHSBFields(hsb, cal) {
+      $(cal).data('colorpicker').fields.eq(4).val(hsb.h).end().eq(5).val(hsb.s).end().eq(6).val(hsb.b).end();
+    },
+        fillHexFields = function fillHexFields(hsb, cal) {
+      $(cal).data('colorpicker').fields.eq(0).val(HSBToHex(hsb)).end();
+    },
+        setSelector = function setSelector(hsb, cal) {
+      $(cal).data('colorpicker').selector.css('backgroundColor', '#' + HSBToHex({
+        h: hsb.h,
+        s: 100,
+        b: 100
+      }));
+      $(cal).data('colorpicker').selectorIndic.css({
+        left: parseInt(150 * hsb.s / 100, 10),
+        top: parseInt(150 * (100 - hsb.b) / 100, 10)
+      });
+    },
+        setHue = function setHue(hsb, cal) {
+      $(cal).data('colorpicker').hue.css('top', parseInt(150 - 150 * hsb.h / 360, 10));
+    },
+        setCurrentColor = function setCurrentColor(hsb, cal) {
+      $(cal).data('colorpicker').currentColor.css('backgroundColor', '#' + HSBToHex(hsb));
+    },
+        setNewColor = function setNewColor(hsb, cal) {
+      $(cal).data('colorpicker').newColor.css('backgroundColor', '#' + HSBToHex(hsb));
+    },
+        keyDown = function keyDown(ev) {
+      var pressedKey = ev.charCode || ev.keyCode || -1;
+
+      if (pressedKey > charMin && pressedKey <= 90 || pressedKey == 32) {
+        return false;
+      }
+
+      var cal = $(this).parent().parent();
+
+      if (cal.data('colorpicker').livePreview === true) {
+        change.apply(this);
+      }
+    },
+        change = function change(ev) {
+      var cal = $(this).parent().parent(),
+          col;
+
+      if (this.parentNode.className.indexOf('_hex') > 0) {
+        cal.data('colorpicker').color = col = HexToHSB(fixHex(this.value));
+      } else if (this.parentNode.className.indexOf('_hsb') > 0) {
+        cal.data('colorpicker').color = col = fixHSB({
+          h: parseInt(cal.data('colorpicker').fields.eq(4).val(), 10),
+          s: parseInt(cal.data('colorpicker').fields.eq(5).val(), 10),
+          b: parseInt(cal.data('colorpicker').fields.eq(6).val(), 10)
+        });
+      } else {
+        cal.data('colorpicker').color = col = RGBToHSB(fixRGB({
+          r: parseInt(cal.data('colorpicker').fields.eq(1).val(), 10),
+          g: parseInt(cal.data('colorpicker').fields.eq(2).val(), 10),
+          b: parseInt(cal.data('colorpicker').fields.eq(3).val(), 10)
+        }));
+      }
+
+      if (ev) {
+        fillRGBFields(col, cal.get(0));
+        fillHexFields(col, cal.get(0));
+        fillHSBFields(col, cal.get(0));
+      }
+
+      setSelector(col, cal.get(0));
+      setHue(col, cal.get(0));
+      setNewColor(col, cal.get(0));
+      cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col)]);
+    },
+        blur = function blur(ev) {
+      var cal = $(this).parent().parent();
+      cal.data('colorpicker').fields.parent().removeClass('colorpicker_focus');
+    },
+        focus = function focus() {
+      charMin = this.parentNode.className.indexOf('_hex') > 0 ? 70 : 65;
+      $(this).parent().parent().data('colorpicker').fields.parent().removeClass('colorpicker_focus');
+      $(this).parent().addClass('colorpicker_focus');
+    },
+        downIncrement = function downIncrement(ev) {
+      var field = $(this).parent().find('input').focus();
+      var current = {
+        el: $(this).parent().addClass('colorpicker_slider'),
+        max: this.parentNode.className.indexOf('_hsb_h') > 0 ? 360 : this.parentNode.className.indexOf('_hsb') > 0 ? 100 : 255,
+        y: ev.pageY,
+        field: field,
+        val: parseInt(field.val(), 10),
+        preview: $(this).parent().parent().data('colorpicker').livePreview
+      };
+      $(document).bind('mouseup', current, upIncrement);
+      $(document).bind('mousemove', current, moveIncrement);
+    },
+        moveIncrement = function moveIncrement(ev) {
+      ev.data.field.val(Math.max(0, Math.min(ev.data.max, parseInt(ev.data.val + ev.pageY - ev.data.y, 10))));
+
+      if (ev.data.preview) {
+        change.apply(ev.data.field.get(0), [true]);
+      }
+
+      return false;
+    },
+        upIncrement = function upIncrement(ev) {
+      change.apply(ev.data.field.get(0), [true]);
+      ev.data.el.removeClass('colorpicker_slider').find('input').focus();
+      $(document).unbind('mouseup', upIncrement);
+      $(document).unbind('mousemove', moveIncrement);
+      return false;
+    },
+        downHue = function downHue(ev) {
+      var current = {
+        cal: $(this).parent(),
+        y: $(this).offset().top
+      };
+      current.preview = current.cal.data('colorpicker').livePreview;
+      $(document).bind('mouseup', current, upHue);
+      $(document).bind('mousemove', current, moveHue);
+    },
+        moveHue = function moveHue(ev) {
+      change.apply(ev.data.cal.data('colorpicker').fields.eq(4).val(parseInt(360 * (150 - Math.max(0, Math.min(150, ev.pageY - ev.data.y))) / 150, 10)).get(0), [ev.data.preview]);
+      return false;
+    },
+        upHue = function upHue(ev) {
+      fillRGBFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
+      fillHexFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
+      $(document).unbind('mouseup', upHue);
+      $(document).unbind('mousemove', moveHue);
+      return false;
+    },
+        downSelector = function downSelector(ev) {
+      var current = {
+        cal: $(this).parent(),
+        pos: $(this).offset()
+      };
+      current.preview = current.cal.data('colorpicker').livePreview;
+      $(document).bind('mouseup', current, upSelector);
+      $(document).bind('mousemove', current, moveSelector);
+    },
+        moveSelector = function moveSelector(ev) {
+      change.apply(ev.data.cal.data('colorpicker').fields.eq(6).val(parseInt(100 * (150 - Math.max(0, Math.min(150, ev.pageY - ev.data.pos.top))) / 150, 10)).end().eq(5).val(parseInt(100 * Math.max(0, Math.min(150, ev.pageX - ev.data.pos.left)) / 150, 10)).get(0), [ev.data.preview]);
+      return false;
+    },
+        upSelector = function upSelector(ev) {
+      fillRGBFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
+      fillHexFields(ev.data.cal.data('colorpicker').color, ev.data.cal.get(0));
+      $(document).unbind('mouseup', upSelector);
+      $(document).unbind('mousemove', moveSelector);
+      return false;
+    },
+        enterSubmit = function enterSubmit(ev) {
+      $(this).addClass('colorpicker_focus');
+    },
+        leaveSubmit = function leaveSubmit(ev) {
+      $(this).removeClass('colorpicker_focus');
+    },
+        clickSubmit = function clickSubmit(ev) {
+      var cal = $(this).parent();
+      var col = cal.data('colorpicker').color;
+      cal.data('colorpicker').origColor = col;
+      setCurrentColor(col, cal.get(0));
+      cal.data('colorpicker').onSubmit(col, HSBToHex(col), HSBToRGB(col), cal.data('colorpicker').el);
+    },
+        show = function show(ev) {
+      var cal = $('#' + $(this).data('colorpickerId'));
+      cal.data('colorpicker').onBeforeShow.apply(this, [cal.get(0)]);
+      var pos = $(this).offset();
+      var viewPort = getViewport();
+      var top = pos.top + this.offsetHeight;
+      var left = pos.left;
+
+      if (top + 176 > viewPort.t + viewPort.h) {
+        top -= this.offsetHeight + 176;
+      }
+
+      if (left + 356 > viewPort.l + viewPort.w) {
+        left -= 356;
+      }
+
+      cal.css({
+        left: left + 'px',
+        top: top + 'px'
+      });
+
+      if (cal.data('colorpicker').onShow.apply(this, [cal.get(0)]) != false) {
+        cal.show();
+      }
+
+      $(document).bind('mousedown', {
+        cal: cal
+      }, hide);
+      return false;
+    },
+        hide = function hide(ev) {
+      if (!isChildOf(ev.data.cal.get(0), ev.target, ev.data.cal.get(0))) {
+        if (ev.data.cal.data('colorpicker').onHide.apply(this, [ev.data.cal.get(0)]) != false) {
+          ev.data.cal.hide();
+        }
+
+        $(document).unbind('mousedown', hide);
+      }
+    },
+        isChildOf = function isChildOf(parentEl, el, container) {
+      if (parentEl == el) {
+        return true;
+      }
+
+      if (parentEl.contains) {
+        return parentEl.contains(el);
+      }
+
+      if (parentEl.compareDocumentPosition) {
+        return !!(parentEl.compareDocumentPosition(el) & 16);
+      }
+
+      var prEl = el.parentNode;
+
+      while (prEl && prEl != container) {
+        if (prEl == parentEl) return true;
+        prEl = prEl.parentNode;
+      }
+
+      return false;
+    },
+        getViewport = function getViewport() {
+      var m = document.compatMode == 'CSS1Compat';
+      return {
+        l: window.pageXOffset || (m ? document.documentElement.scrollLeft : document.body.scrollLeft),
+        t: window.pageYOffset || (m ? document.documentElement.scrollTop : document.body.scrollTop),
+        w: window.innerWidth || (m ? document.documentElement.clientWidth : document.body.clientWidth),
+        h: window.innerHeight || (m ? document.documentElement.clientHeight : document.body.clientHeight)
+      };
+    },
+        fixHSB = function fixHSB(hsb) {
+      return {
+        h: Math.min(360, Math.max(0, hsb.h)),
+        s: Math.min(100, Math.max(0, hsb.s)),
+        b: Math.min(100, Math.max(0, hsb.b))
+      };
+    },
+        fixRGB = function fixRGB(rgb) {
+      return {
+        r: Math.min(255, Math.max(0, rgb.r)),
+        g: Math.min(255, Math.max(0, rgb.g)),
+        b: Math.min(255, Math.max(0, rgb.b))
+      };
+    },
+        fixHex = function fixHex(hex) {
+      var len = 6 - hex.length;
+
+      if (len > 0) {
+        var o = [];
+
+        for (var i = 0; i < len; i++) {
+          o.push('0');
+        }
+
+        o.push(hex);
+        hex = o.join('');
+      }
+
+      return hex;
+    },
+        HexToRGB = function HexToRGB(hex) {
+      var hex = parseInt(hex.indexOf('#') > -1 ? hex.substring(1) : hex, 16);
+      return {
+        r: hex >> 16,
+        g: (hex & 0x00FF00) >> 8,
+        b: hex & 0x0000FF
+      };
+    },
+        HexToHSB = function HexToHSB(hex) {
+      return RGBToHSB(HexToRGB(hex));
+    },
+        RGBToHSB = function RGBToHSB(rgb) {
+      var hsb = {
+        h: 0,
+        s: 0,
+        b: 0
+      };
+      var min = Math.min(rgb.r, rgb.g, rgb.b);
+      var max = Math.max(rgb.r, rgb.g, rgb.b);
+      var delta = max - min;
+      hsb.b = max;
+
+      if (max != 0) {}
+
+      hsb.s = max != 0 ? 255 * delta / max : 0;
+
+      if (hsb.s != 0) {
+        if (rgb.r == max) {
+          hsb.h = (rgb.g - rgb.b) / delta;
+        } else if (rgb.g == max) {
+          hsb.h = 2 + (rgb.b - rgb.r) / delta;
+        } else {
+          hsb.h = 4 + (rgb.r - rgb.g) / delta;
+        }
+      } else {
+        hsb.h = -1;
+      }
+
+      hsb.h *= 60;
+
+      if (hsb.h < 0) {
+        hsb.h += 360;
+      }
+
+      hsb.s *= 100 / 255;
+      hsb.b *= 100 / 255;
+      return hsb;
+    },
+        HSBToRGB = function HSBToRGB(hsb) {
+      var rgb = {};
+      var h = Math.round(hsb.h);
+      var s = Math.round(hsb.s * 255 / 100);
+      var v = Math.round(hsb.b * 255 / 100);
+
+      if (s == 0) {
+        rgb.r = rgb.g = rgb.b = v;
+      } else {
+        var t1 = v;
+        var t2 = (255 - s) * v / 255;
+        var t3 = (t1 - t2) * (h % 60) / 60;
+        if (h == 360) h = 0;
+
+        if (h < 60) {
+          rgb.r = t1;
+          rgb.b = t2;
+          rgb.g = t2 + t3;
+        } else if (h < 120) {
+          rgb.g = t1;
+          rgb.b = t2;
+          rgb.r = t1 - t3;
+        } else if (h < 180) {
+          rgb.g = t1;
+          rgb.r = t2;
+          rgb.b = t2 + t3;
+        } else if (h < 240) {
+          rgb.b = t1;
+          rgb.r = t2;
+          rgb.g = t1 - t3;
+        } else if (h < 300) {
+          rgb.b = t1;
+          rgb.g = t2;
+          rgb.r = t2 + t3;
+        } else if (h < 360) {
+          rgb.r = t1;
+          rgb.g = t2;
+          rgb.b = t1 - t3;
+        } else {
+          rgb.r = 0;
+          rgb.g = 0;
+          rgb.b = 0;
+        }
+      }
+
+      return {
+        r: Math.round(rgb.r),
+        g: Math.round(rgb.g),
+        b: Math.round(rgb.b)
+      };
+    },
+        RGBToHex = function RGBToHex(rgb) {
+      var hex = [rgb.r.toString(16), rgb.g.toString(16), rgb.b.toString(16)];
+      $.each(hex, function (nr, val) {
+        if (val.length == 1) {
+          hex[nr] = '0' + val;
+        }
+      });
+      return hex.join('');
+    },
+        HSBToHex = function HSBToHex(hsb) {
+      return RGBToHex(HSBToRGB(hsb));
+    },
+        restoreOriginal = function restoreOriginal() {
+      var cal = $(this).parent();
+      var col = cal.data('colorpicker').origColor;
+      cal.data('colorpicker').color = col;
+      fillRGBFields(col, cal.get(0));
+      fillHexFields(col, cal.get(0));
+      fillHSBFields(col, cal.get(0));
+      setSelector(col, cal.get(0));
+      setHue(col, cal.get(0));
+      setNewColor(col, cal.get(0));
+    };
+
+    return {
+      init: function init(opt) {
+        opt = $.extend({}, defaults, opt || {});
+
+        if (typeof opt.color == 'string') {
+          opt.color = HexToHSB(opt.color);
+        } else if (opt.color.r != undefined && opt.color.g != undefined && opt.color.b != undefined) {
+          opt.color = RGBToHSB(opt.color);
+        } else if (opt.color.h != undefined && opt.color.s != undefined && opt.color.b != undefined) {
+          opt.color = fixHSB(opt.color);
+        } else {
+          return this;
+        }
+
+        return this.each(function () {
+          if (!$(this).data('colorpickerId')) {
+            var options = $.extend({}, opt);
+            options.origColor = opt.color;
+            var id = 'collorpicker_' + parseInt(Math.random() * 1000);
+            $(this).data('colorpickerId', id);
+            var cal = $(tpl).attr('id', id);
+
+            if (options.flat) {
+              cal.appendTo(this).show();
+            } else {
+              cal.appendTo(document.body);
+            }
+
+            options.fields = cal.find('input').bind('keyup', keyDown).bind('change', change).bind('blur', blur).bind('focus', focus);
+            cal.find('span').bind('mousedown', downIncrement).end().find('>div.colorpicker_current_color').bind('click', restoreOriginal);
+            options.selector = cal.find('div.colorpicker_color').bind('mousedown', downSelector);
+            options.selectorIndic = options.selector.find('div div');
+            options.el = this;
+            options.hue = cal.find('div.colorpicker_hue div');
+            cal.find('div.colorpicker_hue').bind('mousedown', downHue);
+            options.newColor = cal.find('div.colorpicker_new_color');
+            options.currentColor = cal.find('div.colorpicker_current_color');
+            cal.data('colorpicker', options);
+            cal.find('div.colorpicker_submit').bind('mouseenter', enterSubmit).bind('mouseleave', leaveSubmit).bind('click', clickSubmit);
+            fillRGBFields(options.color, cal.get(0));
+            fillHSBFields(options.color, cal.get(0));
+            fillHexFields(options.color, cal.get(0));
+            setHue(options.color, cal.get(0));
+            setSelector(options.color, cal.get(0));
+            setCurrentColor(options.color, cal.get(0));
+            setNewColor(options.color, cal.get(0));
+
+            if (options.flat) {
+              cal.css({
+                position: 'relative',
+                display: 'block'
+              });
+            } else {
+              $(this).bind(options.eventName, show);
+            }
+          }
+        });
+      },
+      showPicker: function showPicker() {
+        return this.each(function () {
+          if ($(this).data('colorpickerId')) {
+            show.apply(this);
+          }
+        });
+      },
+      hidePicker: function hidePicker() {
+        return this.each(function () {
+          if ($(this).data('colorpickerId')) {
+            $('#' + $(this).data('colorpickerId')).hide();
+          }
+        });
+      },
+      setColor: function setColor(col) {
+        if (typeof col == 'string') {
+          col = HexToHSB(col);
+        } else if (col.r != undefined && col.g != undefined && col.b != undefined) {
+          col = RGBToHSB(col);
+        } else if (col.h != undefined && col.s != undefined && col.b != undefined) {
+          col = fixHSB(col);
+        } else {
+          return this;
+        }
+
+        return this.each(function () {
+          if ($(this).data('colorpickerId')) {
+            var cal = $('#' + $(this).data('colorpickerId'));
+            cal.data('colorpicker').color = col;
+            cal.data('colorpicker').origColor = col;
+            fillRGBFields(col, cal.get(0));
+            fillHSBFields(col, cal.get(0));
+            fillHexFields(col, cal.get(0));
+            setHue(col, cal.get(0));
+            setSelector(col, cal.get(0));
+            setCurrentColor(col, cal.get(0));
+            setNewColor(col, cal.get(0));
+          }
+        });
+      }
+    };
+  }();
+
+  $.fn.extend({
+    ColorPicker: ColorPicker.init,
+    ColorPickerHide: ColorPicker.hidePicker,
+    ColorPickerShow: ColorPicker.showPicker,
+    ColorPickerSetColor: ColorPicker.setColor
+  });
 })(jQuery);
 
 /***/ }),
-/* 7 */
+
+/***/ "./resources/assets/js/app.js":
+/*!************************************!*\
+  !*** ./resources/assets/js/app.js ***!
+  \************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+
+
+window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+
+__webpack_require__(/*! ./postmon.js */ "./resources/assets/js/postmon.js");
+
+window.VMasker = __webpack_require__(/*! ./vanilla-masker.min.js */ "./resources/assets/js/vanilla-masker.min.js");
+
+__webpack_require__(/*! ../bootstrap-datetimepicker/js/bootstrap-datetimepicker */ "./resources/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js");
+
+__webpack_require__(/*! ../color-picker/js/colorpicker */ "./resources/assets/color-picker/js/colorpicker.js");
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.extend({
+  mask: function mask(patern) {
+    VMasker(this).maskPattern(patern);
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
+  },
+  maskMoney: function maskMoney(unit) {
+    var patern = {
+      precision: 2,
+      separator: ',',
+      delimiter: '.',
+      unit: unit,
+      zeroCents: true
+    };
+    VMasker(this).maskMoney(patern);
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
+  },
+  maskFloat: function maskFloat() {
+    var patern = {
+      precision: 2,
+      separator: ',',
+      delimiter: '.',
+      zeroCents: true
+    };
+    VMasker(this).maskMoney(patern);
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/postmon.js":
+/*!****************************************!*\
+  !*** ./resources/assets/js/postmon.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function postmon_run_plugin() {
+  (function ($) {
+    $.postmon = _defineProperty({
+      obj: [],
+      filtrar_json: false,
+      endpoint_method: "POST",
+      paises_endpoint: "pais.json",
+      estados_endpoint: "estado.json",
+      cidades_endpoint: "cidade.json",
+      loading: {
+        init: null,
+        end: null
+      },
+      montar: function montar(select, dados) {
+        $(select).children().remove();
+        dados.forEach(function (item) {
+          var option = $("<option value=" + item.id + ">" + item.nome + "</option>");
+
+          for (var chave in item) {
+            option.data(chave, item[chave]);
+          }
+
+          $(select).append(option);
+        });
+      },
+      paises: function paises(select) {
+        if ($.postmon.loading.init) $.postmon.loading.init();
+        $.ajax({
+          type: $.postmon.endpoint_method,
+          async: false,
+          url: $.postmon.paises_endpoint,
+          dataType: 'json',
+          success: function success(dados) {
+            $.postmon.montar(select, dados);
+            if ($.postmon.loading.end) $.postmon.loading.end();
+          }
+        });
+      },
+      estados: function estados(select, pais_id) {
+        if ($.postmon.loading.init) $.postmon.loading.init();
+        $.ajax({
+          type: $.postmon.endpoint_method,
+          async: false,
+          url: $.postmon.estados_endpoint,
+          data: {
+            "id": pais_id
+          },
+          dataType: 'json',
+          success: function success(dados) {
+            if ($.postmon.filtrar_json) {
+              dados = $.postmon.filtrar(dados, 'pais_id', pais_id);
+            }
+
+            $.postmon.montar(select, dados);
+            if ($.postmon.loading.end) $.postmon.loading.end();
+          }
+        });
+      },
+      cidades: function cidades(select, estado_id) {
+        if ($.postmon.loading.init) $.postmon.loading.init();
+        $.ajax({
+          type: $.postmon.endpoint_method,
+          async: false,
+          url: $.postmon.cidades_endpoint,
+          data: {
+            "id": estado_id
+          },
+          dataType: 'json',
+          success: function success(dados) {
+            if ($.postmon.filtrar_json) {
+              dados = $.postmon.filtrar(dados, 'estado_id', estado_id);
+            }
+
+            $.postmon.montar(select, dados);
+            if ($.postmon.loading.end) $.postmon.loading.end();
+          }
+        });
+      },
+      primeiro: function primeiro(select) {
+        var opcoes = select.children('option');
+
+        if (opcoes.length == 0) {
+          return null;
+        }
+
+        return opcoes[0].value;
+      },
+      filtrar: function filtrar(dados, chave, valor) {
+        return dados.filter(function (el) {
+          return el[chave] == valor;
+        });
+      },
+      uuid: function uuid(el) {
+        return el.data('postmon-jquery-uuid');
+      },
+      parsar: function parsar(select, selecionado, chave) {
+        if (!selecionado) {
+          return $.postmon.primeiro(select);
+        }
+
+        if (!isNaN(selecionado * 1)) {
+          return selecionado;
+        }
+
+        return select.children().filter(function () {
+          return $(this).data(chave) == selecionado;
+        }).val();
+      },
+      cep: function cep(uuid) {
+        if ($.postmon.loading.init) $.postmon.loading.init();
+        var cepLimpo = $.postmon.obj[uuid].input.cep.val().match(/\d/g).join("");
+        $.ajax({
+          url: 'https://api.postmon.com.br/v1/cep/' + cepLimpo,
+          type: 'GET',
+          dataType: 'json',
+          success: function success(dados) {
+            $.postmon.obj[uuid].selected = {
+              pais: 0,
+              estado: dados.estado,
+              cidade: dados.cidade
+            };
+            $.postmon.obj[uuid].select.pais.val($.postmon.obj[uuid].selected.pais).change();
+            $.postmon.obj[uuid].input.bairro.val(dados.bairro);
+            $.postmon.obj[uuid].input.endereco.val(dados.logradouro);
+            if ($.postmon.loading.end) $.postmon.loading.end();
+          }
+        });
+      },
+      eventos: {
+        estado: function estado(uuid) {
+          var select_cidade = $.postmon.obj[uuid].select.cidade;
+          $.postmon.cidades(select_cidade, $.postmon.obj[uuid].select.estado.val());
+          $.postmon.obj[uuid].selected.cidade = $.postmon.parsar(select_cidade, $.postmon.obj[uuid].selected.cidade, 'nome');
+          select_cidade.val($.postmon.obj[uuid].selected.cidade);
+        },
+        pais: function pais(uuid) {
+          var pais_id = $.postmon.obj[uuid].select.pais.val();
+          $.postmon.obj[uuid].selected.pais = pais_id;
+          var select_estado = $.postmon.obj[uuid].select.estado;
+          $.postmon.estados(select_estado, pais_id);
+          select_estado.change(function () {
+            $.postmon.eventos.estado(uuid);
+          });
+          $.postmon.obj[uuid].selected.estado = $.postmon.parsar(select_estado, $.postmon.obj[uuid].selected.estado, 'sigla');
+          select_estado.val($.postmon.obj[uuid].selected.estado).change();
+        }
+      }
+    }, "uuid", function uuid() {
+      return Math.random().toString(36).substring(2) + new Date().getTime().toString(36);
+    });
+
+    $.fn.postmon = function (_ref) {
+      var _ref$select = _ref.select,
+          select = _ref$select === void 0 ? {
+        pais: pais,
+        estado: estado,
+        cidade: cidade
+      } : _ref$select,
+          _ref$input = _ref.input,
+          input = _ref$input === void 0 ? {
+        cep: $("<input type='text'>"),
+        bairro: $("<input type='text'>"),
+        endereco: $("<input type='text'>")
+      } : _ref$input,
+          _ref$selected = _ref.selected,
+          selected = _ref$selected === void 0 ? {
+        pais: null,
+        estado: null,
+        cidade: null
+      } : _ref$selected;
+      var uuid = $.postmon.uuid();
+      $.postmon.obj[uuid] = {
+        select: select,
+        input: input,
+        selected: selected
+      };
+      var obj = $.postmon.obj[uuid];
+      $.postmon.paises(obj.select.pais);
+      obj.select.pais.change(function () {
+        $.postmon.eventos.pais(uuid);
+      });
+      obj.select.pais.val(selected.pais || $.postmon.primeiro(obj.select.pais)).change();
+      obj.input.cep.change(function () {
+        $.postmon.cep(uuid, obj.input.cep);
+      });
+    };
+  })(jQuery);
+}
+
+(function () {
+  if (!window.jQuery) {
+    var script = document.createElement("SCRIPT");
+    script.src = 'https://code.jquery.com/jquery-3.3.1.min.js';
+    script.type = 'text/javascript';
+
+    script.onload = function () {
+      var $ = window.jQuery;
+      postmon_run_plugin();
+    };
+
+    document.getElementsByTagName("head")[0].appendChild(script);
+  } else {
+    postmon_run_plugin();
+  }
+})();
+
+/***/ }),
+
+/***/ "./resources/assets/js/vanilla-masker.min.js":
+/*!***************************************************!*\
+  !*** ./resources/assets/js/vanilla-masker.min.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+(function (root, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+})(this, function () {
+  var DIGIT = "9",
+      ALPHA = "A",
+      ALPHANUM = "S",
+      BY_PASS_KEYS = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93],
+      isAllowedKeyCode = function isAllowedKeyCode(keyCode) {
+    for (var i = 0, len = BY_PASS_KEYS.length; i < len; i++) {
+      if (keyCode == BY_PASS_KEYS[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  },
+      mergeMoneyOptions = function mergeMoneyOptions(opts) {
+    opts = opts || {};
+    opts = {
+      precision: opts.hasOwnProperty("precision") ? opts.precision : 2,
+      separator: opts.separator || ",",
+      delimiter: opts.delimiter || ".",
+      unit: opts.unit && opts.unit.replace(/[\s]/g, '') + " " || "",
+      suffixUnit: opts.suffixUnit && " " + opts.suffixUnit.replace(/[\s]/g, '') || "",
+      zeroCents: opts.zeroCents,
+      lastOutput: opts.lastOutput
+    };
+    opts.moneyPrecision = opts.zeroCents ? 0 : opts.precision;
+    return opts;
+  },
+      // Fill wildcards past index in output with placeholder
+  addPlaceholdersToOutput = function addPlaceholdersToOutput(output, index, placeholder) {
+    for (; index < output.length; index++) {
+      if (output[index] === DIGIT || output[index] === ALPHA || output[index] === ALPHANUM) {
+        output[index] = placeholder;
+      }
+    }
+
+    return output;
+  };
+
+  var VanillaMasker = function VanillaMasker(elements) {
+    this.elements = elements;
+  };
+
+  VanillaMasker.prototype.unbindElementToMask = function () {
+    for (var i = 0, len = this.elements.length; i < len; i++) {
+      this.elements[i].lastOutput = "";
+      this.elements[i].onkeyup = false;
+      this.elements[i].onkeydown = false;
+
+      if (this.elements[i].value.length) {
+        this.elements[i].value = this.elements[i].value.replace(/\D/g, '');
+      }
+    }
+  };
+
+  VanillaMasker.prototype.bindElementToMask = function (maskFunction) {
+    var that = this,
+        onType = function onType(e) {
+      e = e || window.event;
+      var source = e.target || e.srcElement;
+
+      if (isAllowedKeyCode(e.keyCode)) {
+        setTimeout(function () {
+          that.opts.lastOutput = source.lastOutput;
+          source.value = VMasker[maskFunction](source.value, that.opts);
+          source.lastOutput = source.value;
+
+          if (source.setSelectionRange && that.opts.suffixUnit) {
+            source.setSelectionRange(source.value.length, source.value.length - that.opts.suffixUnit.length);
+          }
+        }, 0);
+      }
+    };
+
+    for (var i = 0, len = this.elements.length; i < len; i++) {
+      this.elements[i].lastOutput = "";
+      this.elements[i].onkeyup = onType;
+
+      if (this.elements[i].value.length) {
+        this.elements[i].value = VMasker[maskFunction](this.elements[i].value, this.opts);
+      }
+    }
+  };
+
+  VanillaMasker.prototype.maskMoney = function (opts) {
+    this.opts = mergeMoneyOptions(opts);
+    this.bindElementToMask("toMoney");
+  };
+
+  VanillaMasker.prototype.maskNumber = function () {
+    this.opts = {};
+    this.bindElementToMask("toNumber");
+  };
+
+  VanillaMasker.prototype.maskAlphaNum = function () {
+    this.opts = {};
+    this.bindElementToMask("toAlphaNumeric");
+  };
+
+  VanillaMasker.prototype.maskPattern = function (pattern) {
+    this.opts = {
+      pattern: pattern
+    };
+    this.bindElementToMask("toPattern");
+  };
+
+  VanillaMasker.prototype.unMask = function () {
+    this.unbindElementToMask();
+  };
+
+  var VMasker = function VMasker(el) {
+    if (!el) {
+      throw new Error("VanillaMasker: There is no element to bind.");
+    }
+
+    var elements = "length" in el ? el.length ? el : [] : [el];
+    return new VanillaMasker(elements);
+  };
+
+  VMasker.toMoney = function (value, opts) {
+    opts = mergeMoneyOptions(opts);
+
+    if (opts.zeroCents) {
+      opts.lastOutput = opts.lastOutput || "";
+      var zeroMatcher = "(" + opts.separator + "[0]{0," + opts.precision + "})",
+          zeroRegExp = new RegExp(zeroMatcher, "g"),
+          digitsLength = value.toString().replace(/[\D]/g, "").length || 0,
+          lastDigitLength = opts.lastOutput.toString().replace(/[\D]/g, "").length || 0;
+      value = value.toString().replace(zeroRegExp, "");
+
+      if (digitsLength < lastDigitLength) {
+        value = value.slice(0, value.length - 1);
+      }
+    }
+
+    var number = value.toString().replace(/[\D]/g, ""),
+        clearDelimiter = new RegExp("^(0|\\" + opts.delimiter + ")"),
+        clearSeparator = new RegExp("(\\" + opts.separator + ")$"),
+        money = number.substr(0, number.length - opts.moneyPrecision),
+        masked = money.substr(0, money.length % 3),
+        cents = new Array(opts.precision + 1).join("0");
+    money = money.substr(money.length % 3, money.length);
+
+    for (var i = 0, len = money.length; i < len; i++) {
+      if (i % 3 === 0) {
+        masked += opts.delimiter;
+      }
+
+      masked += money[i];
+    }
+
+    masked = masked.replace(clearDelimiter, "");
+    masked = masked.length ? masked : "0";
+
+    if (!opts.zeroCents) {
+      var beginCents = number.length - opts.precision,
+          centsValue = number.substr(beginCents, opts.precision),
+          centsLength = centsValue.length,
+          centsSliced = opts.precision > centsLength ? opts.precision : centsLength;
+      cents = (cents + centsValue).slice(-centsSliced);
+    }
+
+    var output = opts.unit + masked + opts.separator + cents + opts.suffixUnit;
+    return output.replace(clearSeparator, "");
+  };
+
+  VMasker.toPattern = function (value, opts) {
+    var pattern = _typeof(opts) === 'object' ? opts.pattern : opts,
+        patternChars = pattern.replace(/\W/g, ''),
+        output = pattern.split(""),
+        values = value.toString().replace(/\W/g, ""),
+        charsValues = values.replace(/\W/g, ''),
+        index = 0,
+        i,
+        outputLength = output.length,
+        placeholder = _typeof(opts) === 'object' ? opts.placeholder : undefined;
+
+    for (i = 0; i < outputLength; i++) {
+      // Reached the end of input
+      if (index >= values.length) {
+        if (patternChars.length == charsValues.length) {
+          return output.join("");
+        } else if (placeholder !== undefined && patternChars.length > charsValues.length) {
+          return addPlaceholdersToOutput(output, i, placeholder).join("");
+        } else {
+          break;
+        }
+      } // Remaining chars in input
+      else {
+          if (output[i] === DIGIT && values[index].match(/[0-9]/) || output[i] === ALPHA && values[index].match(/[a-zA-Z]/) || output[i] === ALPHANUM && values[index].match(/[0-9a-zA-Z]/)) {
+            output[i] = values[index++];
+          } else if (output[i] === DIGIT || output[i] === ALPHA || output[i] === ALPHANUM) {
+            if (placeholder !== undefined) {
+              return addPlaceholdersToOutput(output, i, placeholder).join("");
+            } else {
+              return output.slice(0, i).join("");
+            }
+          }
+        }
+    }
+
+    return output.join("").substr(0, i);
+  };
+
+  VMasker.toNumber = function (value) {
+    return value.toString().replace(/(?!^-)[^0-9]/g, "");
+  };
+
+  VMasker.toAlphaNumeric = function (value) {
+    return value.toString().replace(/[^a-z0-9 ]+/i, "");
+  };
+
+  return VMasker;
+});
+
+/***/ }),
+
+/***/ "./resources/assets/sass/app.scss":
+/*!****************************************!*\
+  !*** ./resources/assets/sass/app.scss ***!
+  \****************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
+/***/ }),
+
+/***/ 0:
+/*!***************************************************************************!*\
+  !*** multi ./resources/assets/js/app.js ./resources/assets/sass/app.scss ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! /workspace/auto_rest_laravel/resources/assets/js/app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! /workspace/auto_rest_laravel/resources/assets/sass/app.scss */"./resources/assets/sass/app.scss");
+
+
 /***/ })
-/******/ ]);
+
+/******/ });

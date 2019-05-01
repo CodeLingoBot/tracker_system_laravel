@@ -8,7 +8,8 @@
     </div>
 @stop
 @section('layout-content')
-    @if(isset($last_location))
-        {{var_dump($last_location)}}
+    @if(isset($map))
+        {!! $map['html'] !!}
+        {!! $map['js'] !!}
     @endif
 @endsection

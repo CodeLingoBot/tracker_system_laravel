@@ -183,7 +183,6 @@
 .datetimepicker table tr td.today.disabled,
 .datetimepicker table tr td.today.disabled:hover {
 	background-color: #fde19a;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#fdd49a), to(#fdf59a));
 	background-image: linear-gradient(to bottom, #fdd49a, #fdf59a);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdd49a', endColorstr='#fdf59a', GradientType=0);
@@ -231,7 +230,6 @@
 .datetimepicker table tr td.active.disabled,
 .datetimepicker table tr td.active.disabled:hover {
 	background-color: #006dcc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#0088cc), to(#0044cc));
 	background-image: linear-gradient(to bottom, #0088cc, #0044cc);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
@@ -324,7 +322,6 @@
 .datetimepicker table tr td span.active.disabled,
 .datetimepicker table tr td span.active.disabled:hover {
 	background-color: #006dcc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#0088cc), to(#0044cc));
 	background-image: linear-gradient(to bottom, #0088cc, #0044cc);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
@@ -403,7 +400,7 @@
 	height: 176px;
 	overflow: hidden;
 	position: absolute;
-	background: url(/images/colorpicker_background.png?a0bb9be46d3531a9a3c7819926653af4);
+	background: url(/images/colorpicker_background.png?a79f1a2a81bfe3ed1c2ca4c41b8e1fbf);
 	font-family: Arial, Helvetica, sans-serif;
 	display: none;
 }
@@ -423,7 +420,7 @@
 	left: 0;
 	width: 150px;
 	height: 150px;
-	background: url(/images/colorpicker_overlay.png?47ca4ed45f1700f4d5e7382773065351);
+	background: url(/images/colorpicker_overlay.png?9136981530c65e363593f422038b0821);
 }
 .colorpicker_color div div {
 	position: absolute;
@@ -486,7 +483,7 @@
 	position: absolute;
 	width: 72px;
 	height: 22px;
-	background: url(/images/colorpicker_hex.png?8a522a72ef87d0eb0a466385984d140c) top;
+	background: url(/images/colorpicker_hex.png?16d6870c36e379c06fb26ebd2e16bf44) top;
 	left: 212px;
 	top: 142px;
 }
@@ -509,32 +506,32 @@
 	cursor: n-resize;
 }
 .colorpicker_rgb_r {
-	background-image: url(/images/colorpicker_rgb_r.png?182e4ba960c92c0bcde32aecb8a830b9);
+	background-image: url(/images/colorpicker_rgb_r.png?ebd67882eae23b84d4289f6d5709fe31);
 	top: 52px;
 	left: 212px;
 }
 .colorpicker_rgb_g {
-	background-image: url(/images/colorpicker_rgb_g.png?d8731f8da9476735bc870d929b8ddec8);
+	background-image: url(/images/colorpicker_rgb_g.png?dd1efbfc241d3cb0ec476019c65071ce);
 	top: 82px;
 	left: 212px;
 }
 .colorpicker_rgb_b {
-	background-image: url(/images/colorpicker_rgb_b.png?c8f8aefc815a817636e0a8b3178aac60);
+	background-image: url(/images/colorpicker_rgb_b.png?2be4e81b4a5c98674abe6fc60b447e9a);
 	top: 112px;
 	left: 212px;
 }
 .colorpicker_hsb_h {
-	background-image: url(/images/colorpicker_hsb_h.png?3e5f7e2519f3501f99acf8f3bdd37663);
+	background-image: url(/images/colorpicker_hsb_h.png?9f58f9555e6b44ddb3b5d749d6b7e3b6);
 	top: 52px;
 	left: 282px;
 }
 .colorpicker_hsb_s {
-	background-image: url(/images/colorpicker_hsb_s.png?af2fd8620aadebd2d8e0ca2036012c41);
+	background-image: url(/images/colorpicker_hsb_s.png?ab534e63bc04397e29b2f0bc693d5357);
 	top: 82px;
 	left: 282px;
 }
 .colorpicker_hsb_b {
-	background-image: url(/images/colorpicker_hsb_b.png?c8f8aefc815a817636e0a8b3178aac60);
+	background-image: url(/images/colorpicker_hsb_b.png?2be4e81b4a5c98674abe6fc60b447e9a);
 	top: 112px;
 	left: 282px;
 }
@@ -542,7 +539,7 @@
 	position: absolute;
 	width: 22px;
 	height: 22px;
-	background: url(/images/colorpicker_submit.png?5f5d073be12f58e78394c853d425fe07) top;
+	background: url(/images/colorpicker_submit.png?12d1746e6b52e007f1b78d772d9248ba) top;
 	left: 322px;
 	top: 142px;
 	overflow: hidden;
@@ -578,15 +575,9 @@
 }
 
 .my-content-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   font-size: 2rem;
   font-weight: bold;
 }
@@ -640,8 +631,7 @@
   width: 0;
   height: 0;
   margin: 6px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   border: 26px solid #fff;
   border-color: #fff transparent #fff transparent;
   -webkit-animation: lds-hourglass 1.2s infinite;

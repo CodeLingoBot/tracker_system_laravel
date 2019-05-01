@@ -96,8 +96,14 @@ class VehiclesController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
+        $lastLocation = LocationInformation::where('imei', $vehicle->uuid)->orderBy('created_at', 'desc')->first();
+        $map = null;
+        if ($lastLocation){
+            GMaps::initialize();
+            $map = GMaps::create_map(['center'=>$lastLocation->latitude_decimal.";".$lastLocation->longitude_decimal]);
+        }
         return view('vehicles.show', [
-            'last_location' => LocationInformation::where('imei', $vehicle->uuid)->orderBy('created_at', 'desc')->first()
+            'map' => $map
         ]);
     }
 
