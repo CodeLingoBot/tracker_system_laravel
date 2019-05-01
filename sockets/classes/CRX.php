@@ -96,7 +96,7 @@ class CRX{
             case 5: $alarm2 = 'stockade'; break;
         }
         log_info("app_crx1", $terminalInformation." ".$gasOil." ". $gpsTrack ." ".$alarm." ".$ativo.
-            " ".$charge." ".$acc." ".$defense." ".$voltageLevel. " ".$gsmSignal." ".$alarm2 )
+            " ".$charge." ".$acc." ".$defense." ".$voltageLevel. " ".$gsmSignal." ".$alarm2 );
         $commandArr = array();
         if(strlen($hexArray[9]) == 4 && count($hexArray) == 10){
             $hexArray[9] = substr($terminalInformation,0,2);
