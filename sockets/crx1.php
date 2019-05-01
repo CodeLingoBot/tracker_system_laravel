@@ -8,7 +8,9 @@ Socket::loop($config['ip'], $config['port'], function ($buffer) {
         log_info("app_crx1", "Connection failed: " . $connection->connect_error);
         return;
     }
-    $query = "INSERT INTO received (script, hexa) VALUES ('crx1', '".trim(buffer2hex($buffer.""))."')";
+    $hexString = trim(buffer2hex($buffer.""));
+    log_info("app_crx1", $hexString);
+    $query = "INSERT INTO received (script, hexa) VALUES ('crx1', '".$hexString."')";
     if ($connection->query($query) !== TRUE) {
         log_info("app_crx1", "Error: " . $query . "<br>" . $connection->error);
     }
