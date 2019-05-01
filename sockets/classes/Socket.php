@@ -30,8 +30,10 @@ class Socket{
                     while(socket_recv($msgSock, $buffer, 2048, 0x40) !== 0) {
                         $function($buffer, $msgSock);
                     }
+                    log_info("socket","msgSock closed");
                     socket_close($msgSock);
                 } while (true);
+                log_info("socket","Closed");
                 socket_close($socket);
             } catch (Exception $exception) {
                 log_info("socket","Exception: ". $exception->getMessage());
