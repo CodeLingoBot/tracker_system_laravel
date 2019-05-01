@@ -88,13 +88,15 @@ class CRX{
         $gsmSignal = hexdec($hexArray[6]);
         $alarmLanguage = hexdec($hexArray[7]);
         switch($alarmLanguage){
-            case 0: $alarm = 'tracker'; break;
-            case 1: $alarm = 'help me'; break;
-            case 2: $alarm = 'dt'; break;
-            case 3: $alarm = 'move'; break;
-            case 4: $alarm = 'stockade'; break;
-            case 5: $alarm = 'stockade'; break;
+            case 0: $alarm2 = 'tracker'; break;
+            case 1: $alarm2 = 'help me'; break;
+            case 2: $alarm2 = 'dt'; break;
+            case 3: $alarm2 = 'move'; break;
+            case 4: $alarm2 = 'stockade'; break;
+            case 5: $alarm2 = 'stockade'; break;
         }
+        log_info("app_crx1", $terminalInformation." ".$gasOil." ". $gpsTrack ." ".$alarm." ".$ativo.
+            " ".$charge." ".$acc." ".$defense." ".$voltageLevel. " ".$gsmSignal." ".$alarm2 )
         $commandArr = array();
         if(strlen($hexArray[9]) == 4 && count($hexArray) == 10){
             $hexArray[9] = substr($terminalInformation,0,2);
