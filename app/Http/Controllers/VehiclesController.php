@@ -8,6 +8,7 @@ use App\Setting;
 use App\TrackerType;
 use App\User;
 use App\Vehicle;
+use App\LocationInformation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
