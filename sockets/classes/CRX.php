@@ -98,7 +98,8 @@ class CRX{
                 'voltage' => hexdec($hexArray[5]),
                 'gsm_signal' => hexdec($hexArray[6]),
                 'alarm_terminal' => $alarmTerminal,
-                'alarm_language' => $alarmLanguage
+                'alarm_language' => $alarmLanguage,
+                'imei' => $this->imei
             ]
         );
         $commandArr = array();
