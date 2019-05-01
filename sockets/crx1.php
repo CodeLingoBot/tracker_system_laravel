@@ -12,7 +12,7 @@ Socket::loop($config['ip'], $config['port'], function ($buffer, $socket) {
     $protocolNumber = $hexArray[3];
     if ($protocolNumber=="01"){
         $command = CRX::protocol01($hexArray);
-        log_info($command);
+        log_info("app_crx1", $command);
         socket_send($socket, $command, strlen($command), 0);
     }
     /*$connection = new mysqli(getenv('DB_HOST'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'), getenv('DB_DATABASE'));

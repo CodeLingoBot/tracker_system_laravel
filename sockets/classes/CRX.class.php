@@ -12,8 +12,8 @@ class CRX{
         $crc = dechex($crc16h).' '.dechex($crc16l);
         $command = $command. ' ' . $crc . ' 0D 0A';
         $commandArr = explode(' ', $command);
-        log_info("Imei: $imei Got: ".implode(" ", $hexArray));
-        log_info("Imei: $imei Sent: $command Length: ".strlen($command));
+        log_info("app_crx1", "Imei: $imei Got: ".implode(" ", $hexArray));
+        log_info("app_crx1", "Imei: $imei Sent: $command Length: ".strlen($command));
         $command = '';
         for($i=0; $i<count($commandArr); $i++){
             $command .= chr(hexdec(trim($commandArr[$i])));
