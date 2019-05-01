@@ -68,7 +68,8 @@ class CRX{
                 'course_status' => $courseStatus,
                 'gps_real_time' => $gpsRealTime,
                 'latitude_decimal' => $latitudeDecimalDegrees,
-                'longitude_decimal' => $longitudeDecimalDegrees
+                'longitude_decimal' => $longitudeDecimalDegrees,
+                'imei' => $this->imei
             ]
         );
         return false;

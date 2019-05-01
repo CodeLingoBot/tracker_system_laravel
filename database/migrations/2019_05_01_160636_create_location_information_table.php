@@ -27,6 +27,7 @@ class CreateLocationInformationTable extends Migration
             $table->string('gps_real_time')->nullable();
             $table->double('latitude_decimal')->nullable();
             $table->double('longitude_decimal')->nullable();
+            $table->string('imei');
             $table->timestamps();
         });
     }
