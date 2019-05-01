@@ -4,11 +4,7 @@ namespace sockets;
 class CRX{
 
     public $imei;
-    private $config;
-
-    public function __construct(){
-        $this->config = include 'config/crx1.php';
-    }
+    private static $config;
 
     public function protocol01($hexArray){
         $this->imei = '';
@@ -36,10 +32,16 @@ class CRX{
         $fcs = 0xffff;
         $i = 0;
         while($nLength>0){
-            $fcs = ($fcs >> 8) ^  $this->config['crc16'][($fcs ^ ord($pData{$i})) & 0xff];
+            $fcs = ($fcs >> 8) ^ self::config('crc16')[($fcs ^ ord($pData{$i})) & 0xff];
             $nLength--;
             $i++;
         }
         return ~$fcs & 0xffff;
+    }
+
+    public static function config($key){
+        if (empty(self::$config))
+            self::$config = include 'config/crx1.php';
+        return self::$config[$key];
     }
 }

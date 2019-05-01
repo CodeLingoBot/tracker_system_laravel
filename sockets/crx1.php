@@ -1,7 +1,7 @@
 <?php
 include 'autoload.php';
-$config = include 'config/crx1.php';
-Socket::loop($config['ip'], $config['port'], function ($buffer, $socket) {
+use sockets\CRX1;
+Socket::loop(CRX1::config('ip'), CRX1::config('port'), function ($buffer, $socket) {
     if (empty($buffer)) return;
     $hexString = trim(buffer2hex($buffer.""));
     log_info("app_crx1", $hexString);
