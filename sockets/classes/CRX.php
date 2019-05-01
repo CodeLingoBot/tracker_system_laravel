@@ -70,33 +70,37 @@ class CRX{
         $terminalInformation = decbin(hexdec($hexArray[4]));
         while(strlen($terminalInformation) < 8)
             $terminalInformation = '0'.$terminalInformation;
-        $gasOil = substr($terminalInformation,0,1) == '0' ? 'S' : 'N';
-        $gpsTrack = substr($terminalInformation,1,1) == '1' ? 'S' : 'N';
-        $alarm = '';
         switch(substr($terminalInformation, 2, 3)){
-            case '100': $alarm = 'help me'; break;
-            case '011': $alarm = 'low battery'; break;
-            case '010': $alarm = 'dt'; break;
-            case '001': $alarm = 'move'; break;
-            case '000': $alarm = 'tracker'; break;
+            case '100': $alarmTerminal = 'help me'; break;
+            case '011': $alarmTerminal = 'low battery'; break;
+            case '010': $alarmTerminal = 'dt'; break;
+            case '001': $alarmTerminal = 'move'; break;
+            case '000': $alarmTerminal = 'tracker'; break;
+            default: $alarmTerminal = null; break;
+        };
+        switch(hexdec($hexArray[7])){
+            case 0: $alarmLanguage = 'tracker'; break;
+            case 1: $alarmLanguage = 'help me'; break;
+            case 2: $alarmLanguage = 'dt'; break;
+            case 3: $alarmLanguage = 'move'; break;
+            case 4: $alarmLanguage = 'stockade'; break;
+            case 5: $alarmLanguage = 'stockade'; break;
+            default: $alarmLanguage = null; break;
         }
-        $ativo = substr($terminalInformation,7,1) == '1' ? 'S' : 'S';
-        $charge = substr($terminalInformation,5,1) == '1' ? 'S' : 'N';
-        $acc = substr($terminalInformation,6,1) == '1' ? 'S' : 'N';
-        $defense = substr($terminalInformation,7,1) == '1' ? 'S' : 'N';
-        $voltageLevel = hexdec($hexArray[5]);
-        $gsmSignal = hexdec($hexArray[6]);
-        $alarmLanguage = hexdec($hexArray[7]);
-        switch($alarmLanguage){
-            case 0: $alarm2 = 'tracker'; break;
-            case 1: $alarm2 = 'help me'; break;
-            case 2: $alarm2 = 'dt'; break;
-            case 3: $alarm2 = 'move'; break;
-            case 4: $alarm2 = 'stockade'; break;
-            case 5: $alarm2 = 'stockade'; break;
-        }
-        log_info("app_crx1", $terminalInformation." ".$gasOil." ". $gpsTrack ." ".$alarm." ".$ativo.
-            " ".$charge." ".$acc." ".$defense." ".$voltageLevel. " ".$gsmSignal." ".$alarm2 );
+        DB::insertTerminalInfo(
+            [
+                'gas_oil' =>  substr($terminalInformation,0,1) == '0',
+                'gps_track' => substr($terminalInformation,1,1) == '1',
+                'active' => substr($terminalInformation,7,1) == '1',
+                'charge' => substr($terminalInformation,5,1) == '1',
+                'acc' => substr($terminalInformation,6,1) == '1',
+                'defense' => substr($terminalInformation,7,1) == '1',
+                'voltage' => hexdec($hexArray[5]),
+                'gsm_signal' => hexdec($hexArray[6]),
+                'alarm_terminal' => $alarmTerminal,
+                'alarm_language' => $alarmLanguage
+            ]
+        );
         $commandArr = array();
         if(strlen($hexArray[9]) == 4 && count($hexArray) == 10){
             $hexArray[9] = substr($terminalInformation,0,2);

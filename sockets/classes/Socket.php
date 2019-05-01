@@ -1,7 +1,7 @@
 <?php
 
 class Socket{
-	public static function loop($address, $port, $function){
+	public static function loop($address, $port, $function, $class){
         while(true){
             sleep(5);
             try
@@ -27,8 +27,9 @@ class Socket{
                         log_info("socket","socket_accept() failed: reason: " . socket_strerror(socket_last_error($socket)));
                         break;
                     }
+                    $object = new $class();
                     while(socket_recv($msgSock, $buffer, 2048, 0x40) !== 0) {
-                        $function($buffer, $msgSock);
+                        $function($buffer, $msgSock, $object);
                     }
                     log_info("socket","msgSock closed");
                     socket_close($msgSock);
