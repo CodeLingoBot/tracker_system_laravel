@@ -33,13 +33,9 @@ class CRX{
     }
 
     public function protocol12($buffer, $hexArray){
-        $dataPosition = hexdec($hexArray[4]).'-'.hexdec($hexArray[5]).'-'.hexdec($hexArray[6]).' '.hexdec($hexArray[7]).':'.hexdec($hexArray[8]).':'.hexdec($hexArray[9]);
         $gpsQuantity = $hexArray[10];
-        $lengthGps = hexdec(substr($gpsQuantity,0,1));
-        $satellitesGps = hexdec(substr($gpsQuantity,1,1));
-        $latitudeHemisphere = '';
-        $longitudeHemisphere = '';
-        $speed = hexdec($hexArray[19]);
+        $latitudeHemisphere = NULL;
+        $longitudeHemisphere = NULL;
         if(isset($hexArray[20]) && isset($hexArray[21])){
             $course = decbin(hexdec($hexArray[20]));
             while(strlen($course) < 8)
@@ -48,10 +44,9 @@ class CRX{
             while(strlen($status) < 8) $status = '0'.$status;
                 $courseStatus = $course.$status;
             $gpsRealTime = substr($courseStatus, 2,1) == '0' ? 'F':'D';
-            $gpsPosition = substr($courseStatus, 3,1) == '0' ? 'F':'L';
-            $gpsPosition == 'F' ? 'S' : 'N';
-            $latitudeHemisphere = substr($courseStatus, 5,1) == '0' ? 'S' : 'N';
-            $longitudeHemisphere = substr($courseStatus, 4,1) == '0' ? 'E' : 'W';
+            $gpsPosition = substr($courseStatus, 3,1) == '0' ? 'S':'N';
+            $latitudeHemisphere = substr($courseStatus, 5, 1) == '0' ? 'S' : 'N';
+            $longitudeHemisphere = substr($courseStatus, 4, 1) == '0' ? 'E' : 'W';
         }
         $latHex = hexdec($hexArray[11].$hexArray[12].$hexArray[13].$hexArray[14]);
         $lonHex = hexdec($hexArray[15].$hexArray[16].$hexArray[17].$hexArray[18]);
@@ -61,8 +56,21 @@ class CRX{
             $latitudeDecimalDegrees = $latitudeDecimalDegrees*-1;
         if($longitudeHemisphere == 'W')
             $longitudeDecimalDegrees = $longitudeDecimalDegrees*-1;
-        $dados = array($gpsPosition, $latitudeDecimalDegrees, $longitudeDecimalDegrees, $latitudeHemisphere, $longitudeHemisphere, $speed, $dataPosition, 'tracker', '', 'S', $gpsRealTime);
-        log_info("app_crx1", $dados);
+        DB::insert('location_information', [
+                'data_position' => hexdec($hexArray[4]).'-'.hexdec($hexArray[5]).'-'.hexdec($hexArray[6]).' '.hexdec($hexArray[7]).':'.hexdec($hexArray[8]).':'.hexdec($hexArray[9]),
+                'length_gps' => hexdec(substr($gpsQuantity,0,1)),
+                'satelite_gps' => hexdec(substr($gpsQuantity,1,1)),
+                'speed' => hexdec($hexArray[19]),
+                'latitude_hemisphere' => $latitudeHemisphere,
+                'longitude_hemisphere' => $longitudeHemisphere,
+                'course' => $course,
+                'status' => $status,
+                'course_status' => $courseStatus,
+                'gps_real_time' => $gpsRealTime,
+                'latitude_decimal' => $latitudeDecimalDegrees,
+                'longitude_decimal' => $longitudeDecimalDegrees
+            ]
+        );
         return false;
     }
 
@@ -87,7 +95,7 @@ class CRX{
             case 5: $alarmLanguage = 'stockade'; break;
             default: $alarmLanguage = null; break;
         }
-        DB::insertTerminalInfo(
+        DB::insert('terminal_information',
             [
                 'gas_oil' =>  substr($terminalInformation,0,1) == '0',
                 'gps_track' => substr($terminalInformation,1,1) == '1',

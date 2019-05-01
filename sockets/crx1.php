@@ -4,7 +4,11 @@ Socket::loop(CRX::config('ip'), CRX::config('port'), function ($buffer, $socket,
     if (empty($buffer)) return;
     $hexString = trim(buffer2hex($buffer.""));
     log_info("app_crx1", "Hex String: ".$hexString);
-    DB::insert('crx1', $hexString);
+    DB::insert('received', [
+            'script' => 'crx1',
+            'hexa' => $hexString
+        ]
+    );
     $hexArray = explode(' ', $hexString);
     $hexArrayLen = count($hexArray);
     if ($hexArrayLen < 4 || $hexArray[0].$hexArray[1] != '7878') return;
