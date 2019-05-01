@@ -21,7 +21,7 @@
                 <th>{{__('app.name')}}</th>
                 <th>{!!__('vehicles.uuid')!!}</th>
                 <th>{!!__('vehicles.driver')!!}</th>
-                <th colspan="{{$final?1:2}}">{{__('app.actions')}}</th>
+                <th colspan="{{$final?2:3}}">{{__('app.actions')}}</th>
             </tr>
             </thead>
             <tbody>
@@ -31,6 +31,9 @@
                 <th><?php echo $vehicle->name; ?></th>
                 <th><?php echo $vehicle->uuid; ?></th>
                 <th><?php echo $vehicle->driver->name; ?></th>
+                <th>
+                    @include('layouts.partials.buttons.view', ['url' => route('vehicles.show', $vehicle)])
+                </th>
                 <th>
                     @include('layouts.partials.buttons.edit', ['url' => route('vehicles.edit', $vehicle)])
                 </th>

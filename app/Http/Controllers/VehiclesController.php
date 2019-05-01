@@ -93,9 +93,11 @@ class VehiclesController extends Controller
      * @param  \Vehicle $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function show(Vehicle $_vehicle)
+    public function show(Vehicle $vehicle)
     {
-        return redirect(route('vehicles.index'));
+        return view('vehicles.show', [
+            'last_location' => LocationInformation::where('imei', $vehicle->uuid)->last()
+        ]);
     }
 
     private function validateVehicle($vehicle){
