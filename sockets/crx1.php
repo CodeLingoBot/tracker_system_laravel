@@ -9,8 +9,9 @@ Socket::loop(CRX::config('ip'), CRX::config('port'), function ($buffer, $socket)
     if ($hexArrayLen < 4 || $hexArray[0].$hexArray[1] != '7878') return;
     $packageLength = $hexArray[2];
     $protocolNumber = $hexArray[3];
+    $crx = new CRX();
     if ($protocolNumber=="01"){
-        $command = CRX::protocol01($hexArray);
+        $command = $crx->protocol01($hexArray);
         log_info("app_crx1", $command);
         socket_send($socket, $command, strlen($command), 0);
     }
