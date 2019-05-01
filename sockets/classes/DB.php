@@ -25,7 +25,13 @@ class DB{
         $keyArr = [];
         foreach($data as $key => $value){
             $keyArr[] = $key;
-            $valuesArr[] = is_string($value) ? "'".$value."'" : $value;
+            if (is_string($value)){
+                $valuesArr[] =  "'".$value."'";
+            } elseif (is_boolean($value)){
+                $valuesArr[] =  $value ? "true" : "false";
+            } else {
+                $valuesArr[] =  $value;
+            }
         }
         $query = "INSERT INTO terminal_information (".implode(',', $keyArr).") VALUES (".implode(',', $valuesArr) .")";
         log_info("database", $query);
