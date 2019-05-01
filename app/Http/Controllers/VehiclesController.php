@@ -11,6 +11,7 @@ use App\Vehicle;
 use App\LocationInformation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use GMaps;
 
 class VehiclesController extends Controller
 {
