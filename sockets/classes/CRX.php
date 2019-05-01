@@ -61,7 +61,7 @@ class CRX{
             $latitudeDecimalDegrees = $latitudeDecimalDegrees*-1;
         if($longitudeHemisphere == 'W')
             $longitudeDecimalDegrees = $longitudeDecimalDegrees*-1;
-        $dados = array($gpsPosition, $latitudeDecimalDegrees, $longitudeDecimalDegrees, $latitudeHemisphere, $longitudeHemisphere, $speed, $imei, $dataPosition, 'tracker', '', 'S', $gpsRealTime);
+        $dados = array($gpsPosition, $latitudeDecimalDegrees, $longitudeDecimalDegrees, $latitudeHemisphere, $longitudeHemisphere, $speed, $dataPosition, 'tracker', '', 'S', $gpsRealTime);
         log_info("app_crx1", $dados);
         return false;
     }

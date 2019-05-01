@@ -28,6 +28,9 @@ function buffer2hex($data)
 
 $GLOBALS['logger'] = [];
 function log_info($file, $message){
+    if (is_array($message)){
+        $message = implode(';', $message);
+    }
     if (!isset($GLOBALS['logger'][$file])){
         $GLOBALS['logger'][$file] = new Katzgrau\KLogger\Logger(__DIR__.'/logs', Psr\Log\LogLevel::INFO, [
             'filename'=>$file,
