@@ -32,7 +32,7 @@
                 <th><?php echo $vehicle->uuid; ?></th>
                 <th><?php echo $vehicle->driver->name; ?></th>
                 <th>
-                    @include('layouts.partials.buttons.view', ['url' => route('vehicles.show', $vehicle)])
+                    @include('layouts.partials.buttons.show', ['url' => route('vehicles.show', $vehicle)])
                 </th>
                 <th>
                     @include('layouts.partials.buttons.edit', ['url' => route('vehicles.edit', $vehicle)])
