@@ -1,6 +1,5 @@
 <?php
 include 'autoload.php';
-use sockets\CRX1;
 Socket::loop(CRX1::config('ip'), CRX1::config('port'), function ($buffer, $socket) {
     if (empty($buffer)) return;
     $hexString = trim(buffer2hex($buffer.""));

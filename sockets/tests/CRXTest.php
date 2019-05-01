@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 include 'autoload.php';
 
-use sockets\CRX;
 use PHPUnit\Framework\TestCase;
 
 final class CRXTest extends TestCase

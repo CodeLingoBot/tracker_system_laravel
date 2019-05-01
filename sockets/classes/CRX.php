@@ -1,6 +1,4 @@
 <?php
-namespace sockets;
-
 class CRX{
 
     public $imei;
