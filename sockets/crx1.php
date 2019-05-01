@@ -11,8 +11,12 @@ Socket::loop(CRX::config('ip'), CRX::config('port'), function ($buffer, $socket)
     $packageLength = $hexArray[2];
     $protocolNumber = $hexArray[3];
     $crx = new CRX();
-    if ($protocolNumber == "01"){
-        $command = $crx->protocol01($buffer, $hexArray);
-        socket_send($socket, $command, strlen($command), 0);
+    try{
+        $command = $crx->{"protocol".$protocolNumber}($buffer, $hexArray);
+    } catch(Exception $e){
+        $command = false;
+        log_info("app_crx1", $e->getMessage());
     }
+    if ($command)
+        socket_send($socket, $command, strlen($command), 0);
 });
