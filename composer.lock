@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65c476c34153f67b96398c7ea539b581",
+    "content-hash": "dbccd9986cd86ac1ce0151dc68547ed1",
     "packages": [
         {
             "name": "alexusmai/laravel-file-manager",
-            "version": "v2.2.2",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alexusmai/laravel-file-manager.git",
-                "reference": "4ec5e23d4fc2419794a10a34d4a2f08726948888"
+                "reference": "a5eef4f8c5d4f69fdfeb28138116ef9561063518"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexusmai/laravel-file-manager/zipball/4ec5e23d4fc2419794a10a34d4a2f08726948888",
-                "reference": "4ec5e23d4fc2419794a10a34d4a2f08726948888",
+                "url": "https://api.github.com/repos/alexusmai/laravel-file-manager/zipball/a5eef4f8c5d4f69fdfeb28138116ef9561063518",
+                "reference": "a5eef4f8c5d4f69fdfeb28138116ef9561063518",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "laravel 5",
                 "manager"
             ],
-            "time": "2019-03-24T15:12:42+00:00"
+            "time": "2019-05-02T05:10:19+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -3860,7 +3860,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -4343,16 +4343,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24"
+                "reference": "181a426dd129cb496f12d7e7555f6d0b37a7615b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/46c0dede1f925383d13dc783857be2c41efd0b24",
-                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/181a426dd129cb496f12d7e7555f6d0b37a7615b",
+                "reference": "181a426dd129cb496f12d7e7555f6d0b37a7615b",
                 "shasum": ""
             },
             "require": {
@@ -4414,7 +4414,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-04-10T16:20:36+00:00"
+            "time": "2019-05-01T12:55:36+00:00"
         },
         {
             "name": "symfony/var-dumper",
