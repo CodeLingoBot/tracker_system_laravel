@@ -20,7 +20,7 @@
     "laravel/tinker": "1.0.8",
     "orangehill/iseed": "^2.6",
     "sentry/sentry-laravel": "1.0.1",
-    "vlucas/phpdotenv": "^3.3"
+    "vlucas/phpdotenv": "3.3.3"
   },
   "require-dev": {
     "fzaninotto/faker": "1.8.0",
