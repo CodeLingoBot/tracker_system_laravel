@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8863b69791e42b8516cb3e915bb6c17",
+    "content-hash": "7f0f1895f553d2ef0307b24cb2ea1acf",
     "packages": [
         {
             "name": "alexusmai/laravel-file-manager",
@@ -1138,22 +1138,28 @@
         },
         {
             "name": "jeremykenedy/laravel-roles",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremykenedy/laravel-roles.git",
-                "reference": "70e545f13449832cde0ebc71d48162d9e158c3af"
+                "reference": "0850e6902467ec22e1f8153c21b3098502f77db7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremykenedy/laravel-roles/zipball/70e545f13449832cde0ebc71d48162d9e158c3af",
-                "reference": "70e545f13449832cde0ebc71d48162d9e158c3af",
+                "url": "https://api.github.com/repos/jeremykenedy/laravel-roles/zipball/0850e6902467ec22e1f8153c21b3098502f77db7",
+                "reference": "0850e6902467ec22e1f8153c21b3098502f77db7",
                 "shasum": ""
             },
             "require": {
                 "eklundkristoffer/seedster": "^3.0",
                 "laravel/framework": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
                 "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "illuminate/support": "^5.8",
+                "laravel/laravel": "5.8.*",
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "^7.5"
             },
             "type": "package",
             "extra": {
@@ -1189,11 +1195,14 @@
             "keywords": [
                 "acl",
                 "laravel",
+                "laravel-levels",
+                "laravel-permissions",
+                "laravel-roles",
                 "levels",
                 "permissions",
                 "roles"
             ],
-            "time": "2019-03-23T09:27:42+00:00"
+            "time": "2019-04-19T21:57:29+00:00"
         },
         {
             "name": "jeremykenedy/laravel-users",

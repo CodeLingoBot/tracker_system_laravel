@@ -12,7 +12,7 @@
     "alexusmai/laravel-file-manager": "2.3.1",
     "doctrine/dbal": "2.9.2",
     "farhanwazir/laravelgooglemaps": "2.3.9",
-    "jeremykenedy/laravel-roles": "1.6.0",
+    "jeremykenedy/laravel-roles": "1.7.0",
     "jeremykenedy/laravel-users": "3.3.0",
     "jeroennoten/laravel-adminlte": "1.25.1",
     "katzgrau/klogger": "dev-master",
