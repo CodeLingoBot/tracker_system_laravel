@@ -95,14 +95,28 @@ class VehiclesController extends Controller
      * @param  \Vehicle $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function show(Vehicle $vehicle)
+    public function show(Request $request, Vehicle $vehicle)
     {
-        $lastLocation = LocationInformation::where('imei', $vehicle->uuid)->orderBy('created_at', 'desc')->first();
-        $map = null;
-        if ($lastLocation){
-            GMaps::initialize(['center'=>$lastLocation->latitude_decimal.",".$lastLocation->longitude_decimal]);
-            Gmaps::add_marker(['position'=>$lastLocation->latitude_decimal.",".$lastLocation->longitude_decimal]);
+        $all = $request->all();
+        if (isset($all["date-init"]) && isset($all["date-end"])){
+            $lastLocation = LocationInformation::where('imei', $vehicle->uuid)->orderBy('created_at', 'desc')->first();
+            $map = null;
+            if ($lastLocation){
+                GMaps::initialize(['center'=>$lastLocation->latitude_decimal.",".$lastLocation->longitude_decimal]);
+                Gmaps::add_marker(['position'=>$lastLocation->latitude_decimal.",".$lastLocation->longitude_decimal]);
+            }
+            foreach(LocationInformation::where('imei', $vehicle->uuid)->where('created_at','>=', \Helper::parseDate($all["date-init"]))->where('created_at','<=', \Helper::parseDate($all["date-end"]))->get() as $location){
+                Gmaps::add_marker(['position'=>$location->latitude_decimal.",".$location->longitude_decimal]);
+            }
             $map = GMaps::create_map();
+        } else {
+            $lastLocation = LocationInformation::where('imei', $vehicle->uuid)->orderBy('created_at', 'desc')->first();
+            $map = null;
+            if ($lastLocation){
+                GMaps::initialize(['center'=>$lastLocation->latitude_decimal.",".$lastLocation->longitude_decimal]);
+                Gmaps::add_marker(['position'=>$lastLocation->latitude_decimal.",".$lastLocation->longitude_decimal]);
+                $map = GMaps::create_map();
+            }
         }
         return view('vehicles.show', [
             'map' => $map
