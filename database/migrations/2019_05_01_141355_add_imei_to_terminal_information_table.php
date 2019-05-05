@@ -14,7 +14,7 @@ class AddImeiToTerminalInformationTable extends Migration
     public function up()
     {
         Schema::table('terminal_information', function (Blueprint $table) {
-            $table->string('imei');
+            $table->string('imei')->nullable();
         });
     }
 
