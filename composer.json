@@ -18,7 +18,7 @@
     "katzgrau/klogger": "dev-master",
     "laravel/framework": "5.8.15",
     "laravel/tinker": "1.0.8",
-    "orangehill/iseed": "^2.6",
+    "orangehill/iseed": "2.6.1",
     "sentry/sentry-laravel": "1.0.2",
     "vlucas/phpdotenv": "3.3.3"
   },
