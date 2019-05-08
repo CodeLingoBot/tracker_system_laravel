@@ -1193,11 +1193,6 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap@4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.2.1.tgz#8f8bdca024dbf0e8644da32e918c8a03a90a5757"
-  integrity sha512-tt/7vIv3Gm2mnd/WeDx36nfGGHleil0Wg8IeB7eMrVkY0fZ5iTaBisSh8oNANc2IBsCc6vCgCNTIM/IEN0+50Q==
-
 bootstrap@4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
@@ -3524,11 +3519,6 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-jquery@3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
-  integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
-
 jquery@3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
@@ -5799,13 +5789,13 @@ stackframe@^1.0.4:
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.0.4.tgz#357b24a992f9427cba6b545d96a14ed2cbca187b"
   integrity sha512-to7oADIniaYwS3MhtCa/sQhrxidCCQiF/qp4/m5iN3ipf0Y7Xlri0f6eG29r08aL7JYl8n32AF3Q5GYBZ7K8vw==
 
-startbootstrap-simple-sidebar@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/startbootstrap-simple-sidebar/-/startbootstrap-simple-sidebar-5.0.0.tgz#8f69ce19abd5042262be460adcd0f9163b4f9558"
-  integrity sha512-Y+KTx2UyMriTk3qKEsiVV3jmmYMyUz5OSNqUB7S2MlckbCBmOncEDSIJxnf2bEba1gcAh6uaLXapeA8IBwfJpg==
+startbootstrap-simple-sidebar@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/startbootstrap-simple-sidebar/-/startbootstrap-simple-sidebar-5.1.0.tgz#59f20ab48e3667fcdaa84353d81deb3e52d52880"
+  integrity sha512-nCWbKafxJiDEcdARRAfQZdSnRalnYTGVJ0NHaHHz+ZWC6Iks+xVyJuQ97mzboQh08sJ2smQh8TgNKa5FhUG1vA==
   dependencies:
-    bootstrap "4.2.1"
-    jquery "3.3.1"
+    bootstrap "4.3.1"
+    jquery "3.4.1"
 
 static-extend@^0.1.1:
   version "0.1.2"
